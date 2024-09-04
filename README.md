@@ -1,1 +1,1 @@
-My first repo
+CSD2 assignments, homework and more
