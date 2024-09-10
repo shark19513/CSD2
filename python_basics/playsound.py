@@ -3,13 +3,15 @@ import time
 
 wave_obj = sa.WaveObject.from_wave_file("python_basics/boop.wav")
 
-boops = int(input ("How many boops? "))
+NumberOfBoops = int(input ("How many boops? "))
 
-for i in range(boops):
-    print(f"Playing boop {i+1} of {boops}")
+for i in range(NumberOfBoops):
+    print(f"Playing boop {i+1} of {NumberOfBoops}")
     play_obj = wave_obj.play()
-    play_obj.wait_done()
-    # time.sleep(0.1)
+    time.sleep(0.1)
+
+play_obj.wait_done()
+
 
 # import simpleaudio.functionchecks as fc
 

@@ -1,3 +1,3 @@
 username = input ("Enter username: ")
-input
+# input
 print ("Hello", username)
