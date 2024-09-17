@@ -20,3 +20,27 @@ for delay in rhythm:
     time.sleep(delay)
 
 play_obj.wait_done()
+
+# LES 3
+# Comulatieve afwijking
+
+# t_now = time.time()
+# t_rel = time.time - t_now
+
+while True:
+    t_cur = time.time() - start.time
+    if t_cur > ts:
+        sample_plop.play()
+        if len(time_stamps) > 0:
+            ts = time
+ 
+
+import time
+
+t = time.time()
+
+for i in range(10):
+    print("delta t:", time.time() - t)
+    t = time.time()
+    time.sleep(1)
+
