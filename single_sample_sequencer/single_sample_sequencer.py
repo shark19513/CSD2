@@ -1,7 +1,8 @@
 import time
 import simpleaudio as sa
 
-boop = sa.WaveObject.from_wave_file("python_basics/boop.wav")
+bang = sa.WaveObject.from_wave_file("samples/Single_Shot_03.wav")
+loading = sa.WaveObject.from_wave_file("samples/Loading_a_Gun.wav")
 
 # init bpm as 120
 bpm = 120
@@ -17,17 +18,17 @@ while change_bpm_selection not in valid_selections:
     change_bpm_selection = input("Type y or n: ")
 
 # ask user to input a new bpm if selection is y otherwise leave it as default
+# check if input is a number and is also between 0 and 999
 if change_bpm_selection == "y":
-    bpm = int(input("Please state the desired BPM: "))
-    if not 0 <= bpm <= 999:
-       # check if the input is between 0 and 999, otherwise make the user try again
-       # maybe also check if input is an integer so the program doesn't crash? i don't know how
-       print("Illegal selection >:( please try again.")
-       bpm = int(input("Please state the desired BPM: "))
-    print(f"BPM is now", bpm)
+   temp_bpm = input(("Please state the desired BPM: "))
+   while not temp_bpm.isdigit() or not (0 < int(temp_bpm) < 999): #.isdigit() checks if the input is numbers
+        print("Illegal selection >:( please try again.")
+        temp_bpm = (input("Please state the desired BPM: "))
+   bpm = int(temp_bpm)
+   print(f"BPM is now {bpm}")
 elif change_bpm_selection == "n":
-    bpm = bpm
-
+    pass # don't do anything, move on to next line
+    
 # ask user to input the number of playbacks(notes)
 numPlaybackTimes = int(input("State number of playbacks: "))
 print("Playbacks:", numPlaybackTimes)
@@ -69,9 +70,15 @@ timestamp = timeStamps.pop(0)
 # retrieve the startime: current time
 startTime = time.time()
 
-# this isn't working right, it seems like the first note is being played too late even though it's printing times that make sense :(
+# loading sound is now being played before the sequence but it seems to make things worse
 # play the sequence
+loaded = False
 while True:
+    if not loaded:
+        print("Loading...")
+        loading_sound = loading.play()
+        loading_sound.wait_done()
+        loaded = True
     # retrieve current time
     currentTime = time.time()
     # check whether the current time is beyond the timestamp's time,
@@ -79,14 +86,14 @@ while True:
     if(currentTime - startTime >= timestamp):
       print(timestamp)
       print(currentTime-startTime)
-      boop.play()
-      print("boop")
+      bang.play()
+      print("bang")
       # if there are timestamps left in the timestamps list
       if timeStamps:
-       # retrieve the next timestamp
+        # retrieve the next timestamp
         timestamp = timeStamps.pop(0)
       else:
-         # list is empty, stop the loop
+        # list is empty, stop the loop
         break
     else:
       # short wait to prevent we'll keep the processor busy when there's

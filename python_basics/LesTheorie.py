@@ -1,3 +1,4 @@
+"""
 # LES 2
 
 import time
@@ -43,4 +44,48 @@ for i in range(10):
     print("delta t:", time.time() - t)
     t = time.time()
     time.sleep(1)
+"""
+# LES 4
+# Dictionaries
 
+import simpleaudio as sa
+
+"""
+# dictionaries
+aDictionary = {'sample': 'kick', 'ts': '0.75'}
+"""
+
+kick = sa.WaveObject.from_wave_file("python_basics/boop.wav")
+snare = sa.WaveObject.from_wave_file("python_basics/boop.wav")
+
+kick_event = { 
+    'timestamp': 1000, # msec w.r.t. start of program
+    'instrument_name': 'kick', # name of instrument *as text*
+    'instrument': kick, # audio sample
+    'volume': 71, # numeric MIDI-based, 0-127
+}
+
+snare_event = { 
+    'timestamp': 2000, # msec w.r.t. start of program
+    'instrument_name': 'snare', # name of instrument *as text*
+    'instrument': snare, # audio sample
+    'volume': 42, # numeric MIDI-based, 0-127
+}
+
+events = [kick_event, snare_event] # hoe sorteer je dit? sorteren op timestamp is logisch
+print(events)
+
+def get_timestamp(event):
+    return event['timestamp']
+
+events.sort(key=get_timestamp, reverse=True) # zo dus
+print(events)
+
+def handle_event(event):
+    print(event['timestamp'])
+    print(event['instrument_name'])
+    print(event['volume'])
+    event['instrument'].play()
+
+handle_event(kick_event)
+handle_event(snare_event)
