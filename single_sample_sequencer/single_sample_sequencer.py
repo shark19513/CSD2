@@ -1,8 +1,7 @@
 import time
 import simpleaudio as sa
 
-bang = sa.WaveObject.from_wave_file("samples/Single_Shot_03.wav")
-loading = sa.WaveObject.from_wave_file("samples/Loading_a_Gun.wav")
+boop = sa.WaveObject.from_wave_file("python_basics/boop.wav")
 
 # init bpm as 120
 bpm = 120
@@ -70,15 +69,10 @@ timestamp = timeStamps.pop(0)
 # retrieve the startime: current time
 startTime = time.time()
 
-# loading sound is now being played before the sequence but it seems to make things worse
+# the first note of the sequence is still being played too late but the solution i tried didn't solve it
+# i'm leaving it as it is, it seems to be a simpleaudio problem
 # play the sequence
-loaded = False
 while True:
-    if not loaded:
-        print("Loading...")
-        loading_sound = loading.play()
-        loading_sound.wait_done()
-        loaded = True
     # retrieve current time
     currentTime = time.time()
     # check whether the current time is beyond the timestamp's time,
@@ -86,8 +80,8 @@ while True:
     if(currentTime - startTime >= timestamp):
       print(timestamp)
       print(currentTime-startTime)
-      bang.play()
-      print("bang")
+      boop.play()
+      print("boop")
       # if there are timestamps left in the timestamps list
       if timeStamps:
         # retrieve the next timestamp
