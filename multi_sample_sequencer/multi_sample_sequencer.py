@@ -8,11 +8,35 @@ hat_closed = sa.WaveObject.from_wave_file("samples/Roland_TR-909/Hat_Closed.wav"
 
 bpm = 120
 
-kick_note_durations = []
+kick_note_durations = [1, 1, 1, 1, 1, 1, 1, 1]
+clap_note_durations = [2, 2, 2, 2]
+hat_closed_note_durations = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
 
-kick_timestamps = [0,0.5,1,1.5]
-clap_timestamps = [0.5,1.5]
-hat_closed_timestamps = [0,0.25,0.5,0.75,1,1.25,1.5]
+#function that converts note durations to timestamps in 16ths
+def durations_to_16ths(noteDurations): # got help from ChatGPT for this
+    sixteenths = []
+    current_timestamp = 0
+    for duration in noteDurations:
+        sixteenths.append(current_timestamp)
+        current_timestamp += duration * 4
+    return sixteenths
+
+kick_notes_16th = durations_to_16ths(kick_note_durations)
+clap_notes_16th = durations_to_16ths(clap_note_durations)
+hat_closed_notes_16th = durations_to_16ths(hat_closed_note_durations)
+
+#function that converts timestamps to time
+def sixteenths_to_timestamps(timestamps, BPM):
+    quarterNoteDuration = 60 / BPM
+    sixteenthNoteDuration = quarterNoteDuration / 4.0
+    stamps = []
+    for timestamp in timestamps:
+        stamps.append(timestamp * sixteenthNoteDuration)
+    return stamps
+
+kick_timestamps = sixteenths_to_timestamps(kick_notes_16th, bpm)
+clap_timestamps = sixteenths_to_timestamps(clap_notes_16th, bpm)
+hat_closed_timestamps = sixteenths_to_timestamps(hat_closed_notes_16th, bpm)
 
 # function that generates events from a list of timestamps, an event name and an instrument
 def generate_events(timestamps, event_name, instrument):
