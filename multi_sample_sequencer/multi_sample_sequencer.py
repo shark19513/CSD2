@@ -9,34 +9,49 @@ hat_closed = sa.WaveObject.from_wave_file("samples/Roland_TR-909/Hat_Closed.wav"
 bpm = 120
 
 kick_note_durations = [1, 1, 1, 1, 1, 1, 1, 1]
+kick_note_offset = 0
+
 clap_note_durations = [2, 2, 2, 2]
+clap_note_offset = 1
+
 hat_closed_note_durations = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+hat_closed_note_offset = 0
 
 #function that converts note durations to timestamps in 16ths
 def durations_to_16ths(noteDurations): # got help from ChatGPT for this
     sixteenths = []
-    current_timestamp = 0
+    current_timestamp = 0     
     for duration in noteDurations:
-        sixteenths.append(current_timestamp)
-        current_timestamp += duration * 4
+            sixteenths.append(current_timestamp)
+            current_timestamp += duration * 4
     return sixteenths
 
+# function that turns the offset note duration into 16ths
+def offset_to_16ths(offset):
+    return offset * 4
+
 kick_notes_16th = durations_to_16ths(kick_note_durations)
+kick_notes_offset_16th = offset_to_16ths(kick_note_offset)
+
 clap_notes_16th = durations_to_16ths(clap_note_durations)
+clap_notes_offset_16th = offset_to_16ths(clap_note_offset)
+
 hat_closed_notes_16th = durations_to_16ths(hat_closed_note_durations)
+hat_closed_notes_offset_16th = offset_to_16ths(hat_closed_note_offset)
 
 #function that converts timestamps to time
-def sixteenths_to_timestamps(timestamps, BPM):
-    quarterNoteDuration = 60 / BPM
-    sixteenthNoteDuration = quarterNoteDuration / 4.0
+def sixteenths_to_timestamps(timestamps, BPM, offset):
+    quarternote_duration = 60 / BPM
+    sixteenthnote_duration = quarternote_duration / 4.0
     stamps = []
-    for timestamp in timestamps:
-        stamps.append(timestamp * sixteenthNoteDuration)
+    for  timestamp in timestamps:
+        time_value = (timestamp + offset) * sixteenthnote_duration
+        stamps.append(time_value)
     return stamps
 
-kick_timestamps = sixteenths_to_timestamps(kick_notes_16th, bpm)
-clap_timestamps = sixteenths_to_timestamps(clap_notes_16th, bpm)
-hat_closed_timestamps = sixteenths_to_timestamps(hat_closed_notes_16th, bpm)
+kick_timestamps = sixteenths_to_timestamps(kick_notes_16th, bpm, kick_notes_offset_16th)
+clap_timestamps = sixteenths_to_timestamps(clap_notes_16th, bpm, clap_notes_offset_16th)
+hat_closed_timestamps = sixteenths_to_timestamps(hat_closed_notes_16th, bpm, hat_closed_notes_offset_16th)
 
 # function that generates events from a list of timestamps, an event name and an instrument
 def generate_events(timestamps, event_name, instrument):
@@ -48,7 +63,7 @@ def generate_events(timestamps, event_name, instrument):
             'instrument': instrument
         }
         events.append(event)
-    timestamps.clear()
+    timestamps.clear() # clear list but not sure if that's necessary?
     return events
 
 def get_timestamp(event):
