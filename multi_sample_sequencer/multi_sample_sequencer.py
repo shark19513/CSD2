@@ -78,23 +78,31 @@ events.sort(key=get_timestamp) # sort the events by timestamps
 
 # function that handles events
 def handle_event(event):
-    print(current_event['timestamp'])
-    print(currentTime-startTime)
-    current_event['instrument'].play()
-    print(current_event['name'])
+    print(event['timestamp'])
+    print(current_time-start_time)
+    event['instrument'].play()
+    print(event['name'])
 
-startTime = time.time()
+start_time = time.time()
 
+# loop that checks the timestamps of the events and calls the handle_event function
+# ChatGPT helped me come up with this
 while events:
-    current_event = events[0]
-    currentTime = time.time()
-    if(currentTime - startTime >= current_event['timestamp']):
-        handle_event(current_event)
-        events.pop(0)
+    current_time = time.time()
+    current_timestamp = events[0]['timestamp'] # store the timestamp of the event at index 0 here
+    if current_time - start_time >= current_timestamp:
+        simultaneous_events = []
+        # compare the timestamp of the element at index 0 to the current timestamp
+        # collect events that share the same timestamp in a list
+        while events and events[0]['timestamp'] == current_timestamp:
+            simultaneous_events.append(events.pop(0))
+        # play the simultaneous events with a loop that iterates through the list
+        for event in simultaneous_events:
+            handle_event(event)
     else:
         # short sleep to keep my computer from turning into a jet engine
         time.sleep(0.001)
-        
+  
 time.sleep(1) # let the last 'note' ring out
 
 
