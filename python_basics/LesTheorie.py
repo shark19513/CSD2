@@ -48,6 +48,7 @@ for i in range(10):
 # LES 4
 # Dictionaries
 
+"""
 import simpleaudio as sa
 
 """
@@ -89,3 +90,8 @@ def handle_event(event):
 
 handle_event(kick_event)
 handle_event(snare_event)
+"""
+
+# LES 5
+#MIDI
+

@@ -20,7 +20,7 @@ hat_closed_note_offset = 0
 #function that converts note durations to timestamps in 16ths
 def durations_to_16ths(noteDurations): # got help from ChatGPT for this
     sixteenths = []
-    current_timestamp = 0     
+    current_timestamp = 0
     for duration in noteDurations:
             sixteenths.append(current_timestamp)
             current_timestamp += duration * 4
@@ -75,26 +75,26 @@ hat_closed_events = generate_events(hat_closed_timestamps, 'hat_closed_event', h
 
 events = kick_events+clap_events+hat_closed_events
 events.sort(key=get_timestamp) # sort the events by timestamps
-pprint.pprint(events)
 
-# function that plays events according to their timestamps and empties the events list
-def handle_events(events):
-    startTime = time.time()
-    while events:
-        current_event = events[0]
-        currentTime = time.time()
-        if(currentTime - startTime >= current_event['timestamp']):
-            print(current_event['timestamp'])
-            print(currentTime-startTime)
-            current_event['instrument'].play()
-            print(current_event['name'])
-            events.pop(0)
-        else:
+# function that handles events
+def handle_event(event):
+    print(current_event['timestamp'])
+    print(currentTime-startTime)
+    current_event['instrument'].play()
+    print(current_event['name'])
+
+startTime = time.time()
+
+while events:
+    current_event = events[0]
+    currentTime = time.time()
+    if(currentTime - startTime >= current_event['timestamp']):
+        handle_event(current_event)
+        events.pop(0)
+    else:
         # short sleep to keep my computer from turning into a jet engine
-            time.sleep(0.001)
+        time.sleep(0.001)
         
-    time.sleep(1) # let the last 'note' ring out
-
-handle_events(events)
+time.sleep(1) # let the last 'note' ring out
 
 
