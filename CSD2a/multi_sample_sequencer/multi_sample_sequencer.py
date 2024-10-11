@@ -40,12 +40,12 @@ hat_closed_notes_16th = durations_to_16ths(hat_closed_note_durations)
 hat_closed_notes_offset_16th = offset_to_16ths(hat_closed_note_offset)
 
 #function that converts timestamps to time
-def sixteenths_to_timestamps(timestamps, BPM, offset):
+def sixteenths_to_timestamps(sixteenths, BPM, offset):
     quarternote_duration = 60 / BPM
     sixteenthnote_duration = quarternote_duration / 4.0
     stamps = []
-    for  timestamp in timestamps:
-        time_value = (timestamp + offset) * sixteenthnote_duration
+    for  sixteenth in sixteenths:
+        time_value = (sixteenth + offset) * sixteenthnote_duration
         stamps.append(time_value)
     return stamps
 
@@ -78,10 +78,10 @@ events.sort(key=get_timestamp) # sort the events by timestamps
 
 # function that handles events
 def handle_event(event):
+    print(event['name'])
     print(event['timestamp'])
     print(current_time-start_time)
     event['instrument'].play()
-    print(event['name'])
 
 start_time = time.time()
 
@@ -104,5 +104,3 @@ while events:
         time.sleep(0.001)
   
 time.sleep(1) # let the last 'note' ring out
-
-
