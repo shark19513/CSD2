@@ -4,6 +4,7 @@ import random
 import simpleaudio as sa
 
 note_durations = [2, 1, 0.5, 0.25]
+repeat_probability = 10
 
 # Function generated with ChatGPT to create a 4 by 4 matrix containing the probabilities
 def generate_probabilities():
@@ -22,35 +23,40 @@ def generate_probabilities():
     return matrix
 
 probabilities = generate_probabilities()
+print("Probabilities:")
 for row in probabilities:
     print(row)
 
-def choose_next_note()
-
+# Fucntion chooses next note by taking the row of probabilities corresponding to the current note
+# and then chooses the next note by generating a random number and checking whether it falls within the range for each probability
+# i am starting to wonder if this is just a really elaborate way to generate randomness
+def choose_next_note(current_note):
+    note_probabilities = probabilities[current_note]
+    random_number = random.randint(1, 100)
+    next_note = None
+    if random_number <= note_probabilities[0]:
+        next_note = 0
+    elif note_probabilities[0] < random_number <= note_probabilities[0] + note_probabilities[1]:
+        next_note = 1
+    elif note_probabilities[0] + note_probabilities[1] < random_number <= note_probabilities[0] + note_probabilities[1] + note_probabilities[2]:
+        next_note = 2
+    elif random_number > note_probabilities[0] + note_probabilities[1] + note_probabilities[2]:
+        next_note = 3
+    return next_note
 
 # this function will generate a rhythm for 
 def generate_markov_rhythm(bars, qnotes_per_bar, n_durations):
     total_quarter_notes = bars * qnotes_per_bar
     rhythm = [random.choice(n_durations)] # randomly choose first note
     while sum(rhythm) < total_quarter_notes:
-        random_number = random.randint(1, 100)
         if rhythm[-1] == n_durations[0]: # get the last element from the list
-
-            # placeholder, here a function with probability logic should be called
-            # or maybe keep it inside this function?
-            if random_number <= 20:
-                rhythm.append(n_durations[0])
-            elif random_number <= 40 & random_number > 20:
-                rhythm.append(n_durations[1])
-            elif random_number <
-
+            rhythm.append(n_durations[choose_next_note(0)])
         elif rhythm[-1] == n_durations[1]:
-            rhythm.append(random.choice(note_durations))
+            rhythm.append(n_durations[choose_next_note(1)])
         elif rhythm[-1] == n_durations[2]:
-            rhythm.append(random.choice(note_durations))
+            rhythm.append(n_durations[choose_next_note(2)])
         elif rhythm[-1] == n_durations[3]:
-            rhythm.append(random.choice(note_durations))
-
+            rhythm.append(n_durations[choose_next_note(3)])
     return rhythm
 
 
