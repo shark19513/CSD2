@@ -12,6 +12,7 @@ kick = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_Ba
 hi_hat = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_HiHat.wav")
 snare = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_Snaredrum.wav")
 
+bpm = 120
 note_durations = [2, 1, 0.5, 0.25]
 repeat_probability = 1 # adjust how probable it is for a note to be repeated between 0.1 and like 10??
 bars = 2
@@ -53,7 +54,7 @@ print("Probabilities:")
 for row in probabilities:
     print(row)
 
-# Fucntion chooses next note by taking the row of probabilities corresponding to the current note
+# Function chooses next note by taking the row of probabilities corresponding to the current note
 # and then chooses the next note by generating a random number and checking whether it falls within the range for each probability
 # i am starting to wonder if this is just a really elaborate way to generate randomness
 def choose_next_note(current_note):
@@ -86,6 +87,88 @@ def generate_markov_rhythm(bars, qnotes_per_bar, n_durations):
     rhythm[-1] -= (sum(rhythm)-total_quarter_notes) # make sure the last note in the list doesn't exceed the bar lenght
     return rhythm
 
-markov_rhythm = generate_markov_rhythm( bars, quarternotes_per_bar, note_durations)
-print("Rhythm:")
-print(markov_rhythm)
+kick_rhythm = generate_markov_rhythm( bars, quarternotes_per_bar, note_durations)
+print("Kick rhythm:", kick_rhythm)
+hi_hat_rhythm = generate_markov_rhythm( bars, quarternotes_per_bar, note_durations)
+print("hi_hat rhythm:", hi_hat_rhythm)
+snare_rhythm = generate_markov_rhythm( bars, quarternotes_per_bar, note_durations)
+print("snare rhythm:", snare_rhythm)
+
+#function that converts note durations to timestamps in 16ths
+def durations_to_16ths(noteDurations):
+    sixteenths = []
+    current_timestamp = 0
+    for duration in noteDurations:
+            sixteenths.append(current_timestamp)
+            current_timestamp += duration * 4
+    return sixteenths
+
+kick_notes_16th = durations_to_16ths(kick_rhythm)
+hi_hat_notes_16th = durations_to_16ths(hi_hat_rhythm)
+snare_notes_16th = durations_to_16ths(snare_rhythm)
+
+#function that converts timestamps to time
+def sixteenths_to_timestamps(sixteenths, BPM):
+    quarternote_duration = 60 / BPM
+    sixteenthnote_duration = quarternote_duration / 4.0
+    stamps = []
+    for  sixteenth in sixteenths:
+        time_value = sixteenth * sixteenthnote_duration
+        stamps.append(time_value)
+    return stamps
+
+kick_timestamps = sixteenths_to_timestamps(kick_notes_16th, bpm)
+hi_hat_timestamps = sixteenths_to_timestamps(hi_hat_notes_16th, bpm)
+snare_timestamps = sixteenths_to_timestamps(snare_notes_16th, bpm)
+
+# function that generates events from a list of timestamps, an event name and an instrument
+def generate_events(timestamps, event_name, instrument):
+    events = []
+    for timestamp in timestamps:
+        event =  {
+            'timestamp': timestamp, 
+            'name': event_name,
+            'instrument': instrument
+        }
+        events.append(event)
+    timestamps.clear() # clear list but not sure if that's necessary?
+    return events
+
+def get_timestamp(event):
+    return event['timestamp']
+
+kick_events = generate_events(kick_timestamps, 'kick_event', kick)
+hi_hat_events = generate_events(hi_hat_timestamps, 'hi_hat_event', hi_hat)
+snare_events = generate_events(snare_timestamps, 'snare_event', snare)
+
+events = kick_events+hi_hat_events+snare_events
+events.sort(key=get_timestamp) # sort the events by timestamps
+
+# function that handles events
+def handle_event(event):
+    print(event['name'])
+    print(event['timestamp'])
+    print(current_time-start_time)
+    event['instrument'].play()
+
+start_time = time.time()
+
+# loop that checks the timestamps of the events and calls the handle_event function
+# ChatGPT helped me come up with this
+while events:
+    current_time = time.time()
+    current_timestamp = events[0]['timestamp'] # store the timestamp of the event at index 0 here
+    if current_time - start_time >= current_timestamp:
+        simultaneous_events = []
+        # compare the timestamp of the element at index 0 to the current timestamp
+        # collect events that share the same timestamp in a list
+        while events and events[0]['timestamp'] == current_timestamp:
+            simultaneous_events.append(events.pop(0))
+        # play the simultaneous events with a loop that iterates through the list
+        for event in simultaneous_events:
+            handle_event(event)
+    else:
+        # short sleep to keep my computer from turning into a jet engine
+        time.sleep(0.001)
+  
+time.sleep(1) # let the last 'note' ring out
