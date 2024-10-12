@@ -25,9 +25,9 @@ def reset_to_default():
     return (120,               # BPM
             [2, 1, 0.5, 0.25], # note durations
             1,                 # repeat probability
-            1,                 # bars
+            2,                 # bars
             4,                 # quarternotes per bar
-            1                  # loops
+            2                  # loops
     )
 
 # Generate beat
@@ -87,7 +87,7 @@ def generate_markov_beat():
             next_note = 3
         return next_note
 
-    # this function will generate a rhythm for 
+    # this function will generate rhythms within the length of the amount of bars * the quarternotes per bar
     def generate_markov_rhythm(bars, qnotes_per_bar, n_durations):
         total_quarter_notes = bars * qnotes_per_bar
         rhythm = [random.choice(n_durations)] # randomly choose first note
@@ -201,36 +201,117 @@ def store_beat_as_midi(beat):
 
 # main loop
 while True:
-    # set all settings to default at start of program
-    bpm, note_durations, repeat_probability, bars, quarternotes_per_bar, loops = reset_to_default()
     correct_input = False # basically when this is True you break one loop out and then the loop should make it False again until u break the outer loop
-    markov_beat = generate_markov_beat()
-
     while not correct_input:
         # reset settings to default at start of every loop
         bpm, note_durations, repeat_probability, bars, quarternotes_per_bar, loops = reset_to_default()
-        print("Enter     - generate new beat", 
-            "\nS + Enter - store beat as MIDI",
-            "\nQ + Enter - exit program")
+        print("ENTER     - generate new beat", 
+            "\nS + ENTER - store beat as MIDI",
+            "\nQ + ENTER - exit program")
         user_input = input().lower()
-
         if not user_input:
             # choose default or custom settings
-            print("Enter - Use default settings",
+            print("ENTER - Use default settings",
                 "\nC     - Choose custom settings")
-            
             while not correct_input:
                 user_input = input().lower()
                 if not user_input:
                     markov_beat = generate_markov_beat()
                     correct_input = True
                 elif user_input == "c":
-                    print("test")
-                    # here is gonna be hella user input shit
-                else:
-                    print("Illegal input - please try again >:(")
+                    print("Custom settings:")
+                    note_durations = [] # start with empty list
+                    # ask for BPM until valid input
+                    while True:
+                         user_input = input("BPM: ")
+                         try:
+                            bpm = int(user_input)
+                            if 10 <= bpm <= 300:  # range check
+                                break
+                            else:
+                                print("BPM must be between 10 and 300.")
+                         except ValueError:
+                            print("Illegal input - please enter a number between 10 and 300")
+                    # ask for 4 note durations
+                    print("Choose 4 note durations in whatever order")
+                    for i in range(4):
+                        while True:
+                            user_input = input(f"Note duration {i + 1}: ")
+                            try:
+                                duration = float(user_input)
+                                note_durations.append(duration)
+                                break
+                            except ValueError:
+                                print("Illegal input - please enter a valid number")
+                    # ask for repeat probability
+                    valid_input = [1, 2, 3, 4, 5]
+                    print("Choose the probability of repeated notes"
+                        "\n1 - very unlikely :("
+                        "\n2 - quite unlikely :/"
+                        "\n3 - normal likelyness :|"
+                        "\n4 - quite likely :O"
+                        "\n5 - very likely :D")
+                    # ask for repeat probability
+                    while True:
+                        user_input = input("Selection: ")
+                        try:
+                            user_input = int(user_input)
+                            if user_input in valid_input:
+                                # choose probability
+                                if   user_input == 1: repeat_probability = 0.1
+                                elif user_input == 2: repeat_probability = 0.5
+                                elif user_input == 3: repeat_probability = 1
+                                elif user_input == 4: repeat_probability = 1.5      
+                                elif user_input == 5: repeat_probability = 2                                                          
+                                break # this feels sketchy
+                            else:
+                                print("Illegal input - please enter a number from 1 to 5 ):<")
+                        except ValueError:
+                            print("Illegal input - please enter a number from 1 to 5 D:<")
+                    # ask for amount of bars
+                    while True:
+                        user_input = input("Amount of bars: ")
+                        try:
+                            user_input = int(user_input)
+                            if 0 < user_input < 11:
+                                bars = user_input
+                                break
+                            else:
+                                print("Bars must be a number between 1 and 10")
+                        except ValueError:
+                            print("Bars must be a number between 1 and 10")
+                    # ask for time signature
+                    valid_input = [3, 4, 5, 7]
+                    print("Choose a time signature",
+                        "\n3 - 3/4",
+                        "\n4 - 4/4",
+                        "\n5 - 5/4",
+                        "\n7 - 7/4")
+                    while True:
+                        user_input = input("Selection:")
+                        try:
+                            user_input = int(user_input)
+                            if user_input in valid_input:
+                                quarternotes_per_bar = user_input
+                                break
+                            else:
+                                print("Selection must be 3, 4, 5 or 7")
+                        except ValueError:
+                            print("Selection must be 3, 4, 5 or 7")
+                    # ask for amount of loops
+                    while True:
+                         user_input = input("Loops: ")
+                         try:
+                            loops = int(user_input)
+                            if 0 <= loops <= 9:  # range check
+                                break
+                            else:
+                                print("Loops must be between 1 and 8")
+                         except ValueError:
+                            print("Illegal input - please enter a number between 1 and 8")
+                    correct_input = False
+                    print("Press ENTER to generate the beat")
             correct_input = False
-
         elif user_input == "s":
             store_beat_as_midi(markov_beat)
             correct_input = True
