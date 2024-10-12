@@ -12,15 +12,28 @@ kick = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_Ba
 hi_hat = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_HiHat.wav")
 snare = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_Snaredrum.wav")
 
-bpm = 120
-note_durations = [2, 1, 0.5, 0.25]
-repeat_probability = 1 # adjust how probable it is for a note to be repeated between 0.1 and like 10??
-bars = 1
-quarternotes_per_bar = 4
-loops = 1
+# Settings
+bpm = None
+note_durations = []
+repeat_probability = None # adjust how probable it is for a note to be repeated between 0.1 and like 10??
+bars = None
+quarternotes_per_bar = None
+loops = None
 
+# Funtion stores and resets default settings of program
+def reset_to_default():
+    return (120,               # BPM
+            [2, 1, 0.5, 0.25], # note durations
+            1,                 # repeat probability
+            1,                 # bars
+            4,                 # quarternotes per bar
+            1                  # loops
+    )
+
+# Generate beat
 def generate_markov_beat():
     print("Generating beat...")
+
     # Function generated with ChatGPT to create a 4 by 4 matrix containing the probabilities with adjustable repeat probability
     # i don't know wtf is going on in here and rn i don't want to
     def generate_probabilities(repeat_probability):
@@ -161,7 +174,6 @@ def generate_markov_beat():
         start_time = time.time()
 
         # loop that checks the timestamps of the events and calls the handle_event function
-        # ChatGPT helped me come up with this
         while events:
             current_time = time.time()
             current_timestamp = events[0]['timestamp'] # store the timestamp of the event at index 0 here
@@ -183,21 +195,44 @@ def generate_markov_beat():
     events.sort(key=get_timestamp) # sort the events by timestamps
     return events
 
-def store_beat_as_midi():
+# Function writes event list to disk as MIDI
+def store_beat_as_midi(beat):
     print("Writing to disk...")
 
+# main loop
 while True:
-    correct_input = False
+    # set all settings to default at start of program
+    bpm, note_durations, repeat_probability, bars, quarternotes_per_bar, loops = reset_to_default()
+    correct_input = False # basically when this is True you break one loop out and then the loop should make it False again until u break the outer loop
+    markov_beat = generate_markov_beat()
+
     while not correct_input:
-        markov_beat = generate_markov_beat()
+        # reset settings to default at start of every loop
+        bpm, note_durations, repeat_probability, bars, quarternotes_per_bar, loops = reset_to_default()
         print("Enter     - generate new beat", 
             "\nS + Enter - store beat as MIDI",
             "\nQ + Enter - exit program")
         user_input = input().lower()
+
         if not user_input:
-            markov_beat = generate_markov_beat()
+            # choose default or custom settings
+            print("Enter - Use default settings",
+                "\nC     - Choose custom settings")
+            
+            while not correct_input:
+                user_input = input().lower()
+                if not user_input:
+                    markov_beat = generate_markov_beat()
+                    correct_input = True
+                elif user_input == "c":
+                    print("test")
+                    # here is gonna be hella user input shit
+                else:
+                    print("Illegal input - please try again >:(")
+            correct_input = False
+
         elif user_input == "s":
-            store_beat_as_midi()
+            store_beat_as_midi(markov_beat)
             correct_input = True
             break
         elif user_input == "q":
