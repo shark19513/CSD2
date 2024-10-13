@@ -20,7 +20,7 @@ kick = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_Ba
 hi_hat = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_HiHat.wav")
 snare = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_Snaredrum.wav")
 
-markov_beat = None # Initialize as none so it can be checked to see if it can be stored as midi
+markov_beat = None # Initialize as none so it can be checked to see if it can be stored as midi on line 376
 
 # Settings
 bpm = None
@@ -110,7 +110,8 @@ def generate_markov_beat():
                 rhythm.append(n_durations[choose_next_note(2)])
             elif rhythm[-1] == n_durations[3]:
                 rhythm.append(n_durations[choose_next_note(3)])
-        rhythm[-1] -= (sum(rhythm)-total_quarter_notes) # make sure the last note in the list doesn't exceed the bar lenght
+        if sum(rhythm) > total_quarter_notes: # make sure the last note in the list doesn't exceed the bar lenght
+            rhythm[-1] -= (sum(rhythm)-total_quarter_notes) 
         return rhythm
 
     kick_rhythm = generate_markov_rhythm( bars, quarternotes_per_bar, note_durations)
@@ -206,9 +207,9 @@ def generate_markov_beat():
     return events
 
 # Function writes event list to disk as MIDI
-def store_beat_as_midi(beat):
-    print("Writing to disk...")
+def store_beat_as_midi(beat):  
     play_obj = store.play()
+    print("Writing to disk...")
     play_obj.wait_done()
 
     velocity = 100
@@ -234,6 +235,7 @@ def store_beat_as_midi(beat):
         midi_file.addNote(track, channel, instr_midi_pitch[instr_name], qnote_time,
         event['note_duration'], velocity)
 
+    # maybe also include the bpm in the file if possible?
     with open("/Users/semuel/Documents/HKU/Jaar2/CSD/CSD2/CSD2a/markov_beat_generator/Output/Markov_beat.midi",'wb') as outf:
          midi_file.writeFile(outf)
 
@@ -274,6 +276,27 @@ while True:
                          except ValueError:
                             play_obj = wrong.play()
                             print("Illegal input - please enter a number between 10 and 300")
+                    # ask for time signature
+                    play_obj = select.play()
+                    valid_input = [3, 4, 5, 7]
+                    print("Choose a time signature",
+                        "\n3 - 3/4",
+                        "\n4 - 4/4",
+                        "\n5 - 5/4",
+                        "\n7 - 7/4")
+                    while True:
+                        user_input = input("Selection: ")
+                        try:
+                            user_input = int(user_input)
+                            if user_input in valid_input:
+                                quarternotes_per_bar = user_input
+                                break
+                            else:
+                                play_obj = wrong.play()
+                                print("Selection must be 3, 4, 5 or 7")
+                        except ValueError:
+                            play_obj = wrong.play()
+                            print("Selection must be 3, 4, 5 or 7")
                     # ask for 4 note durations
                     print("Choose 4 note durations in whatever order")
                     for i in range(4):
@@ -330,27 +353,6 @@ while True:
                         except ValueError:
                             play_obj = wrong.play()
                             print("Bars must be a number between 1 and 10")
-                    # ask for time signature
-                    play_obj = select.play()
-                    valid_input = [3, 4, 5, 7]
-                    print("Choose a time signature",
-                        "\n3 - 3/4",
-                        "\n4 - 4/4",
-                        "\n5 - 5/4",
-                        "\n7 - 7/4")
-                    while True:
-                        user_input = input("Selection: ")
-                        try:
-                            user_input = int(user_input)
-                            if user_input in valid_input:
-                                quarternotes_per_bar = user_input
-                                break
-                            else:
-                                play_obj = wrong.play()
-                                print("Selection must be 3, 4, 5 or 7")
-                        except ValueError:
-                            play_obj = wrong.play()
-                            print("Selection must be 3, 4, 5 or 7")
                     # ask for amount of loops
                     play_obj = select.play()
                     while True:
