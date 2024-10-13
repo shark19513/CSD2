@@ -1,16 +1,26 @@
 import time
-import midiutil
+from midiutil import MIDIFile
 import random
 import simpleaudio as sa
 
+# startup sound
 start = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/Start.wav")
 play_obj = start.play()
 print("Starting the Markov Machine...")
 play_obj.wait_done()
 
+# UI sounds
+select = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/Select.wav")
+store = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/Store.wav")
+goodbye = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/Goodbye.wav")
+wrong = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/Wrong.wav")
+
+# samples
 kick = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_Bassdrum.wav")
 hi_hat = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_HiHat.wav")
 snare = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_Snaredrum.wav")
+
+markov_beat = None # Initialize as none so it can be checked to see if it can be stored as midi
 
 # Settings
 bpm = None
@@ -154,9 +164,9 @@ def generate_markov_beat():
     def get_timestamp(event):
         return event['timestamp']
 
-    kick_events = generate_events(kick_timestamps, 'kick_event', kick, kick_rhythm)
-    hi_hat_events = generate_events(hi_hat_timestamps, 'hi_hat_event', hi_hat, hi_hat_rhythm)
-    snare_events = generate_events(snare_timestamps, 'snare_event', snare, snare_rhythm)
+    kick_events = generate_events(kick_timestamps, 'kick', kick, kick_rhythm)
+    hi_hat_events = generate_events(hi_hat_timestamps, 'hi_hat', hi_hat, hi_hat_rhythm)
+    snare_events = generate_events(snare_timestamps, 'snare', snare, snare_rhythm)
 
     for loop_number in range(1, loops + 1):
         print(f"Loop {loop_number}/{loops}")
@@ -191,13 +201,41 @@ def generate_markov_beat():
                 time.sleep(0.001)
         
         time.sleep(1) # let the last 'note' ring out
-    event = kick_events+hi_hat_events+snare_events
+    events = kick_events+hi_hat_events+snare_events
     events.sort(key=get_timestamp) # sort the events by timestamps
     return events
 
 # Function writes event list to disk as MIDI
 def store_beat_as_midi(beat):
     print("Writing to disk...")
+    play_obj = store.play()
+    play_obj.wait_done()
+
+    velocity = 100
+    track = 0
+    channel = 9
+
+    midi_file = MIDIFile(1)
+    time_beginning = 0
+    midi_file.addTrackName(track, time_beginning, "Markov beat")
+    midi_file.addTempo(track, time_beginning, bpm)
+
+    qnote_dur = 60/bpm
+    instr_midi_pitch = {
+        "kick": 36,
+        "hi_hat": 37,
+        "snare": 38  
+    }
+
+    for event in beat:
+    # transform time (sec) to (qnote)
+        qnote_time = event["timestamp"] / qnote_dur
+        instr_name = event["name"]
+        midi_file.addNote(track, channel, instr_midi_pitch[instr_name], qnote_time,
+        event['note_duration'], velocity)
+
+    with open("/Users/semuel/Documents/HKU/Jaar2/CSD/CSD2/CSD2a/markov_beat_generator/Output/Markov_beat.midi",'wb') as outf:
+         midi_file.writeFile(outf)
 
 # main loop
 while True:
@@ -210,6 +248,7 @@ while True:
             "\nQ + ENTER - exit program")
         user_input = input().lower()
         if not user_input:
+            play_obj = select.play()
             # choose default or custom settings
             print("ENTER - Use default settings",
                 "\nC     - Choose custom settings")
@@ -219,6 +258,7 @@ while True:
                     markov_beat = generate_markov_beat()
                     correct_input = True
                 elif user_input == "c":
+                    play_obj = select.play()
                     print("Custom settings:")
                     note_durations = [] # start with empty list
                     # ask for BPM until valid input
@@ -229,12 +269,15 @@ while True:
                             if 10 <= bpm <= 300:  # range check
                                 break
                             else:
+                                play_obj = wrong.play()
                                 print("BPM must be between 10 and 300.")
                          except ValueError:
+                            play_obj = wrong.play()
                             print("Illegal input - please enter a number between 10 and 300")
                     # ask for 4 note durations
                     print("Choose 4 note durations in whatever order")
                     for i in range(4):
+                        play_obj = select.play()
                         while True:
                             user_input = input(f"Note duration {i + 1}: ")
                             try:
@@ -242,9 +285,11 @@ while True:
                                 note_durations.append(duration)
                                 break
                             except ValueError:
+                                play_obj = wrong.play()
                                 print("Illegal input - please enter a valid number")
                     # ask for repeat probability
                     valid_input = [1, 2, 3, 4, 5]
+                    play_obj = select.play()
                     print("Choose the probability of repeated notes"
                         "\n1 - very unlikely :("
                         "\n2 - quite unlikely :/"
@@ -265,10 +310,13 @@ while True:
                                 elif user_input == 5: repeat_probability = 2                                                          
                                 break # this feels sketchy
                             else:
+                                play_obj = wrong.play()
                                 print("Illegal input - please enter a number from 1 to 5 ):<")
                         except ValueError:
+                            play_obj = wrong.play()
                             print("Illegal input - please enter a number from 1 to 5 D:<")
                     # ask for amount of bars
+                    play_obj = select.play()
                     while True:
                         user_input = input("Amount of bars: ")
                         try:
@@ -277,10 +325,13 @@ while True:
                                 bars = user_input
                                 break
                             else:
+                                play_obj = wrong.play()
                                 print("Bars must be a number between 1 and 10")
                         except ValueError:
+                            play_obj = wrong.play()
                             print("Bars must be a number between 1 and 10")
                     # ask for time signature
+                    play_obj = select.play()
                     valid_input = [3, 4, 5, 7]
                     print("Choose a time signature",
                         "\n3 - 3/4",
@@ -288,17 +339,20 @@ while True:
                         "\n5 - 5/4",
                         "\n7 - 7/4")
                     while True:
-                        user_input = input("Selection:")
+                        user_input = input("Selection: ")
                         try:
                             user_input = int(user_input)
                             if user_input in valid_input:
                                 quarternotes_per_bar = user_input
                                 break
                             else:
+                                play_obj = wrong.play()
                                 print("Selection must be 3, 4, 5 or 7")
                         except ValueError:
+                            play_obj = wrong.play()
                             print("Selection must be 3, 4, 5 or 7")
                     # ask for amount of loops
+                    play_obj = select.play()
                     while True:
                          user_input = input("Loops: ")
                          try:
@@ -306,21 +360,32 @@ while True:
                             if 0 <= loops <= 9:  # range check
                                 break
                             else:
+                                play_obj = wrong.play()
                                 print("Loops must be between 1 and 8")
                          except ValueError:
+                            play_obj = wrong.play()
                             print("Illegal input - please enter a number between 1 and 8")
                     correct_input = False
+                    play_obj = select.play()
                     print("Press ENTER to generate the beat")
+                else:
+                    play_obj = wrong.play()
+                    print("Illegal input - please try again >:(")
             correct_input = False
         elif user_input == "s":
-            store_beat_as_midi(markov_beat)
-            correct_input = True
-            break
+            if markov_beat:
+                store_beat_as_midi(markov_beat)
+            else:
+                play_obj = wrong.play()
+                print("WARNING!!!!! no beat generated yet D:")
         elif user_input == "q":
             correct_input = True
             break
         else:
+            play_obj = wrong.play()
             print("Illegal input - please try again >:(")
     break
 
 print("Goodbye!")
+play_obj = goodbye.play()
+play_obj.wait_done()
