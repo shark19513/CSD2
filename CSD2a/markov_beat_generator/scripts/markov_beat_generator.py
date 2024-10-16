@@ -1,3 +1,10 @@
+"""
+MARKOV BEAT GENERATOR: SOURCE CODE
+
+CREDITS:
+Semuel Leijten
+October 2024
+"""
 import time
 from midiutil import MIDIFile
 import random
@@ -30,7 +37,7 @@ bars = None
 quarternotes_per_bar = None
 loops = None
 
-# Funtion stores and resets default settings of program
+# Funtion returns default settings of program
 def reset_to_default():
     return (120,               # BPM
             [2, 1, 0.5, 0.25], # note durations
@@ -40,12 +47,12 @@ def reset_to_default():
             2                  # loops
     )
 
-# Generate beat
+# Function that generates and plays the Markov Beat according to the stored 
 def generate_markov_beat():
     print("Generating beat...")
 
     # Function generated with ChatGPT to create a 4 by 4 matrix containing the probabilities with adjustable repeat probability
-    # i don't know wtf is going on in here and rn i don't want to
+    # don't really know what's going on in here but it returns a matrix that seems to be correct
     def generate_probabilities(repeat_probability):
         matrix = []
         for row_index in range(4):
@@ -75,14 +82,13 @@ def generate_markov_beat():
             matrix.append(normalized_probs)
         return matrix
 
-    probabilities = generate_probabilities(repeat_probability)
-    print("Probabilities:")
+    probabilities = generate_probabilities(repeat_probability) # the probabilities stored here will be used to generate the rhythm of each part
+    print("Probabilities in %:")
     for row in probabilities:
         print(row)
 
-    # Function chooses next note by taking the row of probabilities corresponding to the current note
+    # Function chooses next note by taking the row of probabilities corresponding to the index of the current note
     # and then chooses the next note by generating a random number and checking whether it falls within the range for each probability
-    # i am starting to wonder if this is just a really elaborate way to generate randomness
     def choose_next_note(current_note):
         note_probabilities = probabilities[current_note]
         random_number = random.randint(1, 100)
@@ -107,21 +113,21 @@ def generate_markov_beat():
             elif rhythm[-1] == n_durations[1]:
                 rhythm.append(n_durations[choose_next_note(1)])
             elif rhythm[-1] == n_durations[2]:
-                rhythm.append(n_durations[choose_next_note(2)])
+                rhythm.append(n_durations[choose_next_note(2)]) # TODO: should maybe turn these elifs into a for loop
             elif rhythm[-1] == n_durations[3]:
                 rhythm.append(n_durations[choose_next_note(3)])
         if sum(rhythm) > total_quarter_notes: # make sure the last note in the list doesn't exceed the bar lenght
             rhythm[-1] -= (sum(rhythm)-total_quarter_notes) 
         return rhythm
 
-    kick_rhythm = generate_markov_rhythm( bars, quarternotes_per_bar, note_durations)
+    kick_rhythm = generate_markov_rhythm(bars, quarternotes_per_bar, note_durations)
     print("Kick rhythm:", kick_rhythm)
-    hi_hat_rhythm = generate_markov_rhythm( bars, quarternotes_per_bar, note_durations)
+    hi_hat_rhythm = generate_markov_rhythm(bars, quarternotes_per_bar, note_durations)
     print("hi_hat rhythm:", hi_hat_rhythm)
-    snare_rhythm = generate_markov_rhythm( bars, quarternotes_per_bar, note_durations)
+    snare_rhythm = generate_markov_rhythm(bars, quarternotes_per_bar, note_durations)
     print("snare rhythm:", snare_rhythm)
 
-    #function that converts note durations to timestamps in 16ths
+    # function that converts note durations to timestamps in 16ths
     def durations_to_16ths(noteDurations):
         sixteenths = []
         current_timestamp = 0
@@ -134,7 +140,7 @@ def generate_markov_beat():
     hi_hat_notes_16th = durations_to_16ths(hi_hat_rhythm)
     snare_notes_16th = durations_to_16ths(snare_rhythm)
 
-    #function that converts timestamps to time
+    # function that converts timestamps to time
     def sixteenths_to_timestamps(sixteenths, BPM):
         quarternote_duration = 60 / BPM
         sixteenthnote_duration = quarternote_duration / 4.0
@@ -159,7 +165,7 @@ def generate_markov_beat():
                 'instrument': instrument
             }
             events.append(event)
-        timestamps.clear() # clear list but not sure if that's necessary?
+        timestamps.clear() # clear list to collect garbage
         return events
 
     def get_timestamp(event):
@@ -169,9 +175,10 @@ def generate_markov_beat():
     hi_hat_events = generate_events(hi_hat_timestamps, 'hi_hat', hi_hat, hi_hat_rhythm)
     snare_events = generate_events(snare_timestamps, 'snare', snare, snare_rhythm)
 
-    for loop_number in range(1, loops + 1):
+    # print the loop number and fill the events list * amount of loops
+    for loop_number in range(1, loops + 1):     # TODO: Make separate play function?
         print(f"Loop {loop_number}/{loops}")
-        events = kick_events+hi_hat_events+snare_events
+        events = kick_events+hi_hat_events+snare_events # TODO: move this back outside the loop and make new variable events_loop or events_to_play = events
         events.sort(key=get_timestamp) # sort the events by timestamps
 
         # function that handles events
@@ -201,8 +208,8 @@ def generate_markov_beat():
                 # short sleep to keep my computer from turning into a jet engine
                 time.sleep(0.001)
         
-        time.sleep(1) # let the last 'note' ring out
-    events = kick_events+hi_hat_events+snare_events
+        time.sleep(1) # let the last note ring out
+    events = kick_events+hi_hat_events+snare_events # refill the list bc it got emptied while playing
     events.sort(key=get_timestamp) # sort the events by timestamps
     return events
 
@@ -253,7 +260,7 @@ while True:
             play_obj = select.play()
             # choose default or custom settings
             print("ENTER - Use default settings",
-                "\nC     - Choose custom settings")
+                "\nC     - Choose custom settings") # maybe make the amount of note lengths variable also???
             while not correct_input:
                 user_input = input().lower()
                 if not user_input:
@@ -326,6 +333,7 @@ while True:
                             user_input = int(user_input)
                             if user_input in valid_input:
                                 # choose probability
+                                # NOTE: Maybe turn into for loop
                                 if   user_input == 1: repeat_probability = 0.1
                                 elif user_input == 2: repeat_probability = 0.5
                                 elif user_input == 3: repeat_probability = 1
@@ -388,6 +396,6 @@ while True:
             print("Illegal input - please try again >:(")
     break
 
-print("Goodbye!")
 play_obj = goodbye.play()
+print("Goodbye!")
 play_obj.wait_done()
