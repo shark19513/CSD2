@@ -174,43 +174,43 @@ def generate_markov_beat():
     kick_events = generate_events(kick_timestamps, 'kick', kick, kick_rhythm)
     hi_hat_events = generate_events(hi_hat_timestamps, 'hi_hat', hi_hat, hi_hat_rhythm)
     snare_events = generate_events(snare_timestamps, 'snare', snare, snare_rhythm)
+ 
+    events = kick_events+hi_hat_events+snare_events # TODO: move this back outside the loop and make new variable events_loop or events_to_play = events ???
+    events.sort(key=get_timestamp) # sort the events by timestamps
 
-    # print the loop number and fill the events list * amount of loops
+    # function that handles events
+    def handle_event(event, current_time, start_time):
+        print(event['name'])
+        print(event['note_duration'])
+        print(event['timestamp'])
+        print(current_time-start_time)
+        event['instrument'].play()
+
+    # Play loop: print the loop number and refill the events_to_play list * amount of loops
     for loop_number in range(1, loops + 1):     # TODO: Make separate play function?
         print(f"Loop {loop_number}/{loops}")
-        events = kick_events+hi_hat_events+snare_events # TODO: move this back outside the loop and make new variable events_loop or events_to_play = events
-        events.sort(key=get_timestamp) # sort the events by timestamps
 
-        # function that handles events
-        def handle_event(event):
-            print(event['name'])
-            print(event['note_duration'])
-            print(event['timestamp'])
-            print(current_time-start_time)
-            event['instrument'].play()
-
+        events_to_play = events.copy() # copy list so so it can be emptied and original list stays untouched so it can be returned
         start_time = time.time()
 
         # loop that checks the timestamps of the events and calls the handle_event function
-        while events:
+        while events_to_play:
             current_time = time.time()
-            current_timestamp = events[0]['timestamp'] # store the timestamp of the event at index 0 here
+            current_timestamp = events_to_play[0]['timestamp'] # store the timestamp of the event at index 0 here
             if current_time - start_time >= current_timestamp:
                 simultaneous_events = []
                 # compare the timestamp of the element at index 0 to the current timestamp
                 # collect events that share the same timestamp in a list
-                while events and events[0]['timestamp'] == current_timestamp:
-                    simultaneous_events.append(events.pop(0))
+                while events_to_play and events_to_play[0]['timestamp'] == current_timestamp:
+                    simultaneous_events.append(events_to_play.pop(0))
                 # play the simultaneous events with a loop that iterates through the list
                 for event in simultaneous_events:
-                    handle_event(event)
+                    handle_event(event, current_time, start_time)
             else:
                 # short sleep to keep my computer from turning into a jet engine
-                time.sleep(0.001)
-        
+                time.sleep(0.001)    
         time.sleep(1) # let the last note ring out
-    events = kick_events+hi_hat_events+snare_events # refill the list bc it got emptied while playing
-    events.sort(key=get_timestamp) # sort the events by timestamps
+
     return events
 
 # Function writes event list to disk as MIDI
@@ -305,7 +305,7 @@ while True:
                             play_obj = wrong.play()
                             print("Selection must be 3, 4, 5 or 7")
                     # ask for 4 note durations
-                    print("Choose 4 note durations in whatever order")
+                    print("Choose 4 note durations in whatever order, 1 represents a quarternote: ")
                     for i in range(4):
                         play_obj = select.play()
                         while True:
