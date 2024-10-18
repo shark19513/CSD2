@@ -11,21 +11,21 @@ import random
 import simpleaudio as sa
 
 # startup sound
-start = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/Start.wav")
+start = sa.WaveObject.from_wave_file("CSD2a/irregular_beat_generator/samples/Start.wav")
 play_obj = start.play()
 print("Starting the Markov Machine...")
 play_obj.wait_done()
 
 # UI sounds
-select = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/Select.wav")
-store = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/Store.wav")
-goodbye = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/Goodbye.wav")
-wrong = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/Wrong.wav")
+select = sa.WaveObject.from_wave_file("CSD2a/irregular_beat_generator/samples/Select.wav")
+store = sa.WaveObject.from_wave_file("CSD2a/irregular_beat_generator/samples/Store.wav")
+goodbye = sa.WaveObject.from_wave_file("CSD2a/irregular_beat_generator/samples/Goodbye.wav")
+wrong = sa.WaveObject.from_wave_file("CSD2a/irregular_beat_generator/samples/Wrong.wav")
 
 # samples
-kick = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_Bassdrum.wav")
-hi_hat = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_HiHat.wav")
-snare = sa.WaveObject.from_wave_file("CSD2a/markov_beat_generator/samples/VL-1_Snaredrum.wav")
+kick = sa.WaveObject.from_wave_file("CSD2a/irregular_beat_generator/samples/VL-1_Bassdrum.wav")
+hi_hat = sa.WaveObject.from_wave_file("CSD2a/irregular_beat_generator/samples/VL-1_HiHat.wav")
+snare = sa.WaveObject.from_wave_file("CSD2a/irregular_beat_generator/samples/VL-1_Snaredrum.wav")
 
 markov_beat = None # Initialize as none so it can be checked to see if it can be stored as midi on line 376
 
@@ -190,7 +190,7 @@ def generate_markov_beat():
 
     # Play loop: print the loop number and refill the events_to_play list * amount of loops
     for loop_number in range(1, loops + 1):     # TODO: Make separate play function?
-        print(f"Loop {loop_number}/{loops}")
+        print(f"Loop {loop_number}/{loops}")    # TODO: figure out a way to make the loop wait until the last loop is done
 
         events_to_play = events.copy() # copy list so so it can be emptied and original list stays untouched so it can be returned
         start_time = time.time()
@@ -245,7 +245,7 @@ def store_beat_as_midi(beat):
         event['note_duration'], velocity)
 
     # maybe also include the bpm in the file if possible?
-    with open("/Users/semuel/Documents/HKU/Jaar2/CSD/CSD2/CSD2a/markov_beat_generator/Output/Markov_beat.midi",'wb') as outf:
+    with open("CSD2a/irregular_beat_generator/Output/Markov_beat.midi",'wb') as outf:
          midi_file.writeFile(outf)
 
 # main loop
@@ -392,7 +392,6 @@ while True:
                 print("WARNING!!!!! no beat generated yet D:")
         elif user_input == "q":
             correct_input = True
-            break
         else:
             play_obj = wrong.play()
             print("Illegal input - please try again >:(")
