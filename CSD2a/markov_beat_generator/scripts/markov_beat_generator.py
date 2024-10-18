@@ -50,6 +50,8 @@ def reset_to_default():
 # Function that generates and plays the Markov Beat according to the stored 
 def generate_markov_beat():
     print("Generating beat...")
+    print("Note durations: ")
+    print(note_durations)
 
     # Function generated with ChatGPT to create a 4 by 4 matrix containing the probabilities with adjustable repeat probability
     # don't really know what's going on in here but it returns a matrix that seems to be correct
@@ -145,7 +147,7 @@ def generate_markov_beat():
         quarternote_duration = 60 / BPM
         sixteenthnote_duration = quarternote_duration / 4.0
         stamps = []
-        for  sixteenth in sixteenths:
+        for sixteenth in sixteenths:
             time_value = sixteenth * sixteenthnote_duration
             stamps.append(time_value)
         return stamps
@@ -260,7 +262,7 @@ while True:
             play_obj = select.play()
             # choose default or custom settings
             print("ENTER - Use default settings",
-                "\nC     - Choose custom settings") # maybe make the amount of note lengths variable also???
+                "\nC     - Choose custom settings") # TODO: maybe make the amount of note lengths variable also???
             while not correct_input:
                 user_input = input().lower()
                 if not user_input:
