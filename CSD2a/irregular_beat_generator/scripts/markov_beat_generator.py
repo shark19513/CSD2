@@ -188,6 +188,9 @@ def generate_markov_beat():
         print(current_time-start_time)
         event['instrument'].play()
 
+    # store the duration of the last event in the list so it can be used as sleep time at the end of the loop below
+    total_last_event_time = events[-1]['timestamp'] + (events[-1]['note_duration'] * (60/bpm))
+
     # Play loop: print the loop number and refill the events_to_play list * amount of loops
     for loop_number in range(1, loops + 1):     # TODO: Make separate play function?
         print(f"Loop {loop_number}/{loops}")    # TODO: figure out a way to make the loop wait until the last loop is done
@@ -211,8 +214,9 @@ def generate_markov_beat():
             else:
                 # short sleep to keep my computer from turning into a jet engine
                 time.sleep(0.001)    
-        time.sleep(1) # let the last note ring out
-
+        # Ensure the last event's duration has passed before the next loop iteration
+        time.sleep(max(0, total_last_event_time - (time.time() - start_time)))
+        
     return events
 
 # Function writes event list to disk as MIDI
