@@ -234,7 +234,7 @@ def store_beat_as_midi(beat):
     instr_midi_pitch = {
         "kick": 36,
         "hi_hat": 37,
-        "snare": 38  
+        "snare": 38
     }
 
     for event in beat:
@@ -250,8 +250,6 @@ def store_beat_as_midi(beat):
 
 # main loop
 while True:
-    correct_input = False # basically when this is True you break one loop out and then the loop should make it False again until u break the outer loop
-    while not correct_input:
         # reset settings to default at start of every loop
         bpm, note_durations, repeat_probability, bars, quarternotes_per_bar, loops = reset_to_default()
         print("ENTER     - generate new beat", 
@@ -263,11 +261,11 @@ while True:
             # choose default or custom settings
             print("ENTER - Use default settings",
                 "\nC     - Choose custom settings") # TODO: maybe make the amount of note lengths variable also???
-            while not correct_input:
+            while True:
                 user_input = input().lower()
                 if not user_input:
                     markov_beat = generate_markov_beat()
-                    correct_input = True
+                    break
                 elif user_input == "c":
                     play_obj = select.play()
                     print("Custom settings:")
@@ -391,11 +389,10 @@ while True:
                 play_obj = wrong.play()
                 print("WARNING!!!!! no beat generated yet D:")
         elif user_input == "q":
-            correct_input = True
+            break
         else:
             play_obj = wrong.play()
             print("Illegal input - please try again >:(")
-    break
 
 play_obj = goodbye.play()
 print("Goodbye!")
