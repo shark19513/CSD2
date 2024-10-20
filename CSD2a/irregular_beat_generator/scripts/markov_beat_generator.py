@@ -44,7 +44,7 @@ def reset_to_default():
             1,                 # repeat probability
             2,                 # bars
             4,                 # quarternotes per bar
-            2                  # loops
+            4                  # loops
     )
 
 # Function that generates and plays the Markov Beat according to the stored 
@@ -54,6 +54,7 @@ def generate_markov_beat():
     print(note_durations)
 
     # Function generated with ChatGPT to create a 4 by 4 matrix containing the probabilities with adjustable repeat probability
+    # all comments in this function are also placed by ChatGPT
     def generate_probabilities(repeat_probability):
         matrix = []
         for row_index in range(4):
@@ -185,7 +186,7 @@ def generate_markov_beat():
         print(current_time-start_time)
         event['instrument'].play()
 
-    # store the duration of the last event in the list so it can be used as sleep time at the end of the loop below
+    # store the duration of the last event in the list so it can be used as sleep time at the end of the loop below, solution found with ChatGPT
     total_last_event_time = events[-1]['timestamp'] + (events[-1]['note_duration'] * (60/bpm))
 
     # Play loop: print the loop number and refill the events_to_play list * amount of loops
@@ -201,8 +202,7 @@ def generate_markov_beat():
             current_timestamp = events_to_play[0]['timestamp'] # store the timestamp of the event at index 0 here
             if current_time - start_time >= current_timestamp:
                 simultaneous_events = []
-                # compare the timestamp of the element at index 0 to the current timestamp
-                # collect events that share the same timestamp in a list
+                # compare the timestamp of the element at index 0 to the current timestamp and collect events that share the same timestamp in list above
                 while events_to_play and events_to_play[0]['timestamp'] == current_timestamp:
                     simultaneous_events.append(events_to_play.pop(0))
                 # play the simultaneous events with a loop that iterates through the list
@@ -211,8 +211,8 @@ def generate_markov_beat():
             else:
                 # short sleep to keep my computer from turning into a jet engine
                 time.sleep(0.001)    
-        # Ensure the last event's duration has passed before the next loop iteration
-        time.sleep(max(0, total_last_event_time - (time.time() - start_time)))
+        # make sure the last event's duration has passed before the next loop iteration
+        time.sleep(max(0, total_last_event_time - (time.time() - start_time))) # max function chooses highest value so the sleep time can never be a negative number
         
     return events
 
@@ -283,7 +283,7 @@ while True:
                             print("BPM must be between 10 and 300.")
                      except ValueError:
                         play_obj = wrong.play()
-                        print("Illegal input - please enter a number between 10 and 300")
+                        print("Illegal input - please enter an integer between 10 and 300")
                 # ask for time signature
                 play_obj = select.play()
                 valid_input = [3, 4, 5, 7]
