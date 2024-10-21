@@ -118,6 +118,7 @@ def generate_markov_beat():
                     break
         if sum(rhythm) > total_quarter_notes: # make sure the last note in the list doesn't exceed the bar lenght
             rhythm[-1] -= (sum(rhythm)-total_quarter_notes) 
+
         return rhythm
 
     kick_rhythm = generate_markov_rhythm(bars, quarternotes_per_bar, note_durations)
@@ -158,9 +159,12 @@ def generate_markov_beat():
     def generate_events(timestamps, event_name, instrument, note_durations):
         events = []
         for i, timestamp in enumerate(timestamps):
+            # Round the timestamp and duration to avoid floating point errors
+            rounded_timestamp = round(timestamp, 6)
+            rounded_duration = round(note_durations[i], 6) # in case user inputs a weird note duration
             event =  {
-                'timestamp': timestamp, 
-                'note_duration': note_durations[i],
+                'timestamp': rounded_timestamp, 
+                'note_duration': rounded_duration,
                 'name': event_name,
                 'instrument': instrument
             }
@@ -174,7 +178,7 @@ def generate_markov_beat():
     kick_events = generate_events(kick_timestamps, 'kick', kick, kick_rhythm)
     hi_hat_events = generate_events(hi_hat_timestamps, 'hi_hat', hi_hat, hi_hat_rhythm)
     snare_events = generate_events(snare_timestamps, 'snare', snare, snare_rhythm)
- 
+
     events = kick_events+hi_hat_events+snare_events
     events.sort(key=get_timestamp) # sort the events by timestamps
 
@@ -190,7 +194,7 @@ def generate_markov_beat():
 
     # Play loop: print the loop number and refill the events_to_play list * amount of loops
     for loop_number in range(1, loops + 1):
-        print(f"Loop {loop_number}/{loops}")
+        print(f"---------- Loop {loop_number}/{loops} ----------")
 
         events_to_play = events.copy() # copy list so so it can be emptied and original list stays untouched so it can be returned
         start_time = time.time()
@@ -230,7 +234,11 @@ def store_beat_as_midi(beat):
     midi_file.addTrackName(track, time_beginning, "Markov beat")
     midi_file.addTempo(track, time_beginning, bpm)
 
-    qnote_dur = 60/bpm
+    # Add time signature info based on quarternotes_per_bar (info from ChatGPT)
+    midi_file.addTimeSignature(track, time_beginning, quarternotes_per_bar, 2, 24, 8) 
+    # 2 means quarter note, 24 midi clocks per metronome click and 8 is number of 32nd notes per quarter note
+
+    qnote_dur = 60 / bpm
     instr_midi_pitch = {
         "kick": 36,
         "hi_hat": 37,
@@ -238,15 +246,15 @@ def store_beat_as_midi(beat):
     }
 
     for event in beat:
-    # transform time (sec) to (qnote)
+        # Transform time (sec) to (qnote)
         qnote_time = event["timestamp"] / qnote_dur
         instr_name = event["name"]
         midi_file.addNote(track, channel, instr_midi_pitch[instr_name], qnote_time,
-        event['note_duration'], velocity)
+                          round(event['note_duration'], 6), velocity)
 
-    # maybe also include the bpm in the file if possible?
+    # Save the MIDI file
     with open("CSD2a/irregular_beat_generator/Output/Markov_beat.midi",'wb') as outf:
-         midi_file.writeFile(outf)
+        midi_file.writeFile(outf)
 
 # main loop
 while True:
