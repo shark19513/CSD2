@@ -206,7 +206,7 @@ def generate_markov_beat():
                     simultaneous_events.append(events_to_play.pop(0))
                 # play the simultaneous events with a loop that iterates through the list
                 for event in simultaneous_events:
-                    handle_event(event, current_time, start_time)
+                    handle_event(event)
             else:
                 # short sleep to keep my computer from turning into a jet engine
                 time.sleep(0.001)    
