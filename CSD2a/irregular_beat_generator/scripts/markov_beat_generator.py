@@ -27,7 +27,7 @@ kick = sa.WaveObject.from_wave_file("CSD2a/irregular_beat_generator/samples/VL-1
 hi_hat = sa.WaveObject.from_wave_file("CSD2a/irregular_beat_generator/samples/VL-1_HiHat.wav")
 snare = sa.WaveObject.from_wave_file("CSD2a/irregular_beat_generator/samples/VL-1_Snaredrum.wav")
 
-markov_beat = None # Initialize as none so it can be checked to see if it can be stored as midi on line 376
+markov_beat = None # Initialize as none so it can be checked to see if it can be stored as midi in the main loop
 
 # Settings
 bpm = None
@@ -179,11 +179,10 @@ def generate_markov_beat():
     events.sort(key=get_timestamp) # sort the events by timestamps
 
     # function that handles events
-    def handle_event(event, current_time, start_time):
+    def handle_event(event):
         print(event['name'])
         print(event['note_duration'])
         print(event['timestamp'])
-        print(current_time-start_time)
         event['instrument'].play()
 
     # store the duration of the last event in the list so it can be used as sleep time at the end of the loop below, solution found with ChatGPT
@@ -374,14 +373,12 @@ while True:
                             print("Loops must be between 1 and 8")
                      except ValueError:
                         play_obj = wrong.play()
-                        print("Illegal input - please enter a number between 1 and 8")
-                correct_input = False
+                        print("Illegal input - please enter a number between 1 and 8")               
                 play_obj = select.play()
                 print("Press ENTER to generate the beat")
             else:
                 play_obj = wrong.play()
-                print("Illegal input - please try again >:(")
-        correct_input = False
+                print("Illegal input - please try again >:(")     
     elif user_input == "s":
         if markov_beat:
             store_beat_as_midi(markov_beat)
