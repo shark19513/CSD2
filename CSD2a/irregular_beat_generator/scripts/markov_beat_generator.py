@@ -236,7 +236,7 @@ def store_beat_as_midi(beat):
 
     # Add time signature info based on quarternotes_per_bar (info from ChatGPT)
     midi_file.addTimeSignature(track, time_beginning, quarternotes_per_bar, 2, 24, 8) 
-    # 2 means quarter note, 24 midi clocks per metronome click and 8 is number of 32nd notes per quarter note
+    # 2 means quarter note, 24 = midi clocks per metronome click and 8 = number of 32nd notes per quarter note
 
     qnote_dur = 60 / bpm
     instr_midi_pitch = {
