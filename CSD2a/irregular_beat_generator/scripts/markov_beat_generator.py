@@ -116,7 +116,7 @@ def generate_markov_beat():
                 if last_note == duration:
                     rhythm.append(n_durations[choose_next_note(i)])
                     break
-        if sum(rhythm) > total_quarter_notes: # make sure the last note in the list doesn't exceed the bar lenght
+        if sum(rhythm) > total_quarter_notes: # make sure the last note in the list doesn't exceed the bar length
             rhythm[-1] -= (sum(rhythm)-total_quarter_notes) 
 
         return rhythm
