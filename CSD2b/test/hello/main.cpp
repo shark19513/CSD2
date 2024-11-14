@@ -10,4 +10,3 @@ int main() {
     cin >> yourName;
     cout << "Hi " << yourName << "!" << endl;
 }
-

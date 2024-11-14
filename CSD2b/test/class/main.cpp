@@ -1,5 +1,7 @@
 #include <iostream>
 
+using namespace std;
+
 /*
  * CLASS
  * 1. define class
@@ -26,13 +28,13 @@ public:
 };
 
 Note::Note() {
-    std::cout << "Note - constructor\n";
+    cout << "Note - constructor\n";
     midiNoteValue = 0;
     velocity = 0;
 }
 
 void Note::play() {
-    std::cout << "Playing note: " << midiNoteValue << " at velocity: " << velocity << std::endl;
+    cout << "Playing note: " << midiNoteValue << " at velocity: " << velocity << std::endl;
 }
 
 int Note::getVelocity() {
@@ -46,7 +48,6 @@ int main(){
     aNote.velocity = 127;
     aNote.play();
 
-    std::cout << "aNote.midiNoteValue contains: " << aNote.midiNoteValue << std::endl;
-    std::cout << "aNote.velocity: " << aNote.velocity << std::endl;
+    cout << "aNote.midiNoteValue contains: " << aNote.midiNoteValue << std::endl;
+    cout << "aNote.velocity: " << aNote.velocity << std::endl;
 }
-
