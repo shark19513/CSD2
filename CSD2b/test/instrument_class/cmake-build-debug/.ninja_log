@@ -1,0 +1,6 @@
+# ninja log v6
+2	953	1731605104691546191	CMakeFiles/instrument_class.dir/main.cpp.o	32bd56e93abc11b1
+3	956	1731605104692420189	CMakeFiles/instrument_class.dir/instrument.cpp.o	85249db671b58cd8
+957	1073	1731605105646259327	instrument_class	7ee93b6f0b61df51
+8	918	1731605403856383924	CMakeFiles/instrument_class.dir/main.cpp.o	32bd56e93abc11b1
+918	1013	1731605404766902526	instrument_class	7ee93b6f0b61df51

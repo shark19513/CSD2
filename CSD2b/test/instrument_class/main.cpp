@@ -1,12 +1,13 @@
 #include <iostream>
 
+#include "instrument.h"
+
 using namespace std;
 
-class Instrument {
-    public:
-
-};
-
 int main() {
+    Instrument instrument_1;
+    Instrument instrument_2("donk");
 
+    instrument_1.play();
+    instrument_2.play();
 }
