@@ -2,7 +2,6 @@
 #define INSTRUMENT_H
 
 #include <iostream>
-#include <ostream>
 #include <string>
 
 using namespace std;
