@@ -1,8 +1,4 @@
-#include <iostream>
-
 #include "instrument.h"
-
-using namespace std;
 
 int main() {
     Instrument instrument_1;
@@ -10,4 +6,6 @@ int main() {
 
     instrument_1.play();
     instrument_2.play();
+
+    return 0;
 }

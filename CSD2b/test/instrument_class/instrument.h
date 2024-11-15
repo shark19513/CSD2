@@ -4,19 +4,17 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 class Instrument {
 public:
     // default constructor
     Instrument();
     // overloaded constructor
-    Instrument(string snd);
+    Instrument(std::string snd);
 
-    string sound;
+    std::string sound;
 
     void play() {
-        cout << sound << endl;
+        std::cout << sound << std::endl;
     }
 };
 
