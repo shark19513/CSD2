@@ -10,4 +10,5 @@ add_executable(speaker
         tweeter.cpp
         tweeter.h
         woofer.cpp
-        woofer.h)
+        woofer.h
+        driver.h)
