@@ -1,0 +1,6 @@
+# ninja log v6
+3	71	1732135355620121931	CMakeFiles/speaker.dir/woofer.cpp.o	6db84e560afebd72
+2	72	1732135355619222222	CMakeFiles/speaker.dir/speaker.cpp.o	32c0ec5d51edb3b8
+3	72	1732135355619686673	CMakeFiles/speaker.dir/tweeter.cpp.o	bdd157c769516a42
+2	697	1732135355618697373	CMakeFiles/speaker.dir/main.cpp.o	d63c228dbed5b1ea
+700	786	1732135356316882921	speaker	7307f07fccf8e1fa
