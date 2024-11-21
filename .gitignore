@@ -1,0 +1,14 @@
+# Ignore all .idea folders anywhere in the repo
+**/.idea/
+
+**/.DS_Store
+
+# Ignore all cmake-build-debug folders anywhere in the repo
+**/cmake-build-debug/
+
+# Ignore all CMake build directories (if multiple build types are used)
+**/cmake-build-*/
+
+# Add other common build files/folders to ignore
+**/build/
+**/out/

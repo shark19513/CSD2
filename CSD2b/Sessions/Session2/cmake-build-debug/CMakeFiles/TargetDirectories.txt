@@ -1,3 +1,0 @@
-/Users/semuel/Documents/HKU/Jaar2/CSD/CSD2/CSD2b/Sessions/Session2/cmake-build-debug/CMakeFiles/Session2.dir
-/Users/semuel/Documents/HKU/Jaar2/CSD/CSD2/CSD2b/Sessions/Session2/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/semuel/Documents/HKU/Jaar2/CSD/CSD2/CSD2b/Sessions/Session2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

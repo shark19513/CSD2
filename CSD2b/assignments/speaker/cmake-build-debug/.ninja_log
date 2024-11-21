@@ -1,8 +1,0 @@
-# ninja log v6
-639	728	1732139195165245024	speaker	7307f07fccf8e1fa
-8	93	1732138623990669524	CMakeFiles/speaker.dir/main.cpp.o	d63c228dbed5b1ea
-7	639	1732139194532894487	CMakeFiles/speaker.dir/tweeter.cpp.o	bdd157c769516a42
-9	702	1732138623991760011	CMakeFiles/speaker.dir/woofer.cpp.o	6db84e560afebd72
-8	701	1732138623991311125	CMakeFiles/speaker.dir/speaker.cpp.o	32c0ec5d51edb3b8
-3	95	1732200045847070253	build.ninja	7542aa2e25a9c764
-3	92	1732200045847070253	build.ninja	7542aa2e25a9c764
