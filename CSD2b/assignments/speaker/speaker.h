@@ -7,7 +7,7 @@
 class Speaker{
 public:
     Speaker();
-vhjdfhjfdghl
+
     Tweeter aTweeter;
     Woofer aWoofer;
 };
