@@ -7,7 +7,7 @@ Tweeter::Tweeter() : Tweeter(2.5f) {
     conePosition = 0.0f;
 }
 
-Tweeter::Tweeter(float diam) {
+Tweeter::Tweeter(float diam){
     std::cout << "Tweeter - overloaded constructor\n";
     // in cm
     diameter = diam;

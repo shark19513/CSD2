@@ -7,8 +7,8 @@ add_executable(speaker
     main.cpp
         speaker.h
         speaker.cpp
-        tweeter.cpp
         tweeter.h
-        woofer.cpp
+        tweeter.cpp
         woofer.h
+        woofer.cpp
         driver.h)

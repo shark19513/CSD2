@@ -44,7 +44,7 @@ def reset_to_default():
             1,                 # repeat probability
             2,                 # bars
             4,                 # quarternotes per bar
-            4                  # loops
+            2                  # loops
     )
 
 # Function that generates and plays the Markov Beat according to the stored 
