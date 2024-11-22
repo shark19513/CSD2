@@ -8,8 +8,8 @@ class Speaker{
 public:
     Speaker();
 
-    Tweeter aTweeter;
-    Woofer aWoofer;
+    Tweeter aTweeter{1.2f};
+    Woofer aWoofer{5.5f};
 };
 
 #endif
