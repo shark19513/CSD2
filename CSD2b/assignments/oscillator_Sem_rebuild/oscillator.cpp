@@ -37,6 +37,6 @@ void Oscillator::setFrequency(float frequency)
 }
 
 float Oscillator::getFrequency() {
-  std::cout << "Inside Oscillator getFrequency" << std::endl;
+  std::cout << "\nInside Oscillator getFrequency" << std::endl;
   return freq;
 }
