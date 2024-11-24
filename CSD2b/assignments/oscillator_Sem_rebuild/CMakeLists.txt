@@ -7,4 +7,5 @@ add_executable(oscillator_Sem_rebuild
                 main.cpp
                 oscillator.cpp
                 synthesizer.cpp
+                keyboard.cpp
                 )

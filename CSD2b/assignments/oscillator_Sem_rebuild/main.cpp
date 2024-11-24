@@ -2,15 +2,8 @@
 
 int main() {
     std::cout << "\nin main\n";
-    Oscillator osc;
-
-    std::cout << "Frequency of Oscillator object is: "
-        << osc.getFrequency() << std::endl;
-
-    osc.setFrequency(440);
-    std::cout << "Frequency of Oscillator object is: "
-        << osc.getFrequency() << std::endl;
-
+    Synthesizer synth;
+    
     return 0;
 }
 
