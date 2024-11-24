@@ -5,4 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(oscillator_Sem_rebuild
                 main.cpp
-                oscillator.cpp)
+                oscillator.cpp
+                synthesizer.cpp
+                )

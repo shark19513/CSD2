@@ -1,14 +1,21 @@
-#include <iostream>
+#include "SoundSource.h"
 
 #ifndef OSCILLATOR_H
 #define OSCILLATOR_H
 
-class Oscillator {
+class Oscillator : public SoundSource { // Oscillator is a SoundSource
     public:
     Oscillator();
-    ~Oscillator();
+    Oscillator(float frequency, float amplitude, std::string waveform);
+    ~Oscillator(); // destructor
 
-    // TODO: add setters and getters
+    // setters/getters
+    void setFrequency(float frequency);
+    float getFrequency();
+
+    private:
+    float freq;
+    float amp;
 };
 
 #endif
