@@ -5,10 +5,16 @@ Oscillator::Oscillator() : Oscillator(440, 0, "sine")
   std::cout << "Inside Oscillator default constructor" << std::endl;
 }
 
+Oscillator::Oscillator(std::string waveform)
+  :Oscillator(440, 0, waveform)
+{
+  std::cout << "Inside Oscillator secondary constructor" << std::endl;
+}
+
 Oscillator::Oscillator(float frequency, float amplitude, std::string waveform)
   : freq(frequency), amp(amplitude)
 {
-  std::cout << "Inside Oscillator secondary constructor" << std::endl;
+  std::cout << "Inside Oscillator third constructor" << std::endl;
   sound = waveform; //this string is from the SoundSource baseclass
 }
 

@@ -6,6 +6,7 @@
 class Oscillator : public SoundSource { // Oscillator is a SoundSource
     public:
     Oscillator();
+    Oscillator(std::string waveform);
     Oscillator(float frequency, float amplitude, std::string waveform);
     ~Oscillator(); // destructor
 

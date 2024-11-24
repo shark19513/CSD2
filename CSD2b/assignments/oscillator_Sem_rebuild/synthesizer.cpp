@@ -2,6 +2,7 @@
 
 Synthesizer::Synthesizer() {
     std::cout<<"inside Synthesizer constructor"<<std::endl;
+    // TODO: display information here
 }
 
 Synthesizer::~Synthesizer() {
