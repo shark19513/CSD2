@@ -14,6 +14,12 @@ class Oscillator : public SoundSource { // Oscillator is a SoundSource
     void setFrequency(float frequency);
     float getFrequency();
 
+    void setAmplitude(float amplitude);
+    float getAmplitude();
+
+    void setWaveform(std::string waveform);
+    std::string getWaveform();
+
     private:
     float freq;
     float amp;

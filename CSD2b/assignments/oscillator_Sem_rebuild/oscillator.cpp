@@ -1,5 +1,7 @@
 #include "oscillator.h"
 
+#include <list>
+
 Oscillator::Oscillator() : Oscillator(440, 0, "sine")
 {
   std::cout << "Inside Oscillator default constructor" << std::endl;
@@ -27,7 +29,6 @@ Oscillator::~Oscillator()
 // setters/getters
 void Oscillator::setFrequency(float frequency)
 {
-  std::cout << "Inside Oscillator setFrequency" << std::endl;
   if (frequency > 0 && frequency < 22050) {
     this->freq = frequency;
   } else {
@@ -37,6 +38,16 @@ void Oscillator::setFrequency(float frequency)
 }
 
 float Oscillator::getFrequency() {
-  std::cout << "\nInside Oscillator getFrequency" << std::endl;
   return freq;
+}
+
+void Oscillator::setWaveform(std::string waveform) {
+  std::list<std::string> valid_input = {"sine", "square", "triangle", "saw"};
+  //TODO: make if statement that checks if waveform is in list valid_input
+
+}
+
+
+std::string Oscillator::getWaveform() {
+  return sound;
 }
