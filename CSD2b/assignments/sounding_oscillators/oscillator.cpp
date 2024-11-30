@@ -29,6 +29,7 @@ void Oscillator::updatePhaseIncrement() {
 void Oscillator::setFrequency(float frequency) {
     if (frequency > 0 && frequency < 22050) {
         this->_frequency = frequency;
+        std::cout << "Frequency: " << this->_frequency << "\n";
     } else {
         std::cout << "Invalid input"
         << " please enter a value between 0 and 22049";
