@@ -1,2 +1,3 @@
 add_subdirectory(speaker)
 add_subdirectory(oscillator_Sem_rebuild)
+add_subdirectory(sounding_oscillators)
