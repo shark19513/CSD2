@@ -10,10 +10,15 @@ Saw::~Saw() {
 
 void Saw::tick()
 {
-    // TODO: implement frequency / SAMPLERATE in a more efficient way
-    _phase += _frequency/_samplerate;
+    if (_frequency != _previousFrequency) {
+        updatePhaseIncrement();
+        _previousFrequency = _frequency;
+    }
+
+    _phase += _phaseIncrement;
     if (_phase > 1.0f) {
         _phase -= 1.0f;
     }
+
     _sample = _phase * _amplitude;
 }

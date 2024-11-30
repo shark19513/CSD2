@@ -20,5 +20,6 @@ void Sine::tick()
     if (_phase > 1.0f) {
         _phase -= 1.0f;
     }
+
     _sample = sin(_pi * 2 *_phase) * _amplitude;
 }

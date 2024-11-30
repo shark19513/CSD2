@@ -11,11 +11,16 @@ Square::~Square() {
 
 void Square::tick()
 {
-    // TODO: implement frequency / SAMPLERATE in a more efficient way
-    _phase += _frequency/_samplerate;
+    if (_frequency != _previousFrequency) {
+        updatePhaseIncrement();
+        _previousFrequency = _frequency;
+    }
+
+    _phase += _phaseIncrement;
     if (_phase > 1.0f) {
         _phase -= 1.0f;
     }
+    
     if (_phase < 0.5f) {
         _sample = _amplitude;
     } else {

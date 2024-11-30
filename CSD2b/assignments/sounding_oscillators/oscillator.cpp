@@ -27,8 +27,12 @@ void Oscillator::updatePhaseIncrement() {
 
 // setters/getters
 void Oscillator::setFrequency(float frequency) {
-    // TODO: add check to see if parameter is valid
-    this->_frequency = frequency;
+    if (frequency > 0 && frequency < 22050) {
+        this->_frequency = frequency;
+    } else {
+        std::cout << "Invalid input"
+        << " please enter a value between 0 and 22049";
+    }
 }
 
 float Oscillator::getFrequency() {
