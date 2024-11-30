@@ -5,6 +5,7 @@ Oscillator::Oscillator(float frequency, float samplerate)
   _sample(0), _samplerate(samplerate)
 {
     std::cout << "Oscillator - constructor\n";
+    updatePhaseIncrement(); // initialize _phaseIncrement when osc first constructed
 }
 
 Oscillator::~Oscillator(){
@@ -17,6 +18,10 @@ void Oscillator::setSamplerate(float samplerate) {
 
 float Oscillator::getSample() {
     return _sample;
+}
+
+void Oscillator::updatePhaseIncrement() {
+    _phaseIncrement = _frequency / _samplerate;
 }
 
 
