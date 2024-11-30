@@ -23,8 +23,8 @@ struct CustomCallback : AudioCallback {
         for (int channel = 0u; channel < numOutputChannels; ++channel) {
             for (int sample = 0u; sample < numFrames; ++sample) {
                 // write sample to buffer at channel 0, amp = 0.25
-                outputChannels[channel][sample] = square.getSample();
-                square.tick();
+                outputChannels[channel][sample] = sine.getSample();
+                sine.tick();
             }
         }
     }

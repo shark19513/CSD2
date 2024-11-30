@@ -3,32 +3,16 @@
 #include <iostream>
 #include <cmath>
 
-class Saw
+#include "oscillator.h"
+
+class Saw : public Oscillator
 {
 public:
-    // constructor/destructor
-    Saw(float frequency, float samplerate = 44100);
+    Saw(float frequency);
     ~Saw();
 
-    void setSamplerate(float samplerate);
-
-    // return current sample
-    float getSample();
     // go to next sample
     void tick();
-
-    // getters/setters
-    void setFrequency(float frequency);
-    float getFrequency();
-
-private:
-    const float _pi = acos(-1); // atan(1) * 4; << don't know what this is lol
-    float _frequency;
-    float _amplitude;
-    float _phase;
-    // _sample contains the current sample
-    float _sample;
-    float _samplerate;
 };
 
 #endif
