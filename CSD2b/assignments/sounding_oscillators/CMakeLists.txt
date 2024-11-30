@@ -4,7 +4,7 @@ project(sounding_oscillators VERSION 0.0.1)
 set(CMAKE_CXX_STANDARD 20)
 
 juce_add_console_app(sounding_oscillators PRODUCT_NAME "sounding_oscillators")
-target_sources(sounding_oscillators PRIVATE main.cpp sine.cpp saw.cpp square.cpp)
+target_sources(sounding_oscillators PRIVATE main.cpp sine.cpp saw.cpp square.cpp oscillator.cpp)
 target_compile_definitions(sounding_oscillators PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0)
 
 target_link_libraries(sounding_oscillators
