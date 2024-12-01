@@ -13,6 +13,9 @@ public:
 
     // go to next sample
     void tick();
+
+    protected:
+    const float _pi = acos(-1); // atan(1) * 4; << don't know what this is lol
 };
 
 #endif

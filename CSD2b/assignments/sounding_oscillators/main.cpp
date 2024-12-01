@@ -10,9 +10,6 @@ int main() {
     JUCEModule juceModule (audioSource);
     juceModule.init(1,1);
 
-    Synth synth;
-    std::cout << synth.sawOsc.getFrequency();
-
     std::cout << "Press q + Enter to quit..." << std::endl;
     bool running = true;
     while (running) {

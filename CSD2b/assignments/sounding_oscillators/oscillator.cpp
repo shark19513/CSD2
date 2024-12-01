@@ -5,7 +5,7 @@ Oscillator::Oscillator(float frequency, float samplerate)
   _sample(0), _samplerate(samplerate)
 {
     std::cout << "Oscillator - constructor\n";
-    updatePhaseIncrement(); // initialize _phaseIncrement when osc first constructed
+    updatePhaseIncrement(); // initialize _phaseIncrement when Osc first constructed
 }
 
 Oscillator::~Oscillator(){

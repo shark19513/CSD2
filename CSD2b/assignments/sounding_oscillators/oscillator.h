@@ -1,6 +1,5 @@
 #ifndef OSCILLATOR_H
 #define OSCILLATOR_H
-
 #include <iostream>
 #include <cmath>
 
@@ -8,7 +7,7 @@ class Oscillator
 {
 public:
     // constructor/destructor
-    Oscillator(float frequency, float samplerate = 44100);
+    Oscillator(float frequency, float samplerate = 44100); //TODO: add amp as argument
     ~Oscillator();
 
     void setSamplerate(float samplerate);
@@ -21,10 +20,9 @@ public:
     float getFrequency();
 
 protected:
-    // this method ensures smooth waveform continuity (according to ChatGPT)
+    // calculate _frequency / _samplerate
     void updatePhaseIncrement();
 
-    const float _pi = acos(-1); // atan(1) * 4; << don't know what this is lol
     float _frequency;
     float _amplitude;
     float _phase;
@@ -33,7 +31,6 @@ protected:
     // _sample contains the current sample
     float _sample;
     float _samplerate;
-
 };
 
 #endif
