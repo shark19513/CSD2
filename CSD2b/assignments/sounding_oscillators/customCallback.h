@@ -21,20 +21,14 @@ struct CustomCallback : AudioCallback {
     void process (AudioBuffer buffer) override {
         auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
 
-        for (int channel = 0u; channel < numOutputChannels; ++channel) {
-            for (int sample = 0u; sample < numFrames; ++sample) {
-                // write sample to buffer at channel 0, amp = 0.25
-                outputChannels[channel][sample] = synth.sineOsc.getSample();
-                synth.sineOsc.tick();
+        for (int sample = 0u; sample < numFrames; ++sample) {
+            synth.tickAll();
+            for (int channel = 0u; channel < numOutputChannels; ++channel) {
+                outputChannels[channel][sample] = synth.getSamples();
             }
         }
     }
 
 private:
-    //TODO: add these signals up so they can be outputted at the same time
-    // Sine sine{440};
-    // Saw saw{440};
-    // Square square{440};
-
     Synth synth;
 };

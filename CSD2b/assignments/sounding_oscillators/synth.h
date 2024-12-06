@@ -10,9 +10,15 @@ class Synth {
     Synth();
     ~Synth();
 
-    Sine sineOsc{440};
+    // call ticks for all oscillators
+    void tickAll();
+
+    // get samples from all oscillators
+    float getSamples();
+
+    Sine sineOsc{220};
     Saw sawOsc{440};
-    Square squareOsc{440};
+    Square squareOsc{880};
 };
 
 #endif

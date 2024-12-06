@@ -15,7 +15,7 @@ void Sine::tick()
         updatePhaseIncrement();
         _previousFrequency = _frequency;
     }
-
+    //TODO: move this stuff to baseclass and rename this function calculate
     _phase += _phaseIncrement;
     if (_phase > 1.0f) {
         _phase -= 1.0f;

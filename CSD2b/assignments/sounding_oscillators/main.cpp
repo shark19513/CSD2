@@ -8,7 +8,7 @@ int main() {
     ScopedMessageThreadEnabler scopedMessageThreadEnabler;
     CustomCallback audioSource (44100);
     JUCEModule juceModule (audioSource);
-    juceModule.init(1,1);
+    juceModule.init(2,2);
 
     std::cout << "Press q + Enter to quit..." << std::endl;
     bool running = true;
