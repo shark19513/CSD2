@@ -1,13 +1,12 @@
 #ifndef OSCILLATOR_H
 #define OSCILLATOR_H
 #include <iostream>
-#include <cmath>
 
 class Oscillator
 {
 public:
     // constructor/destructor
-    Oscillator(float frequency, float samplerate = 44100); //TODO: add amp as argument
+    Oscillator(float frequency, float samplerate = 44100);
     ~Oscillator();
 
     void setSamplerate(float samplerate);
@@ -19,8 +18,15 @@ public:
     void setFrequency(float frequency);
     float getFrequency();
 
+    void setAmplitude(float amplitude);
+    float getAmplitude();
+
+    // go to next sample
+    void tick();
+
 protected:
-    // calculate _frequency / _samplerate
+    virtual void calculate() = 0;
+    // calculate _frequency/_samplerate
     void updatePhaseIncrement();
 
     float _frequency;

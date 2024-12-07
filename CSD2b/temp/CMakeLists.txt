@@ -1,1 +1,2 @@
 add_subdirectory(03_soundingSine)
+add_subdirectory(04_sineSquareSaw_Final)

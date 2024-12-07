@@ -1,7 +1,6 @@
 #ifndef SQUARE_H
 #define SQUARE_H
 #include <iostream>
-#include <cmath>
 
 #include "oscillator.h"
 
@@ -11,8 +10,8 @@ public:
     Square(float frequency);
     ~Square();
 
-    // go to next sample
-    void tick();
+protected:
+    void calculate() override;
 };
 
 #endif

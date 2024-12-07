@@ -6,9 +6,11 @@
 #include "square.h"
 
 class Synth {
-  public:
+public:
     Synth();
     ~Synth();
+
+    void userInterface();
 
     // call ticks for all oscillators
     void tickAll();
@@ -16,6 +18,7 @@ class Synth {
     // get samples from all oscillators
     float getSamples();
 
+protected:
     Sine sineOsc{262};
     Saw sawOsc{330};
     Square squareOsc{392};

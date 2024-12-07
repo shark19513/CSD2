@@ -9,18 +9,8 @@ Square::~Square() {
 }
 
 
-void Square::tick()
+void Square::calculate()
 {
-    if (_frequency != _previousFrequency) {
-        updatePhaseIncrement();
-        _previousFrequency = _frequency;
-    }
-
-    _phase += _phaseIncrement;
-    if (_phase > 1.0f) {
-        _phase -= 1.0f;
-    }
-    
     if (_phase < 0.5f) {
         _sample = _amplitude;
     } else {

@@ -1,6 +1,5 @@
 #include <iostream>
 #include "customCallback.h"
-#include "synth.h"
 
 // TODO: define SAMPLERATE globally? should probz be in highest base class
 
@@ -16,9 +15,8 @@ int main() {
         switch (std::cin.get()) {
             case 'q':
                 running = false;
-                break;
+            break;
         }
     }
-
     return 0;
 }
