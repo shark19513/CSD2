@@ -1,3 +1,4 @@
 add_subdirectory(JuceTest)
 add_subdirectory(assignments)
 add_subdirectory(temp)
+add_subdirectory(eindopdracht_SynthSong)
