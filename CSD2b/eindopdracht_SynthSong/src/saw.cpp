@@ -1,6 +1,6 @@
 #include "saw.h"
 
-Saw::Saw(float frequency) : Oscillator(frequency) {
+Saw::Saw(float frequency, float amplitude) : Oscillator(frequency, amplitude) {
     std::cout << "Saw - constructor\n";
 }
 

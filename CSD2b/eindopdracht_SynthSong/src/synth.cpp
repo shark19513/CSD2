@@ -2,24 +2,11 @@
 
 Synth::Synth() {
   std::cout << "Synth - Constructor\n";
-  userInterface();
 }
 
 Synth::~Synth() {
   std::cout << "Synth - Destructor\n";
 }
-
-void Synth::userInterface() { //TODO: this is not working
-  std::cout << "Synth - User Interface\n";
-  while (true) {
-    switch (std::cin.get()) {
-      case 'f-sine':
-        float frequency = std::cin.get();
-        sineOsc.setFrequency(frequency);
-    }
-  }
-}
-
 
 void Synth::tickAll() {
   sineOsc.tick();

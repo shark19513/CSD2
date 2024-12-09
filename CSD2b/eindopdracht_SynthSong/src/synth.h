@@ -10,18 +10,18 @@ public:
     Synth();
     ~Synth();
 
-    void userInterface();
-
     // call ticks for all oscillators
     void tickAll();
 
     // get samples from all oscillators
     float getSamples();
 
+    // userInterface ui;
+
 protected:
-    Sine sineOsc{262};
-    Saw sawOsc{330};
-    Square squareOsc{392};
+    Sine sineOsc{262, 1};
+    Saw sawOsc{330, 0};
+    Square squareOsc{392, 0};
 };
 
 #endif

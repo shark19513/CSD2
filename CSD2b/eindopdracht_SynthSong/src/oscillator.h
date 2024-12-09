@@ -6,7 +6,7 @@ class Oscillator
 {
 public:
     // constructor/destructor
-    Oscillator(float frequency, float samplerate = 44100);
+    Oscillator(float frequency,float amplitude, float samplerate = 44100);
     ~Oscillator();
 
     void setSamplerate(float samplerate);

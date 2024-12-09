@@ -5,6 +5,8 @@
 #include <juce_audio_basics/juce_audio_basics.h>
 #include <juce_audio_devices/juce_audio_devices.h>
 
+#ifndef AUDIOCOMPONENT_H
+#define AUDIOCOMPONENT_H
 
 struct AudioBuffer {
     const float** inputChannels;
@@ -76,3 +78,5 @@ private:
     juce::AudioDeviceManager audioDeviceManager;
     juce::AudioSourcePlayer audioSourcePlayer;
 };
+
+#endif

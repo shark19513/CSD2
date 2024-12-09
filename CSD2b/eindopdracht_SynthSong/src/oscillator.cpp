@@ -1,7 +1,7 @@
 #include "oscillator.h"
 
-Oscillator::Oscillator(float frequency, float samplerate)
-: _frequency(frequency), _amplitude(1.0), _phase(0),
+Oscillator::Oscillator(float frequency,float amplitude, float samplerate)
+: _frequency(frequency), _amplitude(amplitude), _phase(0),
   _sample(0), _samplerate(samplerate)
 {
     std::cout << "Oscillator - constructor\n";

@@ -1,6 +1,6 @@
 #include "square.h"
 
-Square::Square(float frequency) : Oscillator(frequency) {
+Square::Square(float frequency, float amplitude) : Oscillator(frequency, amplitude) {
     std::cout << "Square - constructor\n";
 }
 

@@ -13,3 +13,6 @@
 # Add other common build files/folders to ignore
 **/build/
 **/out/
+
+# ignore folder with examples from class
+**/Voorbeeldcode/

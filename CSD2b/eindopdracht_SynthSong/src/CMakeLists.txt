@@ -4,15 +4,23 @@ project(SynthSong VERSION 0.0.1)
 set(CMAKE_CXX_STANDARD 20)
 
 juce_add_console_app(SynthSong PRODUCT_NAME "SynthSong")
-target_sources(SynthSong PRIVATE main.cpp
-                                            sine.cpp
-                                            saw.cpp
-                                            square.cpp
-                                            oscillator.cpp
-                                            synth.cpp
-                                            )
+target_sources(SynthSong
+                PRIVATE
+                main.cpp
+                sine.cpp
+                saw.cpp
+                square.cpp
+                oscillator.cpp
+                synth.cpp
+                audioToFile.cpp
+                )
 
-target_compile_definitions(SynthSong PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0)
+target_compile_definitions(SynthSong
+                            PRIVATE
+                            JUCE_WEB_BROWSER=0
+                            JUCE_USE_CURL=0
+                            SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+                            )
 
 target_link_libraries(SynthSong
         PRIVATE

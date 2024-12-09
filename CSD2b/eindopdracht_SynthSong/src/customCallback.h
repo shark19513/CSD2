@@ -1,9 +1,9 @@
 #include "audiocomponent.h"
 //  Daan Schrier
-#include "sine.h"
-#include "saw.h"
-#include "square.h"
 #include "synth.h"
+
+#ifndef CUSTOMCALLBACK_H
+#define CUSTOMCALLBACK_H
 
 struct CustomCallback : AudioCallback {
     explicit CustomCallback (double Fs) : AudioCallback(Fs) {
@@ -32,3 +32,5 @@ struct CustomCallback : AudioCallback {
 private:
     Synth synth;
 };
+
+#endif
