@@ -3,17 +3,18 @@
 
 #include "synth.h"
 
+#define NUM_SAWS 5
+
 class SuperSawSynth : public Synth {
   public:
     SuperSawSynth();
     ~SuperSawSynth();
 
-    void tickAll() override;
+    void tickAll(TunePlayer& tunePlayer) override;
     float getSamples() override;
 
   protected:
-    int _numSaws = 5;
-    std::array<Saw, 5> saws{
+    std::array<Saw, NUM_SAWS> saws{
       Saw{430, 1},
       Saw{435, 1},
       Saw{440, 1},

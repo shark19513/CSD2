@@ -1,0 +1,16 @@
+#include "tune.h"
+
+Tune::Tune() : _index(0){
+}
+
+Tune::~Tune() {
+}
+
+
+float Tune::getNote() {
+    // wrap index back to the beginning
+    if(_index >= NUM_NOTES) {
+        _index = 0;
+    }
+    return _melody[_index++];
+}

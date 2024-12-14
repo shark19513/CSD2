@@ -1,2 +1,5 @@
 add_subdirectory(03_soundingSine)
 add_subdirectory(04_sineSquareSaw_Final)
+add_subdirectory(01_melody)
+add_subdirectory(02_ui_generic)
+add_subdirectory(03_enum_choices)

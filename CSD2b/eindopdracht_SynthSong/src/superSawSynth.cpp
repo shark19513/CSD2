@@ -8,16 +8,21 @@ SuperSawSynth::~SuperSawSynth() {
   std::cout<<"SuperSawSynth - destructor\n";
 }
 
-void SuperSawSynth::tickAll() {
-    for (int i = 0; i < _numSaws; i++) {
+void SuperSawSynth::tickAll(TunePlayer& tunePlayer) {
+    for (int i = 0; i < NUM_SAWS; i++) {
         saws[i].tick();
+    }
+    // im not sure if this should be here
+    if (tunePlayer._frameIndex >= tunePlayer._noteDelayFactor * SAMPLE_RATE) {
+        tunePlayer._frameIndex = 0;
+        tunePlayer.updatePitch(tunePlayer.tune, synth);
     }
 }
 
 float SuperSawSynth::getSamples() {
     float samples = 0;
-    for (int i = 0; i < _numSaws; i++) {
+    for (int i = 0; i < NUM_SAWS; i++) {
         samples += saws[i].getSample();
     }
-    return samples/_numSaws;
+    return samples/NUM_SAWS;
 }

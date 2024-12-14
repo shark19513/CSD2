@@ -2,11 +2,13 @@
 #define OSCILLATOR_H
 #include <iostream>
 
+#define SAMPLE_RATE 44100.0f
+
 class Oscillator
 {
 public:
     // constructor/destructor
-    Oscillator(float frequency,float amplitude, float samplerate = 44100);
+    Oscillator(float frequency,float amplitude, float samplerate = SAMPLE_RATE);
     ~Oscillator();
 
     void setSamplerate(float samplerate);

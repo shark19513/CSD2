@@ -7,3 +7,7 @@ Synth::Synth() {
 Synth::~Synth() {
   std::cout << "Synth - Destructor\n";
 }
+
+void Synth::setSynthFrequency(double frequency) {
+  this->_synthFrequency = frequency;
+}

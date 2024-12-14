@@ -14,6 +14,8 @@ target_sources(SynthSong
                 synth.cpp
                 superSawSynth.cpp
                 squareBassSynth.cpp
+                tunePlayer.cpp
+                tune.cpp
                 audioToFile.cpp
                 )
 
