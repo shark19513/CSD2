@@ -19,9 +19,13 @@ public:
     // userInterface ui;
 
 protected:
-    Sine sineOsc{262, 1};
-    Saw sawOsc{330, 0};
-    Square squareOsc{392, 0};
+
+    int _numOsc;
+    std::vector<Oscillator> oscillators;
+
+    // Sine sineOsc{262, 1};
+    // Saw sawOsc{330, 1};
+    // Square squareOsc{392, 1};
 };
 
 #endif

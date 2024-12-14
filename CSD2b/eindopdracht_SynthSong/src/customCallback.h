@@ -1,6 +1,6 @@
 #include "audiocomponent.h"
 //  Daan Schrier
-#include "synth.h"
+#include "superSawSynth.h"
 
 #ifndef CUSTOMCALLBACK_H
 #define CUSTOMCALLBACK_H
@@ -22,15 +22,15 @@ struct CustomCallback : AudioCallback {
         auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
 
         for (int sample = 0u; sample < numFrames; ++sample) {
-            synth.tickAll();
+            sawSynth.tickAll();
             for (int channel = 0u; channel < numOutputChannels; ++channel) {
-                outputChannels[channel][sample] = synth.getSamples();
+                outputChannels[channel][sample] = sawSynth.getSamples();
             }
         }
     }
 
 private:
-    Synth synth;
+    SuperSawSynth sawSynth;
 };
 
 #endif
