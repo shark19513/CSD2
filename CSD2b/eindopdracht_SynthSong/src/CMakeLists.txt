@@ -12,6 +12,8 @@ target_sources(SynthSong
                 square.cpp
                 oscillator.cpp
                 synth.cpp
+                superSawSynth.cpp
+                squareBassSynth.cpp
                 audioToFile.cpp
                 )
 

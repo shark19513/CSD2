@@ -8,8 +8,18 @@ class SuperSawSynth : public Synth {
     SuperSawSynth();
     ~SuperSawSynth();
 
-  protected:
+    void tickAll() override;
+    float getSamples() override;
 
+  protected:
+    int _numSaws = 5;
+    std::array<Saw, 5> saws{
+      Saw{430, 1},
+      Saw{435, 1},
+      Saw{440, 1},
+      Saw{445, 1},
+      Saw{450, 1}
+    };
 };
 
 #endif

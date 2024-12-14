@@ -4,7 +4,7 @@
 
 // TODO: define SAMPLERATE globally? should probz be in highest base class
 
-#define WRITE_TO_FILE 1
+#define WRITE_TO_FILE 0
 
 int main () {
     ScopedMessageThreadEnabler scopedMessageThreadEnabler;

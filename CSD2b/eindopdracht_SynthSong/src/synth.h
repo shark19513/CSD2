@@ -8,24 +8,16 @@
 class Synth {
 public:
     Synth();
-    ~Synth();
-
-    // call ticks for all oscillators
-    void tickAll();
-
-    // get samples from all oscillators
-    float getSamples();
-
-    // userInterface ui;
+    ~Synth();\
 
 protected:
+    // call ticks for all oscillators
+    virtual void tickAll() = 0;
 
-    int _numOsc;
-    std::vector<Oscillator> oscillators;
+    // get samples from all oscillators
+    virtual float getSamples() = 0;
 
-    // Sine sineOsc{262, 1};
-    // Saw sawOsc{330, 1};
-    // Square squareOsc{392, 1};
+    // userInterface ui;
 };
 
 #endif
