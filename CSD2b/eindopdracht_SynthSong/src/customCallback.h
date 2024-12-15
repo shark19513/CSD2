@@ -24,15 +24,15 @@ struct CustomCallback : AudioCallback {
 
         for (int sample = 0u; sample < numFrames; ++sample) {
             bassSynth.tickAll();
-            // bassSynth.tickAll();
+            superSawSynth.tickAll();
             for (int channel = 0u; channel < numOutputChannels; ++channel) {
-                outputChannels[channel][sample] = bassSynth.getSamples();
+                outputChannels[channel][sample] = (bassSynth.getSamples()+superSawSynth.getSamples())/2;
             }
         }
     }
 
 private:
-    // SuperSawSynth superSawSynth;
+    SuperSawSynth superSawSynth;
     SquareBassSynth bassSynth;
 };
 

@@ -21,5 +21,10 @@ void SquareBassSynth::tickAll() {
 }
 
 float SquareBassSynth::getSamples() {
-    return (squareOsc.getSample()+sineOsc.getSample())/2;
+    _samples =(squareOsc.getSample()+sineOsc.getSample())/2;
+    if (bypassBitReduction == true) {
+        return _samples;
+    } else {
+        return applyBitReduction(_samples);
+    }
 }

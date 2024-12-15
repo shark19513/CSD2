@@ -8,6 +8,20 @@ Synth::~Synth() {
   std::cout << "Synth - Destructor\n";
 }
 
+
+float Synth::applyBitReduction(float sample) {
+  float stepSize = 1.0f / (1 << _bitDepth);
+  return std::round(sample / stepSize) * stepSize;
+}
+
+void Synth::setBitDepth(int bitDepth) {
+  this->_bitDepth = bitDepth;
+}
+
+void Synth::setBypassBitReduction(bool bypassBitReduction) {
+  this->_bypassBitReduction = bypassBitReduction;
+}
+
 double Synth::mtof(float mPitch){
   return 440.0 * pow (2.0, (mPitch - 69.0f) / 12.0f);
 }

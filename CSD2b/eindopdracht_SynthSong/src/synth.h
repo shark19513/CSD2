@@ -20,6 +20,14 @@ protected:
 
     // get samples from all oscillators
     virtual float getSamples() = 0;
+    float _samples;
+
+    // bitreduction
+    float applyBitReduction(float sample);
+    bool _bypassBitReduction = false;
+    int _bitDepth = 4;
+    void setBitDepth(int bitDepth);
+    void setBypassBitReduction(bool bypassBitReduction);
 
     // userInterface ui; //TODO: build UI
 
