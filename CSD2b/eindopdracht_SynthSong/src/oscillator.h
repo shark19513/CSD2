@@ -7,9 +7,8 @@
 class Oscillator
 {
 public:
-    // constructor/destructor
     Oscillator();
-    Oscillator(float freqOffset); // do something with delegation idk
+    Oscillator(float freqOffset);
     ~Oscillator();
 
     void setSamplerate(float samplerate);

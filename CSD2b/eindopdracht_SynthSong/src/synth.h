@@ -21,16 +21,19 @@ protected:
     // get samples from all oscillators
     virtual float getSamples() = 0;
 
-    // userInterface ui;
+    // userInterface ui; //TODO: build UI
 
+    // tune playing stuff
     double mtof(float mPitch);
     void updatePitch();
-    void checkFrameIndex();
+    void updateFrameIndex();
 
     int _frameIndex = 0;
     double _noteDelayFactor = 0.1;
 
     Tune tune;
+
+    //TODO: make array with tunes? or something
 };
 
 #endif

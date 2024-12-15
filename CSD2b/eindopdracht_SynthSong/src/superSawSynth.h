@@ -16,12 +16,12 @@ class SuperSawSynth : public Synth {
 
   protected:
     std::array<Saw, NUM_SAWS> saws{
+      Saw{-8},
+      Saw{-4},
       Saw{},
-      Saw{},
-      Saw{},
-      Saw{},
-      Saw{}
-    };
+      Saw{4},
+      Saw{8}
+      };
 };
 
 #endif

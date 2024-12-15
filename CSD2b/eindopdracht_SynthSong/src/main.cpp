@@ -2,8 +2,6 @@
 #include "audioToFile.h"
 #include "customCallback.h"
 
-// TODO: define SAMPLERATE globally? should probz be in highest base class
-
 #define WRITE_TO_FILE 0
 
 int main () {

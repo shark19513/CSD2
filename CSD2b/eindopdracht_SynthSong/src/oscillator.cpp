@@ -1,10 +1,15 @@
 #include "oscillator.h"
-
+//TODO: first note is now always 220 Hz, find a way to fix
 Oscillator::Oscillator() : _frequency(220), _freqOffset(0), _amplitude(1), _phase(0),
-  _sample(0), _samplerate(SAMPLE_RATE)
-{
-    std::cout << "Oscillator - constructor\n";
-    updatePhaseIncrement(); // initialize _phaseIncrement when Osc first constructed
+  _sample(0), _samplerate(SAMPLE_RATE) {
+    std::cout << "Oscillator - primary constructor\n";
+    updatePhaseIncrement(); // initialize _phaseIncrement when Oscillator first constructed
+}
+
+Oscillator::Oscillator(float freqOffset) : Oscillator() {
+    std::cout << "Oscillator - secondary constructor\n";
+    _freqOffset = freqOffset;
+    _frequency += _freqOffset;
 }
 
 Oscillator::~Oscillator(){
@@ -23,8 +28,7 @@ void Oscillator::updatePhaseIncrement() {
     _phaseIncrement = _frequency / _samplerate;
 }
 
-void Oscillator::tick()
-{
+void Oscillator::tick() {
     // calculate _frequency/_samplerate only when the frequency changes
     if (_frequency != _previousFrequency) {
         updatePhaseIncrement();
@@ -41,7 +45,7 @@ void Oscillator::tick()
 // setters/getters
 void Oscillator::setFrequency(float frequency) {
     if (frequency > 0 && frequency < 22050) {
-        this->_frequency = frequency;
+        this->_frequency = frequency+_freqOffset;
         std::cout << "Frequency: " << this->_frequency << "\n";
     } else {
         std::cout << "Invalid input"

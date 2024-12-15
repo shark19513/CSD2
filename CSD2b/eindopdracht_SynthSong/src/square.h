@@ -8,6 +8,7 @@ class Square : public Oscillator
 {
 public:
     Square();
+    Square(float freqOffset);
     ~Square();
 
 protected:

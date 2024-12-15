@@ -8,6 +8,7 @@ class Sine : public Oscillator
 {
 public:
     Sine();
+    Sine(float freqOffset);
     ~Sine();
 
 protected:

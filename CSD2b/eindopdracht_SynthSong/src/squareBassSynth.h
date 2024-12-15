@@ -8,6 +8,7 @@ class SquareBassSynth : public Synth {
     SquareBassSynth();
     ~SquareBassSynth();
 
+    void setOscFreqs(float frequency) override;
     void tickAll() override;
     float getSamples() override;
 

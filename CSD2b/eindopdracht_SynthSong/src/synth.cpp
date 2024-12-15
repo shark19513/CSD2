@@ -19,7 +19,7 @@ void Synth::updatePitch() {
   setOscFreqs(freq);
 }
 
-void Synth::checkFrameIndex() {
+void Synth::updateFrameIndex() {
   if (_frameIndex >= _noteDelayFactor * SAMPLE_RATE) {
     _frameIndex = 0;
     updatePitch();

@@ -1,7 +1,11 @@
 #include "square.h"
 
 Square::Square() {
-    std::cout << "Square - constructor\n";
+    std::cout << "Square - primary constructor\n";
+}
+
+Square::Square(float freqOffset) : Oscillator(freqOffset) {
+    std::cout << "Square - secondary constructor\n";
 }
 
 Square::~Square() {
