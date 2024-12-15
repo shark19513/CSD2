@@ -8,7 +8,7 @@ SquareBassSynth::~SquareBassSynth() {
   std::cout<<"SquareBassSynth - destructor\n";
 }
 
-void SquareBassSynth::tickAll(TunePlayer& tunePlayer) {
+void SquareBassSynth::tickAll() {
     squareOsc.tick();
     sineOsc.tick();
 }

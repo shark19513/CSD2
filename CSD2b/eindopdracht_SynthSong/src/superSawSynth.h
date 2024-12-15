@@ -10,16 +10,18 @@ class SuperSawSynth : public Synth {
     SuperSawSynth();
     ~SuperSawSynth();
 
-    void tickAll(TunePlayer& tunePlayer) override;
+    void setOscFreq(float frequency) override;
+    void tickAll() override;
     float getSamples() override;
+    void updatePitch() override;
 
   protected:
     std::array<Saw, NUM_SAWS> saws{
-      Saw{430, 1},
-      Saw{435, 1},
-      Saw{440, 1},
-      Saw{445, 1},
-      Saw{450, 1}
+      Saw{},
+      Saw{},
+      Saw{},
+      Saw{},
+      Saw{}
     };
 };
 

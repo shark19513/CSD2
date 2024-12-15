@@ -1,6 +1,6 @@
 #include "tune.h"
 
-Tune::Tune() : _index(0){
+Tune::Tune() {
 }
 
 Tune::~Tune() {

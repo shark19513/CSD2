@@ -1,8 +1,7 @@
 #include "oscillator.h"
 
-Oscillator::Oscillator(float frequency,float amplitude, float samplerate)
-: _frequency(frequency), _amplitude(amplitude), _phase(0),
-  _sample(0), _samplerate(samplerate)
+Oscillator::Oscillator() : _frequency(220), _amplitude(1), _phase(0),
+  _sample(0), _samplerate(SAMPLE_RATE)
 {
     std::cout << "Oscillator - constructor\n";
     updatePhaseIncrement(); // initialize _phaseIncrement when Osc first constructed

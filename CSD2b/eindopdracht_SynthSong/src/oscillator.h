@@ -8,7 +8,7 @@ class Oscillator
 {
 public:
     // constructor/destructor
-    Oscillator(float frequency,float amplitude, float samplerate = SAMPLE_RATE);
+    Oscillator();
     ~Oscillator();
 
     void setSamplerate(float samplerate);

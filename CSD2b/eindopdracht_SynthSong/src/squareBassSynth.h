@@ -8,14 +8,12 @@ class SquareBassSynth : public Synth {
     SquareBassSynth();
     ~SquareBassSynth();
 
-    void tickAll(TunePlayer& tunePlayer) override;
+    void tickAll() override;
     float getSamples() override;
 
-    float _frequency = 110;
-
     protected:
-      Square squareOsc{_frequency, 0};
-      Sine sineOsc{_frequency/2, 0};
+      Square squareOsc{};
+      Sine sineOsc{};
 };
 
 #endif

@@ -8,6 +8,6 @@ Synth::~Synth() {
   std::cout << "Synth - Destructor\n";
 }
 
-void Synth::setSynthFrequency(double frequency) {
-  this->_synthFrequency = frequency;
+double Synth::mtof(float mPitch){
+  return 440.0 * pow (2.0, (mPitch - 69.0f) / 12.0f);
 }
