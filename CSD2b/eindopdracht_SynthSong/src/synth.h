@@ -4,7 +4,7 @@
 #include "sine.h"
 #include "saw.h"
 #include "square.h"
-#include "tune.h"
+#include "tunes.h"
 
 class Synth {
 public:
@@ -24,12 +24,10 @@ protected:
 
     // bitreduction
     float applyBitReduction(float sample);
-    bool _bypassBitReduction = false;
-    int _bitDepth = 4;
     void setBitDepth(int bitDepth);
     void setBypassBitReduction(bool bypassBitReduction);
-
-    // userInterface ui; //TODO: build UI
+    bool _bypassBitReduction = false;
+    int _bitDepth = 4;
 
     // tune playing stuff
     double mtof(float mPitch);
@@ -37,11 +35,12 @@ protected:
     void updateFrameIndex();
 
     int _frameIndex = 0;
-    double _noteDelayFactor = 0.1;
+    double _noteDelayFactor = 0.11;
 
-    Tune tune;
+    FairyTune tune;
+    //TODO: make array with tunes? or make the tune in a method? elif tree?? idk????
 
-    //TODO: make array with tunes? or something
+    // userInterface ui; //TODO: build UI
 };
 
 #endif

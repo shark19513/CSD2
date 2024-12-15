@@ -28,7 +28,7 @@ float SuperSawSynth::getSamples() {
         samples += saws[i].getSample();
     }
     _samples = samples/NUM_SAWS;
-    if (bypassBitReduction == true) {
+    if (_bypassBitReduction == true) {
         return _samples;
     } else {
         return applyBitReduction(_samples);

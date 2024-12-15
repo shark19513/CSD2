@@ -16,10 +16,12 @@ float Synth::applyBitReduction(float sample) {
 
 void Synth::setBitDepth(int bitDepth) {
   this->_bitDepth = bitDepth;
+  //TODO: add input check
 }
 
 void Synth::setBypassBitReduction(bool bypassBitReduction) {
   this->_bypassBitReduction = bypassBitReduction;
+  //TODO: add input check
 }
 
 double Synth::mtof(float mPitch){
