@@ -1,6 +1,6 @@
 #include "oscillator.h"
 
-Oscillator::Oscillator() : _frequency(220), _amplitude(1), _phase(0),
+Oscillator::Oscillator() : _frequency(220), _freqOffset(0), _amplitude(1), _phase(0),
   _sample(0), _samplerate(SAMPLE_RATE)
 {
     std::cout << "Oscillator - constructor\n";

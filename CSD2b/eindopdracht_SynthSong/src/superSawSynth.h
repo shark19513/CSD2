@@ -10,10 +10,9 @@ class SuperSawSynth : public Synth {
     SuperSawSynth();
     ~SuperSawSynth();
 
-    void setOscFreq(float frequency) override;
+    void setOscFreqs(float frequency) override;
     void tickAll() override;
     float getSamples() override;
-    void updatePitch() override;
 
   protected:
     std::array<Saw, NUM_SAWS> saws{

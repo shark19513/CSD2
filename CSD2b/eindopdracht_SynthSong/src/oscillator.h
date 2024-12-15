@@ -9,6 +9,7 @@ class Oscillator
 public:
     // constructor/destructor
     Oscillator();
+    Oscillator(float freqOffset); // do something with delegation idk
     ~Oscillator();
 
     void setSamplerate(float samplerate);
@@ -32,6 +33,7 @@ protected:
     void updatePhaseIncrement();
 
     float _frequency;
+    float _freqOffset;
     float _amplitude;
     float _phase;
     float _phaseIncrement = 0.0f;

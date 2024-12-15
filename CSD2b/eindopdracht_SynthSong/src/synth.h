@@ -13,7 +13,7 @@ public:
 
 protected:
     // set frequency for all oscillators
-    virtual void setOscFreq(float frequency) = 0;
+    virtual void setOscFreqs(float frequency) = 0;
 
     // call ticks for all oscillators
     virtual void tickAll() = 0;
@@ -24,7 +24,8 @@ protected:
     // userInterface ui;
 
     double mtof(float mPitch);
-    virtual void updatePitch() = 0;
+    void updatePitch();
+    void checkFrameIndex();
 
     int _frameIndex = 0;
     double _noteDelayFactor = 0.1;
