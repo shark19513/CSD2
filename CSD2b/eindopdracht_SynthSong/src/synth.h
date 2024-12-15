@@ -5,6 +5,7 @@
 #include "saw.h"
 #include "square.h"
 #include "tunes.h"
+#include "bitcrusher.h"
 
 class Synth {
 public:
@@ -22,23 +23,21 @@ protected:
     virtual float getSamples() = 0;
     float _samples;
 
-    // bitreduction
-    float applyBitReduction(float sample);
-    void setBitDepth(int bitDepth);
-    void setBypassBitReduction(bool bypassBitReduction);
-    bool _bypassBitReduction = false;
-    int _bitDepth = 4;
+    BitCrusher bitcrusher{false}; // argument toggles bypass TODO: should do something with this mmh
 
     // tune playing stuff
     double mtof(float mPitch);
     void updatePitch();
     void updateFrameIndex();
 
+    void setTuneselection(int tuneselection);
+
     int _frameIndex = 0;
     double _noteDelayFactor = 0.11;
 
-    FairyTune tune;
-    //TODO: make array with tunes? or make the tune in a method? elif tree?? idk????
+    int _tuneSelection = 1;
+    FairyTune fairyTune;
+    ArpeggioTune arpeggioTune;
 
     // userInterface ui; //TODO: build UI
 };

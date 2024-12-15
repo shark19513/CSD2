@@ -15,6 +15,7 @@ target_sources(SynthSong
                 superSawSynth.cpp
                 squareBassSynth.cpp
                 tunes.cpp
+                bitcrusher.cpp
                 audioToFile.cpp
                 )
 

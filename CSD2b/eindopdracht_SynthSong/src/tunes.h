@@ -17,14 +17,12 @@ protected:
     std::vector<float> _melody;
 };
 
-class ArpeggioTune : public Tune {    //cmaj7 - arpeggio
-public:
+struct ArpeggioTune : Tune {    //cmaj7 - arpeggio
     ArpeggioTune();
     ~ArpeggioTune();
 };
 
-class FairyTune : public Tune {
-public:
+struct FairyTune : Tune {
   	FairyTune();
     ~FairyTune();
 };

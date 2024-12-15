@@ -9,27 +9,20 @@ Synth::~Synth() {
 }
 
 
-float Synth::applyBitReduction(float sample) {
-  float stepSize = 1.0f / (1 << _bitDepth);
-  return std::round(sample / stepSize) * stepSize;
-}
-
-void Synth::setBitDepth(int bitDepth) {
-  this->_bitDepth = bitDepth;
-  //TODO: add input check
-}
-
-void Synth::setBypassBitReduction(bool bypassBitReduction) {
-  this->_bypassBitReduction = bypassBitReduction;
-  //TODO: add input check
-}
-
+//tune playing
 double Synth::mtof(float mPitch){
   return 440.0 * pow (2.0, (mPitch - 69.0f) / 12.0f);
 }
 
 void Synth::updatePitch() {
-  float note = tune.getNote();
+  float note;
+  if      (_tuneSelection == 1)
+    {note = fairyTune.getNote();}
+  else if (_tuneSelection == 2)
+    {note = arpeggioTune.getNote();}
+  else
+    { std::cout << "No tune selected" << "\n";}
+
   double freq = mtof(note);
   std:: cout << "next note: " << note << ", has frequency " << freq << "\n";
   setOscFreqs(freq);
@@ -41,5 +34,14 @@ void Synth::updateFrameIndex() {
     updatePitch();
   } else {
     _frameIndex++;
+  }
+}
+
+void Synth::setTuneselection(int tuneSelection) {
+  if (tuneSelection == 1 || tuneSelection == 2) {
+      this->_tuneSelection = tuneSelection;
+  } else {
+    std::cout << "Invalid selection "
+    << "Please select either 1 or 2";
   }
 }
