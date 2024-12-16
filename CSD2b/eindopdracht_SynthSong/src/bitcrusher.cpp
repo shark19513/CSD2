@@ -1,6 +1,6 @@
 #include "bitcrusher.h"
 
-BitCrusher::BitCrusher(bool BypassbitCrusher) : _bypassBitReduction(BypassbitCrusher) {
+BitCrusher::BitCrusher() {
   std::cout<<"BitCrusher - constructor\n";
 }
 
@@ -22,8 +22,4 @@ void BitCrusher::setBitDepth(int bitDepth) {
     std::cout << "Invalid input"
     << " please enter an integer between 0 and 32";
   }
-}
-
-void BitCrusher::setBypassBitReduction(bool bypassBitReduction) {
-  this->_bypassBitReduction = bypassBitReduction;
 }

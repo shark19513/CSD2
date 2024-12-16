@@ -28,9 +28,10 @@ float SuperSawSynth::getSamples() {
         samples += saws[i].getSample();
     }
     _samples = samples/NUM_SAWS;
-    if (bitcrusher._bypassBitReduction == true) {
+
+    if (_bypassBitCrusher == true) {
         return _samples;
     } else {
-        return bitcrusher.applyBitReduction(_samples);
+        return bitCrusher.applyBitReduction(_samples);
     }
 }

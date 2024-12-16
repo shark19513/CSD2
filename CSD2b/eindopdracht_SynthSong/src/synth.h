@@ -23,7 +23,10 @@ protected:
     virtual float getSamples() = 0;
     float _samples;
 
-    BitCrusher bitcrusher{false}; // argument toggles bypass TODO: should do something with this mmh
+    //bitcrusher
+    BitCrusher bitCrusher{};
+    bool _bypassBitCrusher = false; // toggles bypass
+    void setBypassBitCrusher(bool bypassBitCrusher);
 
     // tune playing stuff
     double mtof(float mPitch);

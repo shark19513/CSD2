@@ -45,3 +45,7 @@ void Synth::setTuneselection(int tuneSelection) {
     << "Please select either 1 or 2";
   }
 }
+
+void Synth::setBypassBitCrusher(bool bypassBitReduction) {
+  this->_bypassBitCrusher = bypassBitReduction;
+}

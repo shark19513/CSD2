@@ -5,14 +5,13 @@
 
 class BitCrusher {
   public:
-    BitCrusher(bool bypassBitCrusher);
+    BitCrusher();
     ~BitCrusher();
 
     // bitreduction
     float applyBitReduction(float sample);
     void setBitDepth(int bitDepth);
     void setBypassBitReduction(bool bypassBitReduction);
-    bool _bypassBitReduction;
     int _bitDepth = 4;
 };
 
