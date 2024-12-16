@@ -16,7 +16,7 @@ double Synth::mtof(float mPitch){
 
 void Synth::updatePitch() {
   float note;
-  if      (_tuneSelection == 1)
+  if      (_tuneSelection == 1) //TODO: this could be more efficient
     {note = fairyTune.getNote();}
   else if (_tuneSelection == 2)
     {note = arpeggioTune.getNote();}

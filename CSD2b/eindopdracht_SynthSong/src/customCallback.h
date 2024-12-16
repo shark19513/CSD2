@@ -32,7 +32,7 @@ struct CustomCallback : AudioCallback {
     }
 
 private:
-    SuperSawSynth superSawSynth;
+    SuperSawSynth superSawSynth; // make if statement: if 1 synth 1 if 2 synth 2
     SquareBassSynth bassSynth;
 };
 
