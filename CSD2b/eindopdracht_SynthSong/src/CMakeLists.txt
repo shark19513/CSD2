@@ -18,6 +18,7 @@ target_sources(SynthSong
                 bitcrusher.cpp
                 uiUtility.cpp
                 audioToFile.cpp
+                customCallback.cpp
                 )
 
 target_compile_definitions(SynthSong

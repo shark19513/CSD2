@@ -9,7 +9,7 @@
 
 class Synth {
 public:
-    Synth();
+    Synth(float sampleRate);
     ~Synth();
 
 protected:
@@ -22,6 +22,7 @@ protected:
     // get samples from all oscillators
     virtual float getSamples() = 0;
     float _samples;
+    float _sampleRate;
 
     //bitcrusher
     BitCrusher bitCrusher;

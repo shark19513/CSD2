@@ -7,8 +7,8 @@
 class Sine : public Oscillator
 {
 public:
-    Sine();
-    Sine(float freqOffset);
+    Sine(float sampleRate);
+    Sine(float freqOffset, float sampleRate);
     ~Sine();
 
 protected:

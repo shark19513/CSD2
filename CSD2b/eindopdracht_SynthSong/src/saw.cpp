@@ -1,10 +1,10 @@
 #include "saw.h"
 
-Saw::Saw() {
+Saw::Saw(float sampleRate) : Oscillator(sampleRate) {
     std::cout << "Saw - primary constructor\n";
 }
 
-Saw::Saw(float freqOffset) : Oscillator(freqOffset) {
+Saw::Saw(float freqOffset, float sampleRate) : Oscillator(freqOffset, sampleRate) {
     std::cout << "Saw - secondary constructor\n";
 }
 

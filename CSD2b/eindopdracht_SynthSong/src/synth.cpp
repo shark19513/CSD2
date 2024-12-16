@@ -1,6 +1,6 @@
 #include "synth.h"
 
-Synth::Synth() {
+Synth::Synth(float sampleRate) : _sampleRate(sampleRate) {
   std::cout << "Synth - Constructor\n";
 }
 
@@ -29,7 +29,7 @@ void Synth::updatePitch() {
 }
 
 void Synth::updateFrameIndex() {
-  if (_frameIndex >= _noteDelayFactor * SAMPLE_RATE) {
+  if (_frameIndex >= _noteDelayFactor * _sampleRate) {
     _frameIndex = 0;
     updatePitch();
   } else {

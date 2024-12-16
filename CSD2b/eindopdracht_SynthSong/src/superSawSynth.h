@@ -7,7 +7,7 @@
 
 class SuperSawSynth : public Synth {
   public:
-    SuperSawSynth();
+    SuperSawSynth(float sampleRate);
     ~SuperSawSynth();
 
     void setOscFreqs(float frequency) override;
@@ -15,13 +15,7 @@ class SuperSawSynth : public Synth {
     float getSamples() override;
 
   protected:
-    std::array<Saw, NUM_SAWS> saws{
-      Saw{-8},
-      Saw{-4},
-      Saw{},
-      Saw{4},
-      Saw{8}
-      };
+    std::vector<Saw> saws;
 };
 
 #endif

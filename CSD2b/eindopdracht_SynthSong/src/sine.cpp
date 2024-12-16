@@ -1,11 +1,11 @@
 #include "sine.h"
 #include "math.h"
 
-Sine::Sine() {
+Sine::Sine(float sampleRate) : Oscillator(sampleRate) {
     std::cout << "Sine - primary constructor\n";
 }
 
-Sine::Sine(float freqOffset) : Oscillator(freqOffset) {
+Sine::Sine(float freqOffset, float sampleRate) : Oscillator(freqOffset, sampleRate) {
     std::cout << "Sine - secondary constructor\n";
 }
 

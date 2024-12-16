@@ -6,34 +6,20 @@
 #ifndef CUSTOMCALLBACK_H
 #define CUSTOMCALLBACK_H
 
+#define SAMPLE_RATE 44100.0f
+
 struct CustomCallback : AudioCallback {
-    explicit CustomCallback (double Fs) : AudioCallback(Fs) {
+    explicit CustomCallback (double Fs);
 
-    }
+    ~CustomCallback() override;
 
-    ~CustomCallback() override {
+    void prepare (int sampleRate = SAMPLE_RATE) override;
 
-    }
-
-    void prepare (int sampleRate) override {
-
-    }
-
-    void process (AudioBuffer buffer) override {
-        auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
-
-        for (int sample = 0u; sample < numFrames; ++sample) {
-            bassSynth.tickAll();
-            superSawSynth.tickAll();
-            for (int channel = 0u; channel < numOutputChannels; ++channel) {
-                outputChannels[channel][sample] = (bassSynth.getSamples()+superSawSynth.getSamples())/2;
-            }
-        }
-    }
+    void process (AudioBuffer buffer) override;
 
 private:
-    SuperSawSynth superSawSynth; // make if statement: if 1 synth 1 if 2 synth 2
-    SquareBassSynth bassSynth;
+    SuperSawSynth synth{SAMPLE_RATE}; // make if statement: if 1 synth 1 if 2 synth 2
+    // SquareBassSynth synth{SAMPLE_RATE};
 };
 
 #endif

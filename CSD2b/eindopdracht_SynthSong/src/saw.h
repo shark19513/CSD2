@@ -7,8 +7,8 @@
 class Saw : public Oscillator
 {
 public:
-    Saw();
-    Saw(float freqOffset);
+    Saw(float sampleRate);
+    Saw(float freqOffset, float sampleRate);
     ~Saw();
 
 protected:

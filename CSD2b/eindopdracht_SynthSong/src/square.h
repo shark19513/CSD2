@@ -7,8 +7,8 @@
 class Square : public Oscillator
 {
 public:
-    Square();
-    Square(float freqOffset);
+    Square(float sampleRate);
+    Square(float freqOffset, float sampleRate);
     ~Square();
 
 protected:

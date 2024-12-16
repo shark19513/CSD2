@@ -5,7 +5,7 @@
 
 class SquareBassSynth : public Synth {
   public:
-    SquareBassSynth();
+    SquareBassSynth(float sampleRate);
     ~SquareBassSynth();
 
     void setOscFreqs(float frequency) override;
@@ -13,8 +13,8 @@ class SquareBassSynth : public Synth {
     float getSamples() override;
 
     protected:
-      Square squareOsc{};
-      Sine sineOsc{};
+      Square squareOsc;
+      Sine sineOsc;
 };
 
 #endif
