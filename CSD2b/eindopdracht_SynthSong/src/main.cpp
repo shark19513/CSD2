@@ -6,7 +6,7 @@
 
 int main () {
     std::cout << "Welcome to The Amazing Digital Synthesizer!!!!" << std::endl;
-    std::cout << "loading.." << std::endl;
+    std::cout << "loading..." << std::endl;
     ScopedMessageThreadEnabler scopedMessageThreadEnabler;
     CustomCallback audioSource (44100);
 

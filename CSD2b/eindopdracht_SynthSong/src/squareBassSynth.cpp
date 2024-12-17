@@ -24,7 +24,7 @@ void SquareBassSynth::tickAll() {
 float SquareBassSynth::getSamples() {
     _samples =(squareOsc.getSample()+sineOsc.getSample())/2;
 
-    if (_bypassBitCrusher == true) { //TODO: this could be more efficient
+    if (bitCrusher._bypassBitCrusher == true) { //TODO: this could be more efficient
         return _samples;
     } else {
         return bitCrusher.applyBitReduction(_samples);

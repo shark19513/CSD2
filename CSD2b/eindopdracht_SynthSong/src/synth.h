@@ -21,28 +21,24 @@ public:
     // get samples from all oscillators
     virtual float getSamples() = 0;
 
+    void setBypassBitCrusher(bool bypassBitCrusher);
+    void setBitDepth(int bitDepth);
+    void setTune(std::string tuneSelection);
+
 protected:
+    // tune playing methods
+    double mtof(float mPitch);
+    void updatePitch();
+    void updateFrameIndex();
 
     float _samples;
     float _sampleRate;
 
-    //bitcrusher
-    BitCrusher bitCrusher;
-    void setBypassBitCrusher(bool bypassBitCrusher);
-    bool _bypassBitCrusher = false;
-
-    // tune playing stuff
-    FairyTune fairyTune;
-    ArpeggioTune arpeggioTune;
-
-    double mtof(float mPitch);
-    void updatePitch();
-    void updateFrameIndex();
-    void setTuneselection(int tuneselection);
-
     int _frameIndex = 0;
     double _noteDelayFactor = 0.11;
-    int _tuneSelection = 1;
+
+    BitCrusher bitCrusher;
+    Tune* tune;
 };
 
 #endif

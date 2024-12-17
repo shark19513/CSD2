@@ -11,8 +11,8 @@ class BitCrusher {
     // bitreduction
     float applyBitReduction(float sample);
     void setBitDepth(int bitDepth);
-    void setBypassBitReduction(bool bypassBitReduction);
-    int _bitDepth = 4;
+    int _bitDepth = 2;
+    bool _bypassBitCrusher = false;
 };
 
 #endif
