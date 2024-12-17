@@ -5,9 +5,11 @@ SuperSawSynth::SuperSawSynth(float sampleRate)
 {
     std::cout << "SuperSawSynth - constructor\n";
 
-    std::array<float, NUM_SAWS> detuneValues = {-8.0f, -4.0f, 0.0f, 4.0f, 8.0f};
+    // initialize saws with hardcoded detune values
+    std::array<float, NUM_SAWS> detuneValues = {-8.0, -4.0, 0.0, 4.0, 8.0};
+    // prevent saws from being constructed twice by reserving space
+    saws.reserve(NUM_SAWS);
 
-    saws.reserve(NUM_SAWS); // prevent saws from being constructed twice by reserving space
     for (float detune : detuneValues) {
         saws.emplace_back(detune, sampleRate);
     }

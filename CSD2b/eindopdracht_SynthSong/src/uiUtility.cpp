@@ -9,7 +9,7 @@ std::string UIUtility::retrieveSelection(std::string selectionOptions[], int num
     noCorrectSelection = !validateSelection(userSelection, selectionOptions, numOptions);
 
     if (noCorrectSelection) {
-      std::cout << "Invalid input, please try again.";
+      std::cout << "Invalid input, please try again." << std::endl;
     }
   }
   return userSelection;

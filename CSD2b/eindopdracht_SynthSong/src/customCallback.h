@@ -1,5 +1,7 @@
+#include <iostream>
+
 #include "audiocomponent.h"
-//  Daan Schrier
+#include "uiUtility.h"
 #include "squareBassSynth.h"
 #include "superSawSynth.h"
 
@@ -18,8 +20,7 @@ struct CustomCallback : AudioCallback {
     void process (AudioBuffer buffer) override;
 
 private:
-    SuperSawSynth synth{SAMPLE_RATE}; // make if statement: if 1 synth 1 if 2 synth 2
-    // SquareBassSynth synth{SAMPLE_RATE};
+    Synth* synth;
 };
 
 #endif

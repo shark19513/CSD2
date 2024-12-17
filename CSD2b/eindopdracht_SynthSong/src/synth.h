@@ -12,7 +12,6 @@ public:
     Synth(float sampleRate);
     ~Synth();
 
-protected:
     // set frequency for all oscillators
     virtual void setOscFreqs(float frequency) = 0;
 
@@ -21,6 +20,9 @@ protected:
 
     // get samples from all oscillators
     virtual float getSamples() = 0;
+
+protected:
+
     float _samples;
     float _sampleRate;
 
