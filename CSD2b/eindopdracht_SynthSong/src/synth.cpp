@@ -6,8 +6,6 @@ Synth::Synth(float sampleRate) : _sampleRate(sampleRate) {
 
 Synth::~Synth() {
   std::cout << "Synth - Destructor\n";
-  delete tune;
-  tune = nullptr;
 }
 
 
@@ -40,13 +38,17 @@ void Synth::setTune(std::string tuneSelection) {
   }
 }
 
-void Synth::setBypassBitCrusher(bool bypassBitReduction) {
-  bitCrusher._bypassBitCrusher = bypassBitReduction;
+
+// bitcrusher
+void Synth::setBitCrusherBypass(bool bypass) {
+  bitCrusher.setBypassState(bypass);
 }
 
-void Synth::setBitDepth(int bitDepth) {
-  bitCrusher._bitDepth = bitDepth;
-  // TODO: type is now automatically converted to int but idk if that is ideal
+void Synth::setBitDepth(float bitDepth) {
+  // input is converted to float without user knowing hehe
+  bitCrusher.setBitDepth(bitDepth);
+  // type is now automatically converted to int but idk if that is ideal
+
   // if (bitDepth > 0 && bitDepth <= 32 && std::floor(bitDepth) == bitDepth) {
   //   bitCrusher._bitDepth = bitDepth;
   //   std::cout << "Bit-Depth: " << bitCrusher._bitDepth << "\n";
@@ -54,4 +56,13 @@ void Synth::setBitDepth(int bitDepth) {
   //   std::cout << "Invalid input"
   //   << " please enter an integer between 0 and 32";
   // }
+}
+
+float Synth::bitCrushIfnBypassed(float samples) {
+  // TODO: this could be more efficient but low priority
+  if (bitCrusher.getBypassState() == true) {
+    return samples;
+  } else {
+    return bitCrusher.applyBitReduction(samples);
+  }
 }

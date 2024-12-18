@@ -21,12 +21,14 @@ public:
     // get samples from all oscillators
     virtual float getSamples() = 0;
 
-    void setBypassBitCrusher(bool bypassBitCrusher);
-    void setBitDepth(int bitDepth);
+    void setBitCrusherBypass(bool bypass);
+    void setBitDepth(float bitDepth);
     void setTune(std::string tuneSelection);
 
 protected:
-    // tune playing methods
+    // method applies bitcrusher if not bypassed
+    float bitCrushIfnBypassed(float samples);
+
     double mtof(float mPitch);
     void updatePitch();
     void updateFrameIndex();
@@ -38,7 +40,7 @@ protected:
     double _noteDelayFactor = 0.11;
 
     BitCrusher bitCrusher;
-    Tune* tune;
+    Tune* tune; // songs
 };
 
 #endif
