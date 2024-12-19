@@ -8,7 +8,7 @@
 class SuperSawSynth : public Synth {
   public:
     SuperSawSynth(float sampleRate);
-    ~SuperSawSynth();
+    ~SuperSawSynth() override;
 
     void setOscFreqs(float frequency) override;
     void tickAll() override;

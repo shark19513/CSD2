@@ -7,7 +7,7 @@ class Oscillator
 public:
     Oscillator(float sampleRate);
     Oscillator(float freqOffset, float sampleRate);
-    ~Oscillator();
+    virtual ~Oscillator();
 
     void setSamplerate(float samplerate);
 

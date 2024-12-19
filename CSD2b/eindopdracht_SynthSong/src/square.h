@@ -9,7 +9,7 @@ class Square : public Oscillator
 public:
     Square(float sampleRate);
     Square(float freqOffset, float sampleRate);
-    ~Square();
+    ~Square() override;
 
 protected:
     void calculate() override;

@@ -9,7 +9,7 @@ class Saw : public Oscillator
 public:
     Saw(float sampleRate);
     Saw(float freqOffset, float sampleRate);
-    ~Saw();
+    ~Saw() override;
 
 protected:
     void calculate() override;
