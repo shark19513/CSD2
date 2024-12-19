@@ -26,6 +26,8 @@ private:
     std::vector<std::string> _options;
     int _numOptions;
     std::string _selection;
+    float _minSetting;
+    float _maxSetting;
 
     Synth* synth;
 };

@@ -24,20 +24,21 @@ public:
     void setBitCrusherBypass(bool bypass);
     void setBitDepth(float bitDepth);
     void setTune(std::string tuneSelection);
+    float getTuneNote();
+    void updateFrameIndex();
+    double mtof(float mPitch);
 
 protected:
     // method applies bitcrusher if not bypassed
     float bitCrushIfnBypassed(float samples);
 
-    double mtof(float mPitch);
     void updatePitch();
-    void updateFrameIndex();
 
     float _samples;
     float _sampleRate;
 
-    int _frameIndex = 0;
-    double _noteDelayFactor = 0.11;
+    int _frameIndex;
+    double _noteDelayFactor;
 
     BitCrusher bitCrusher;
     Tune* tune; // songs

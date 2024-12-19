@@ -1,7 +1,7 @@
 #include "oscillator.h"
-//TODO: first note is now always 220 Hz, find a way to fix
+
 Oscillator::Oscillator(float sampleRate) : _frequency(220), _freqOffset(0), _amplitude(1), _phase(0),
-  _sample(0), _samplerate(sampleRate) {
+  _sample(0), _samplerate(sampleRate), _phaseIncrement(0.0f), _previousFrequency(-1.0f) {
     std::cout << "Oscillator - primary constructor\n";
     updatePhaseIncrement(); // initialize _phaseIncrement when Oscillator first constructed
 }

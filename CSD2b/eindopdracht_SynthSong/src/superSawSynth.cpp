@@ -30,7 +30,6 @@ void SuperSawSynth::tickAll() {
     for (int i = 0; i < NUM_SAWS; i++) {
         saws[i].tick();
     }
-    updateFrameIndex();
 }
 
 float SuperSawSynth::getSamples() {

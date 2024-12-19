@@ -1,6 +1,7 @@
 #include "synth.h"
 
-Synth::Synth(float sampleRate) : _sampleRate(sampleRate) {
+Synth::Synth(float sampleRate) : _sampleRate(sampleRate),
+      _frameIndex(0), _noteDelayFactor(0.12) {
   std::cout << "Synth - Constructor\n";
 }
 
@@ -15,11 +16,16 @@ double Synth::mtof(float mPitch){
 }
 
 void Synth::updatePitch() {
-  float note = tune->getNote();
+  float note = getTuneNote();
   double freq = mtof(note);
   std:: cout << "next note: " << note << ", has frequency " << freq << "\n";
   setOscFreqs(freq);
 }
+
+float Synth::getTuneNote() {
+  return tune->getNote();
+}
+
 
 void Synth::updateFrameIndex() {
   if (_frameIndex >= _noteDelayFactor * _sampleRate) {
@@ -59,7 +65,7 @@ void Synth::setBitDepth(float bitDepth) {
 }
 
 float Synth::bitCrushIfnBypassed(float samples) {
-  // TODO: this could be more efficient but low priority
+  // Daan had a good laugh about this
   if (bitCrusher.getBypassState() == true) {
     return samples;
   } else {

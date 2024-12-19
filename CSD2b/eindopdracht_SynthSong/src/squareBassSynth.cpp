@@ -18,7 +18,6 @@ void SquareBassSynth::setOscFreqs(float frequency) {
 void SquareBassSynth::tickAll() {
     squareOsc.tick();
     sineOsc.tick();
-    updateFrameIndex();
 }
 
 float SquareBassSynth::getSamples() {

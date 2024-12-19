@@ -33,8 +33,8 @@ protected:
     float _freqOffset;
     float _amplitude;
     float _phase;
-    float _phaseIncrement = 0.0f;
-    float _previousFrequency = -1.0f;
+    float _phaseIncrement;
+    float _previousFrequency;
     // _sample contains the current sample
     float _sample;
     float _samplerate;
