@@ -22,7 +22,7 @@ public:
     virtual float getSamples() = 0;
 
     void setBitCrusherBypass(bool bypass);
-    void setBitDepth(float bitDepth);
+    void setBitCrusherBitDepth(float bitDepth);
     void setTune(std::string tuneSelection);
     float getTuneNote();
     void updateFrameIndex();

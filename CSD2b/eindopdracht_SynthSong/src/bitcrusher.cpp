@@ -7,14 +7,13 @@ BitCrusher::~BitCrusher() {
 }
 
 
-//bitreduction
 float BitCrusher::applyBitReduction(float sample) {
   float stepSize = 1.0f / (1 << _bitDepth);
   return std::round(sample / stepSize) * stepSize;
 }
 
 void BitCrusher::setBitDepth(float bitDepth) {
-  // convert to int in case user inputs a float
+  // cast to int in case user inputs a float
   this->_bitDepth = (int)bitDepth;
   std::cout << "- Bit depth set to " << _bitDepth << " -" << std::endl;
 }

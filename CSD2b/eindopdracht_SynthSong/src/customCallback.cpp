@@ -34,24 +34,33 @@ void CustomCallback::initSynthType(float sampleRate) {
     _selection = UIUtility::retrieveSelection(_options.data(), _numOptions);
 
     if (_selection == "SuperSawSynth") {
-        synth = new SuperSawSynth(sampleRate);
+        std::cout << "- " << _selection << " selected -" << std::endl;
+
+        std::cout << "Choose the level of detuneness." << std::endl;
+        _minSetting = 1.0f;
+        _maxSetting = 5.0f;
+
+        float detune = UIUtility::retrieveValueInRange(_minSetting, _maxSetting);
+        std::cout << "- Detuneness set to level " << detune << " -" << std::endl;
+        synth = new SuperSawSynth(sampleRate, detune);
     } else {
+        std::cout << "- " << _selection << " selected -" << std::endl;
         synth = new SquareBassSynth(sampleRate);
     }
-    std::cout << "- " << _selection << " selected -" << std::endl;
 }
 
 void CustomCallback::initBitCrusher() {
     std::cout << "Apply bitcrusher?" << std::endl;
     _options = {"yes", "no"};
     _selection = UIUtility::retrieveSelection(_options.data(), _numOptions);
-    _minSetting = 1;
-    _maxSetting = 16;
+    _minSetting = 1.0f;
+    _maxSetting = 16.0f;
 
     if (_selection == "yes") {
         synth->setBitCrusherBypass(false);
         std::cout << "Choose the bit depth." << std::endl;
-        synth->setBitDepth(UIUtility::retrieveValueInRange(_minSetting, _maxSetting)); // is this weird?
+        synth->setBitCrusherBitDepth(UIUtility::retrieveValueInRange(_minSetting, _maxSetting));
+        // bit depth is casted to int in setBitDepth() inside BitCrusher
     } else {
         synth->setBitCrusherBypass(true);
     }

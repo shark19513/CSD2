@@ -1,7 +1,7 @@
 #include "synth.h"
 
 Synth::Synth(float sampleRate) : _sampleRate(sampleRate),
-      _frameIndex(0), _noteDelayFactor(0.12) {
+      _frameIndex(0), _noteDelayFactor(0.12f) {
 }
 
 Synth::~Synth() {
@@ -10,12 +10,12 @@ Synth::~Synth() {
 
 //tune playing
 float Synth::mtof(float mPitch){
-  return 440.0 * pow (2.0, (mPitch - 69.0f) / 12.0f);
+  return 440.0f * pow (2.0f, (mPitch - 69.0f) / 12.0f);
 }
 
 void Synth::updatePitch() {
   float note = getTuneNote();
-  double freq = mtof(note);
+  float freq = mtof(note);
   setOscFreqs(freq);
 }
 
@@ -48,7 +48,7 @@ void Synth::setBitCrusherBypass(bool bypass) {
   bitCrusher.setBypassState(bypass);
 }
 
-void Synth::setBitDepth(float bitDepth) {
+void Synth::setBitCrusherBitDepth(float bitDepth) {
   bitCrusher.setBitDepth(bitDepth);
 }
 
