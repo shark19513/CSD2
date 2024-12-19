@@ -1,10 +1,7 @@
 #include "superSawSynth.h"
 
 SuperSawSynth::SuperSawSynth(float sampleRate)
-    : Synth(sampleRate)
-{
-    std::cout << "SuperSawSynth - constructor\n";
-
+    : Synth(sampleRate) {
     // initialize saws with hardcoded detune values
     std::array<float, NUM_SAWS> detuneValues = {-8.0, -4.0, 0.0, 4.0, 8.0};
     // prevent saws from being constructed twice by reserving space
@@ -16,7 +13,6 @@ SuperSawSynth::SuperSawSynth(float sampleRate)
 }
 
 SuperSawSynth::~SuperSawSynth() {
-    std::cout << "SuperSawSynth - destructor\n";
 }
 
 

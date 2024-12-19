@@ -10,7 +10,7 @@
 class Synth {
 public:
     Synth(float sampleRate);
-    ~Synth();
+    virtual ~Synth();
 
     // set frequency for all oscillators
     virtual void setOscFreqs(float frequency) = 0;
@@ -26,7 +26,7 @@ public:
     void setTune(std::string tuneSelection);
     float getTuneNote();
     void updateFrameIndex();
-    double mtof(float mPitch);
+    float mtof(float mPitch);
 
 protected:
     // method applies bitcrusher if not bypassed
@@ -38,7 +38,7 @@ protected:
     float _sampleRate;
 
     int _frameIndex;
-    double _noteDelayFactor;
+    float _noteDelayFactor;
 
     BitCrusher bitCrusher;
     Tune* tune; // songs

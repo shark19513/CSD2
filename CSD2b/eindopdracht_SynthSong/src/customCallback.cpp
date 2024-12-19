@@ -30,7 +30,7 @@ void CustomCallback::process (AudioBuffer buffer) {
 void CustomCallback::initSynthType(float sampleRate) {
     std::cout << "You may now choose a synthesizer" << std::endl;
     _options = {"SuperSawSynth", "SquareBassSynth"};
-    _numOptions = _options.size();
+    _numOptions = (int)_options.size();
     _selection = UIUtility::retrieveSelection(_options.data(), _numOptions);
 
     if (_selection == "SuperSawSynth") {
@@ -38,6 +38,7 @@ void CustomCallback::initSynthType(float sampleRate) {
     } else {
         synth = new SquareBassSynth(sampleRate);
     }
+    std::cout << "- " << _selection << " selected -" << std::endl;
 }
 
 void CustomCallback::initBitCrusher() {
@@ -49,7 +50,7 @@ void CustomCallback::initBitCrusher() {
 
     if (_selection == "yes") {
         synth->setBitCrusherBypass(false);
-        std::cout << "Choose the bit depth" << std::endl;
+        std::cout << "Choose the bit depth." << std::endl;
         synth->setBitDepth(UIUtility::retrieveValueInRange(_minSetting, _maxSetting)); // is this weird?
     } else {
         synth->setBitCrusherBypass(true);
@@ -57,9 +58,9 @@ void CustomCallback::initBitCrusher() {
 }
 
 void CustomCallback::initTune() {
-    std::cout << "Select a tune to play" << std::endl;
+    std::cout << "Select a tune to play." << std::endl;
     _options = {"ArpeggioTune", "FairyTune"};
-    _numOptions = _options.size();
+    _numOptions = (int)_options.size();
 
     _selection = UIUtility::retrieveSelection(_options.data(), _numOptions);
     synth->setTune(_selection);

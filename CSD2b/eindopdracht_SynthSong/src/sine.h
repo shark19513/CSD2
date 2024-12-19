@@ -9,7 +9,7 @@ class Sine : public Oscillator
 public:
     Sine(float sampleRate);
     Sine(float freqOffset, float sampleRate);
-    ~Sine();
+    ~Sine() override;
 
 protected:
     void calculate() override;

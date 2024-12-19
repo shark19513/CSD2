@@ -2,11 +2,9 @@
 
 SquareBassSynth::SquareBassSynth(float sampleRate) : Synth(sampleRate),
                     squareOsc(sampleRate), sineOsc(sampleRate) {
-    std::cout << "SquareBassSynth - constructor\n";
 }
 
 SquareBassSynth::~SquareBassSynth() {
-  std::cout<<"SquareBassSynth - destructor\n";
 }
 
 
