@@ -2,7 +2,8 @@
 
 Oscillator::Oscillator(float sampleRate) : _frequency(220), _freqOffset(0), _amplitude(1), _phase(0),
   _sample(0), _samplerate(sampleRate), _phaseIncrement(0.0f), _previousFrequency(-1.0f) {
-    updatePhaseIncrement(); // initialize _phaseIncrement when Oscillator first constructed
+    // initialize _phaseIncrement when Oscillator first constructed
+    updatePhaseIncrement();
 }
 
 Oscillator::Oscillator(float freqOffset, float sampleRate) : Oscillator(sampleRate) {
@@ -26,7 +27,6 @@ void Oscillator::updatePhaseIncrement() {
 }
 
 void Oscillator::tick() {
-    // calculate _frequency/_samplerate only when the frequency changes
     if (_frequency != _previousFrequency) {
         updatePhaseIncrement();
         _previousFrequency = _frequency;
@@ -39,7 +39,7 @@ void Oscillator::tick() {
     calculate();
 }
 
-// setters/getters
+
 void Oscillator::setFrequency(float frequency) {
     if (frequency > 0 && frequency < 22050) {
         this->_frequency = frequency+_freqOffset;

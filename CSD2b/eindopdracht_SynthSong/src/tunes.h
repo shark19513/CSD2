@@ -8,16 +8,15 @@ public:
 	Tune();
     ~Tune();
 
-	float getNote();
+	int getNote();
 
 protected:
     int _numNotes;
-    // the index of the current note - readIndex
-    int _index;
-    std::vector<float> _melody;
+    uint8_t _index;
+    std::vector<int> _melody;
 };
 
-struct ArpeggioTune : Tune {    //cmaj7 - arpeggio
+struct ArpeggioTune : Tune {
     ArpeggioTune();
     ~ArpeggioTune();
 };

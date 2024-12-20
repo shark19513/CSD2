@@ -13,12 +13,12 @@ float Synth::mtof(float mPitch){
 }
 
 void Synth::updatePitch() {
-  float note = getTuneNote();
+  float note = (float)getTuneNote();
   float freq = mtof(note);
   setOscFreqs(freq);
 }
 
-float Synth::getTuneNote() {
+int Synth::getTuneNote() {
   return tune->getNote();
 }
 

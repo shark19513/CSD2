@@ -24,7 +24,7 @@ public:
     void setBitCrusherBypass(bool bypass);
     void setBitCrusherBitDepth(float bitDepth);
     void setTune(std::string tuneSelection);
-    float getTuneNote();
+    int getTuneNote();
     void updateFrameIndex();
     float mtof(float mPitch);
 

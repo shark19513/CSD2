@@ -11,10 +11,8 @@ public:
 
     void setSamplerate(float samplerate);
 
-    // return current sample
     float getSample();
 
-    // getters/setters
     void setFrequency(float frequency);
     float getFrequency();
 
@@ -35,7 +33,6 @@ protected:
     float _phase;
     float _phaseIncrement;
     float _previousFrequency;
-    // _sample contains the current sample
     float _sample;
     float _samplerate;
 };

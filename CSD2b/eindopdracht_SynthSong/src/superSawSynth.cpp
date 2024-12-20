@@ -4,8 +4,8 @@ SuperSawSynth::SuperSawSynth(float sampleRate, float detune)
     : Synth(sampleRate) {
     float detuneMultiplier = detune;
     // initialize super saw with detuneness
-    std::array<float, NUM_SAWS> detuneValues = {-2 * detuneMultiplier, -1 * detuneMultiplier, 0.0,
-                                                    1 * detuneMultiplier, 2 * detuneMultiplier};
+    std::array<float, NUM_SAWS> detuneValues = {-2 * detuneMultiplier, -1 * detuneMultiplier,
+                                        0.0, 1 * detuneMultiplier, 2 * detuneMultiplier};
     // prevent saws from being constructed twice by reserving space
     saws.reserve(NUM_SAWS);
     for (float detuneValue : detuneValues) {
