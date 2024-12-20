@@ -18,7 +18,7 @@ SuperSawSynth::~SuperSawSynth() {
 
 
 void SuperSawSynth::setOscFreqs(float frequency) {
-    // got uint16_t from Daan
+    // got uint8_t from Daan (it gives warnings otherwise)
     for (uint8_t i = 0; i < NUM_SAWS; i++) {
         saws[i].setFrequency(frequency);
     }

@@ -14,16 +14,27 @@ int main () {
     AudioToFile audioToFile;
     audioToFile.write (audioSource);
 #else
-    JUCEModule juceModule (audioSource);
-    juceModule.init (2, 2);
-
-    std::cout << "Press q + Enter to quit..." << std::endl;
     bool running = true;
     while (running) {
-        switch (std::cin.get()) {
-            case 'q':
-                std::cout << "Goodbye!!! :)" << std::endl;
-                running = false;
+        std::unique_ptr<JUCEModule> juceModule = std::make_unique<JUCEModule>(audioSource);
+        juceModule->init (2, 2);
+
+        std::cout << "Press q + Enter to quit..." << std::endl;
+        std::cout << "Press r + Enter to restart..." << std::endl;
+
+        bool moduleRunning = true;
+        while (moduleRunning) {
+            switch (std::cin.get()) {
+                case 'r':
+                    std::cout << "Restarting..." << std::endl;
+                    moduleRunning = false;
+                    break;
+                case 'q':
+                    std::cout << "Goodbye!!! :)" << std::endl;
+                    moduleRunning = false;
+                    running = false;
+                    break;
+            }
         }
     }
 #endif
