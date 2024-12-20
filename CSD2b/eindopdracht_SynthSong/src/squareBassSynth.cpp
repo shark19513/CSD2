@@ -9,8 +9,10 @@ SquareBassSynth::~SquareBassSynth() {
 
 
 void SquareBassSynth::setOscFreqs(float frequency) {
-    squareOsc.setFrequency(frequency/4); // 2 octave lower
-    sineOsc.setFrequency(frequency/8); // 3 octaves lower
+    // square is 2 octave lower
+    squareOsc.setFrequency(frequency/4);
+    // sine is 3 octaves lower
+    sineOsc.setFrequency(frequency/8);
 }
 
 void SquareBassSynth::tickAll() {
@@ -19,6 +21,6 @@ void SquareBassSynth::tickAll() {
 }
 
 float SquareBassSynth::getSamples() {
-    _samples =(squareOsc.getSample()+sineOsc.getSample())/2;
-    return bitCrushIfnBypassed(_samples);
+    _samples =(squareOsc.getSample()+sineOsc.getSample())/NUM_OSC;
+    return bitCrushIfNotBypassed(_samples);
 }

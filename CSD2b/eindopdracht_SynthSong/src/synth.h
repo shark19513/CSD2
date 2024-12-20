@@ -30,7 +30,7 @@ public:
 
 protected:
     // method applies bitcrusher if not bypassed
-    float bitCrushIfnBypassed(float samples);
+    float bitCrushIfNotBypassed(float samples);
 
     void updatePitch();
 

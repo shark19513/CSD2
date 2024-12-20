@@ -36,5 +36,5 @@ float SuperSawSynth::getSamples() {
         samples += saws[i].getSample();
     }
     _samples = samples/NUM_SAWS;
-return bitCrushIfnBypassed(_samples);
+return bitCrushIfNotBypassed(_samples);
 }

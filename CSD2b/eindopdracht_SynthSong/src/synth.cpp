@@ -8,7 +8,6 @@ Synth::~Synth() {
 }
 
 
-//tune playing
 float Synth::mtof(float mPitch){
   return 440.0f * pow (2.0f, (mPitch - 69.0f) / 12.0f);
 }
@@ -52,7 +51,7 @@ void Synth::setBitCrusherBitDepth(float bitDepth) {
   bitCrusher.setBitDepth(bitDepth);
 }
 
-float Synth::bitCrushIfnBypassed(float samples) {
+float Synth::bitCrushIfNotBypassed(float samples) {
   // Daan had a good laugh about this
   if (bitCrusher.getBypassState() == true) {
     return samples;

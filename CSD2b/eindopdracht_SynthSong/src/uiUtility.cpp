@@ -44,8 +44,7 @@ float UIUtility::retrieveValueInRange(float min, float max) {
       } else {
         std::cout << "Invalid input, please try again" << std::endl;
       }
-    } catch (const std::exception& e) {
-      // no float as input?
+    } catch (const std::exception&) {
       std::cout << "Invalid input, please enter a number" << std::endl;
     }
   }

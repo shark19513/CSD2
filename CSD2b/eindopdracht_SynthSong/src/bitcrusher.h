@@ -8,7 +8,6 @@ class BitCrusher {
     BitCrusher();
     ~BitCrusher();
 
-    // bitreduction
     float applyBitReduction(float sample);
     void setBitDepth(float bitDepth);
     void setBypassState(bool bypass);

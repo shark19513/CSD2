@@ -3,6 +3,8 @@
 
 #include "synth.h"
 
+#define NUM_OSC 2
+
 class SquareBassSynth : public Synth {
   public:
     SquareBassSynth(float sampleRate);
