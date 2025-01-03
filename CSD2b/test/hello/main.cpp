@@ -1,12 +1,18 @@
 #include <iostream>
-#include <string>
 
-using namespace std;
+void print(auto text) {
+    if (typeid(text) == typeid(int) ||
+        typeid(text) == typeid(float) ||
+        typeid(text) == typeid(double)) {
+            std::cout << std::to_string(text) << std::endl;
+    } else {
+        std::cout << text << std::endl;
+    }
+}
 
 int main() {
-    cout << "Hello, what is your name?" << endl;
+    int twentySeven = 27;
+    print("Hello World!");
 
-    string yourName;
-    cin >> yourName;
-    cout << "Hi " << yourName << "!" << endl;
+    return 0;
 }

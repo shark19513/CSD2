@@ -11,6 +11,7 @@ int main () {
     CustomCallback audioSource (44100);
 
 #if WRITE_TO_FILE
+
     AudioToFile audioToFile;
     audioToFile.write (audioSource);
 #else

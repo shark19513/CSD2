@@ -13,7 +13,6 @@ void CustomCallback::prepare(int sampleRate) {
     initBitCrusher();
     initTune();
 }
-
 void CustomCallback::process (AudioBuffer buffer) {
     auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
 
