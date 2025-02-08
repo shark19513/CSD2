@@ -34,6 +34,19 @@ int main() {
         circBuffer.tick();
     }
 
+    bufferSize = 400;
+    circBuffer.resetSize(bufferSize);
+    squareSample = 0;
+    for (unsigned int i = 0; i < 400; i++) {
+        squareSample = square.genNextSample();
+        circBuffer.write(squareSample);
+        float outputSample = (squareSample + circBuffer.read()) * 0.5f;
+        fileWriter.write(std::to_string(outputSample) + "\n");
+
+        circBuffer.tick();
+    }
+
+
     std::cout << "\n***** DONE ***** "
         << "\nWrote the sum of the a sine oscillator and a "
         << "delayed value to output.csv." << std::endl;

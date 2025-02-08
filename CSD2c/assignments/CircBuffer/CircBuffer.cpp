@@ -15,6 +15,12 @@ CircBuffer::~CircBuffer() {
     delete[] m_buffer;
 }
 
+void CircBuffer::resetSize(unsigned int size) {
+    delete[] m_buffer;
+    m_buffer = new float[size];
+}
+
+
 float CircBuffer::read() {
     return m_buffer[m_readHead];
 }

@@ -11,6 +11,7 @@ public:
     CircBuffer(unsigned int size, unsigned int numSamplesDelay);
     ~CircBuffer();
 
+    void resetSize(unsigned int size);
     float read();
     void write(float input);
     // go to next read/write position
