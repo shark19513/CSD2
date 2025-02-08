@@ -11,7 +11,7 @@ public:
     ~Sine() override;
 
 protected:
-    void calculate() override;
+    void calculateNextSample() override;
 };
 
 #endif

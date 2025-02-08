@@ -1,7 +1,7 @@
 #include "oscillator.h"
 
-Oscillator::Oscillator(float sampleRate, float frequency) : _frequency(frequency), _amplitude(1), _phase(0),
-  _sample(0), _samplerate(sampleRate), _phaseIncrement(0.0f), _previousFrequency(-1.0f) {
+Oscillator::Oscillator(float sampleRate, float frequency) : m_frequency(frequency), m_amplitude(1),m_phase(0),
+  m_sample(0), m_samplerate(sampleRate), m_phaseIncrement(0.0f), m_previousFrequency(-1.0f) {
     // initialize _phaseIncrement when Oscillator first constructed
     updatePhaseIncrement();
 }
@@ -10,34 +10,32 @@ Oscillator::~Oscillator(){
 }
 
 void Oscillator::setSamplerate(float samplerate) {
-    this->_samplerate = samplerate;
-}
-
-float Oscillator::getSample() {
-    return _sample;
+    this->m_samplerate = samplerate;
 }
 
 void Oscillator::updatePhaseIncrement() {
-    _phaseIncrement = _frequency / _samplerate;
+    m_phaseIncrement = m_frequency / m_samplerate;
 }
 
-void Oscillator::tick() {
-    if (_frequency != _previousFrequency) {
+float Oscillator::genNextSample() {
+    if (m_frequency != m_previousFrequency) {
         updatePhaseIncrement();
-        _previousFrequency = _frequency;
+       m_previousFrequency = m_frequency;
     }
 
-    _phase += _phaseIncrement;
-    if (_phase > 1.0f) {
-        _phase -= 1.0f;
+    m_phase += m_phaseIncrement;
+    if (m_phase > 1.0f) {
+        m_phase -= 1.0f;
     }
-    calculate();
+    calculateNextSample();
+
+    return m_sample *= m_amplitude;
 }
 
 
 void Oscillator::setFrequency(float frequency) {
     if (frequency > 0 && frequency < 22050) {
-        this->_frequency = frequency;
+        this->m_frequency = frequency;
     } else {
         std::cout << "Invalid input"
         << " please enter a value between 0 and 22049";
@@ -45,13 +43,13 @@ void Oscillator::setFrequency(float frequency) {
 }
 
 float Oscillator::getFrequency() {
-    return this->_frequency;
+    return this->m_frequency;
 }
 
 void Oscillator::setAmplitude(float amplitude) {
     if (amplitude >= 0.0f && amplitude <= 1.0f) {
-        this->_amplitude = amplitude;
-        std::cout << "Amplitude: " << this->_amplitude << "\n";
+        this->m_amplitude = amplitude;
+        std::cout << "Amplitude: " << this->m_amplitude << "\n";
     } else {
         std::cout << "Invalid input"
         << " please enter a value between 0 and 1.0";
@@ -59,5 +57,5 @@ void Oscillator::setAmplitude(float amplitude) {
 }
 
 float Oscillator::getAmplitude() {
-    return this->_amplitude;
+    return this->m_amplitude;
 }

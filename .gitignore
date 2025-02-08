@@ -13,6 +13,7 @@
 # Add other common build files/folders to ignore
 **/build/
 **/out/
+**/output.csv
 
 # ignore folder with examples from class
 **/Voorbeeldcode/

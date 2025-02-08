@@ -10,29 +10,27 @@ public:
 
     void setSamplerate(float samplerate);
 
-    float getSample();
-
     void setFrequency(float frequency);
     float getFrequency();
 
     void setAmplitude(float amplitude);
     float getAmplitude();
 
-    // go to next sample
-    void tick();
+    // generate and return next sample
+    float genNextSample();
 
 protected:
-    virtual void calculate() = 0;
+    virtual void calculateNextSample() = 0;
     // calculate _frequency/_samplerate
     void updatePhaseIncrement();
 
-    float _frequency;
-    float _amplitude;
-    float _phase;
-    float _phaseIncrement;
-    float _previousFrequency;
-    float _sample;
-    float _samplerate;
+    float m_frequency;
+    float m_amplitude;
+    float m_phase;
+    float m_phaseIncrement;
+    float m_previousFrequency;
+    float m_sample;
+    float m_samplerate;
 };
 
 #endif

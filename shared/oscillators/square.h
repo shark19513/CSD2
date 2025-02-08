@@ -11,7 +11,7 @@ public:
     ~Square() override;
 
 protected:
-    void calculate() override;
+    void calculateNextSample() override;
 };
 
 #endif

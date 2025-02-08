@@ -6,11 +6,11 @@ Square::Square(float sampleRate, float frequency) : Oscillator(sampleRate, frequ
 Square::~Square() {
 }
 
-void Square::calculate()
+void Square::calculateNextSample()
 {
-    if (_phase < 0.5f) {
-        _sample = _amplitude;
+    if (m_phase < 0.5f) {
+        m_sample = m_amplitude;
     } else {
-        _sample = -_amplitude;
+        m_sample = -m_amplitude;
     }
 }

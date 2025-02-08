@@ -7,7 +7,7 @@ Sine::Sine(float sampleRate, float frequency) : Oscillator(sampleRate, frequency
 Sine::~Sine() {
 }
 
-void Sine::calculate()
+void Sine::calculateNextSample()
 {
-    _sample = sin(M_PI * 2* _phase * _amplitude);
+    m_sample = sin(M_PI * 2* m_phase * m_amplitude);
 }
