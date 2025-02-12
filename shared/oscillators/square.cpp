@@ -1,10 +1,14 @@
 #include "square.h"
 
-Square::Square(float sampleRate, float frequency) : Oscillator(sampleRate, frequency) {
+Square::Square(float frequency)
+    : Oscillator(frequency) {
 }
 
-Square::~Square() {
+Square::Square(float sampleRate, float frequency)
+    : Oscillator(sampleRate, frequency) {
 }
+
+Square::~Square() {}
 
 void Square::calculateNextSample()
 {

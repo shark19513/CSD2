@@ -7,6 +7,7 @@
 class Sine : public Oscillator
 {
 public:
+    Sine(float frequency);
     Sine(float sampleRate, float frequency);
     ~Sine() override;
 

@@ -1,11 +1,15 @@
 #include "sine.h"
 #include "math.h"
 
-Sine::Sine(float sampleRate, float frequency) : Oscillator(sampleRate, frequency) {
+Sine::Sine(float frequency)
+    : Oscillator(frequency) {
 }
 
-Sine::~Sine() {
+Sine::Sine(float sampleRate, float frequency)
+    : Oscillator(sampleRate, frequency) {
 }
+
+Sine::~Sine() {}
 
 void Sine::calculateNextSample()
 {

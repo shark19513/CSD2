@@ -7,6 +7,7 @@
 class Square : public Oscillator
 {
 public:
+    Square(float frequency);
     Square(float sampleRate, float frequency);
     ~Square() override;
 

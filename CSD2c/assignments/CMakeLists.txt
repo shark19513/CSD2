@@ -1,2 +1,3 @@
 add_subdirectory(circBuffer)
-add_subdirectory(tremolo)
+add_subdirectory(effects)
+add_subdirectory(interpolation)
