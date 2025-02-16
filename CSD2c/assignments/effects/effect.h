@@ -15,9 +15,13 @@ public:
     virtual void prepare(float sampleRate) = 0;
     void processFrame(const float &input, float &output);
 
+    void setWetLevel(float wetLevel);
 
 protected:
     virtual void applyEffect(const float& input, float& output) = 0;
+
+    bool bypassed;
+    float m_wetLevel;
 };
 
 

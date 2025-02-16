@@ -16,7 +16,7 @@ public:
 
     void prepare(float sampleRate) override;
 
-    void applyEffect(const float &input, float &output) override;
+    void applyEffect(const float& input, float& output) override;
 
     void setFeedback(float feedback);
 

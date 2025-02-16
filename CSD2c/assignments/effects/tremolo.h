@@ -20,8 +20,9 @@ private:
     float m_modDepth;
     Sine m_sine;
 
-    // TODO: sine and mod depth aren't init this way?
-    // Tremolo(){}
+    //NOTE: why does this need to be here?
+    Tremolo(): m_sine(0) {
+    }
 };
 
 #endif
