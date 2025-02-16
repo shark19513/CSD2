@@ -4,10 +4,10 @@
 
 #include "delay.h"
 
-Delay::Delay(unsigned int numDelaySamples, unsigned int maxDelaySamples)
-    : m_bufferSize(maxDelaySamples), m_readH(0), m_writeH(0) {
+Delay::Delay(float delayTimeMillis, unsigned int maxDelaySamples)
+    : m_bufferSize(maxDelaySamples), m_readH(0), m_writeH(0), m_feedback(0.25) {
     allocateBuffer();
-    setDistanceRW(numDelaySamples);
+    setDelayTime(delayTimeMillis);
 }
 
 Delay::~Delay() {
@@ -15,14 +15,31 @@ Delay::~Delay() {
 }
 
 void Delay::prepare(float sampleRate) {
+    this->m_sampleRate = sampleRate;
 }
 
 void Delay::applyEffect(const float& input, float& output) {
     output = m_buffer[m_readH];
     incrReadH();
-    //TODO: make feedback var instead of 0.25
-    m_buffer[m_writeH] = input + output * 0.25;
+    m_buffer[m_writeH] = input + output * m_feedback;
     incrWriteH();
+}
+
+void Delay::setFeedback(float feedback) {
+    //TODO: add validation
+    this->m_feedback = feedback;
+}
+
+void Delay::setDelayTime(float delayTimeMillis) {
+    // TODO: add validation
+    this->m_delayTimeMillis = delayTimeMillis;
+    m_delayTimeSamples = millisecondsToSamples(delayTimeMillis);
+    setDistanceRW(m_delayTimeSamples);
+}
+
+unsigned int Delay::millisecondsToSamples(float millis) {
+    float delayTimeSamples = millis / 1000.0f * m_sampleRate;
+    return static_cast<unsigned int>(delayTimeSamples);
 }
 
 void Delay::allocateBuffer() {
@@ -44,7 +61,3 @@ void Delay::setDistanceRW(unsigned int distanceRW) {
     wrapH(m_readH);
 }
 
-// unsigned int Delay::millisecondsToSamples(unsigned int millis) {
-//     unsigned int delayTimeSamples = (millis / 1000) * m_sampleRate;
-//     return delayTimeSamples;
-// }

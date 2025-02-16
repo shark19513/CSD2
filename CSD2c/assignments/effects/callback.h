@@ -13,9 +13,9 @@ public:
   void process(AudioBuffer buffer) override;
 
 private:
-  float samplerate;
+  unsigned int m_samplerate;
   Tremolo tremolo {6, 1};
-  Delay delay {48000, 48000 * 2};
+  Delay delay {1000, m_samplerate * 2};
 };
 
 #endif //CALLBACK_H

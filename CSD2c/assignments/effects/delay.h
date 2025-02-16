@@ -10,7 +10,7 @@
 
 class Delay : public Effect {
 public:
-    Delay(unsigned int numDelaySamples,
+    Delay(float delayTimeMillis,
             unsigned int maxDelaySamples);
     ~Delay();
 
@@ -18,10 +18,15 @@ public:
 
     void applyEffect(const float &input, float &output) override;
 
-    // void setDelayTime(float delayTimeMillis);
+    void setFeedback(float feedback);
+
+    void setDelayTime(float delayTimeMillis);
 
 private:
     Delay(){}
+
+    unsigned int millisecondsToSamples(float millis);
+
     void setDistanceRW(unsigned int distanceRW);
     // increase write and readheads and wrap if necessary
     inline void incrWriteH() {
@@ -41,20 +46,16 @@ private:
     void allocateBuffer();
     void releaseBuffer();
 
+    float m_sampleRate;
+    float m_delayTimeMillis;
+    unsigned int m_delayTimeSamples;
+    float m_feedback;
+
     float* m_buffer;
     unsigned int m_bufferSize;
     unsigned int m_readH;
     unsigned int m_writeH;
     unsigned int m_distanceRW;
-
-
-
-    // unsigned int millisecondsToSamples(unsigned int millis);
-
-
-    // float m_delayTimeMillis;
-    // unsigned int m_delayTimeSamples;
-    // float m_feedback;
 };
 
 

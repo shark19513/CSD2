@@ -1,13 +1,13 @@
 #include "callback.h"
 
 CustomCallback::CustomCallback (float sampleRate)
-  : AudioCallback (sampleRate), samplerate (sampleRate) {}
+  : AudioCallback (sampleRate), m_samplerate (sampleRate) {}
 
 void CustomCallback::prepare(int rate) {
-    samplerate = (float)rate;
-    std::cout << "\nsamplerate: " << samplerate << "\n";
-    tremolo.prepare(samplerate);
-  // TODO - prepare delay
+    m_samplerate = static_cast<float>(rate);
+    std::cout << "\nsamplerate: " << m_samplerate << "\n";
+    tremolo.prepare(m_samplerate);
+    delay.prepare(m_samplerate);
 }
 
 void CustomCallback::process(AudioBuffer buffer) {
