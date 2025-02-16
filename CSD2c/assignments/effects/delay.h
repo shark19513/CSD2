@@ -12,7 +12,7 @@ class Delay : public Effect {
 public:
     Delay(float delayTimeMillis,
             unsigned int maxDelaySamples);
-    ~Delay();
+    ~Delay() override;
 
     void prepare(float sampleRate) override;
 

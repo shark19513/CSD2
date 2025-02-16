@@ -8,7 +8,7 @@
 class Tremolo : public Effect {
 public:
     Tremolo(float frequency, float modDepth);
-    ~Tremolo();
+    ~Tremolo() override;
 
     void prepare(float sampleRate) override;
 
