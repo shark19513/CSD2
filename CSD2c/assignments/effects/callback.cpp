@@ -18,7 +18,9 @@ void CustomCallback::process(AudioBuffer buffer) {
     for (int i = 0u; i < numFrames; i++) {
       //NOTE: i think Ciska said something about this needing to be fixed but am not sure
       tremolo.processFrame(inputChannels[channel][i], sample);
+      waveshaper.processFrame(sample, sample);
       delay.processFrame(sample, outputChannels[channel][i]);
+
     }
   }
 }

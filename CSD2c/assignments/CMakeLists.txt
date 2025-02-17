@@ -1,3 +1,4 @@
 add_subdirectory(circBuffer)
 add_subdirectory(effects)
 add_subdirectory(interpolation)
+add_subdirectory(stereo)

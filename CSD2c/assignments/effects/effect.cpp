@@ -4,14 +4,14 @@
 
 #include "effect.h"
 
-Effect::Effect() : bypassed(false), m_wetLevel(1) {
+Effect::Effect() : m_bypassed(false), m_wetLevel(1) {
 }
 
 Effect::~Effect() {
 }
 
 void Effect::processFrame(const float& input, float& output) {
-    if (bypassed) {
+    if (m_bypassed) {
         output = input;
     } else {
         // store dry and wet separately
@@ -28,3 +28,8 @@ void Effect::setWetLevel(float wetLevel) {
     // TODO: add validation
     this->m_wetLevel = wetLevel;
 }
+
+void Effect::setBypassState(bool bypassed) {
+    this->m_bypassed = bypassed;
+}
+
