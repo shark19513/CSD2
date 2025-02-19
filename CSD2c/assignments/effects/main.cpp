@@ -11,6 +11,7 @@
 
 #define WRITE_TO_FILE 0
 
+//TODO: figure out how to use oscillator instead of mic
 int main() {
     ScopedMessageThreadEnabler scopedMessageThreadEnabler;
     CustomCallback audioSource{44100};
