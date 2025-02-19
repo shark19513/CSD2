@@ -12,11 +12,13 @@ void Tremolo::prepare(float sampleRate) {
 
 void Tremolo::applyEffect(const float& input, float& output) {
   // transform sine in range [-1, 1] to range [0, 1]
-  float modSignal = m_sine.genNextSample();
+  // -0.5 to shift the phase 0.5, due to the phase shift
+  // that occurs by applying the modDepth
+  float modSignal = m_sine.genNextSample() * -0.5 + 0.5;
   // apply modDepth
   modSignal *= m_modDepth;
   modSignal += 1.0f - m_modDepth;
-  // apply mod signal to input
+
   output = input * modSignal;
 }
 
