@@ -9,8 +9,7 @@
 #define BUFFER_SIZE 512
 
 class Waveshaper : public Effect {
-    //TODO: this doesn't seem to work yet
- public:
+public:
     Waveshaper(float k);
     ~Waveshaper() override;
 
