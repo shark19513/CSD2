@@ -4,6 +4,8 @@
 
 #include "delay.h"
 
+#include <iomanip>
+
 Delay::Delay(float delayTimeMillis, unsigned int maxDelaySamples)
     : m_bufferSize(maxDelaySamples), m_readH(0), m_writeH(0), m_feedback(0.25) {
     allocateBuffer();
@@ -26,20 +28,40 @@ void Delay::applyEffect(const float& input, float& output) {
 }
 
 void Delay::setFeedback(float feedback) {
-    //TODO: add validation
-    this->m_feedback = feedback;
+    if (feedback >= 0.0f && feedback <= 1.0f) {
+        this->m_feedback = feedback;
+        std::cout << "- feedback set to " << m_feedback << " -" << std::endl;
+    } else {
+        std::cout << "! invalid input !\n"
+        << "- please enter a value between 0.0 - 1.0 -\n";
+    }
 }
 
 void Delay::setDelayTime(float delayTimeMillis) {
-    // TODO: add validation
-    this->m_delayTimeMillis = delayTimeMillis;
-    m_delayTimeSamples = millisecondsToSamples(delayTimeMillis);
-    setDistanceRW(m_delayTimeSamples);
+    // check if delayTimeMillis falls in range[0 - m_bufferSize]
+    // NOTE: maybe a bit unreadable
+    if (delayTimeMillis >= 0.0f &&
+        millisecondsToSamples(delayTimeMillis) < m_bufferSize) {
+
+        this->m_delayTimeMillis = delayTimeMillis;
+        m_delayTimeSamples = millisecondsToSamples(m_delayTimeMillis);
+        setDistanceRW(m_delayTimeSamples);
+
+        std::cout << "- delay time set to " << m_delayTimeMillis << " milliseconds -\n";
+    } else {
+        std::cout << "! invalid input !\n"
+        << "- please enter a value between 0.0 and "
+        << samplesToMilliseconds(m_bufferSize - 1) << " -\n";
+    }
 }
 
 unsigned int Delay::millisecondsToSamples(float millis) {
     float delayTimeSamples = millis / 1000.0f * m_sampleRate;
     return static_cast<unsigned int>(delayTimeSamples);
+}
+
+float Delay::samplesToMilliseconds(unsigned int samples) {
+    return (samples / m_sampleRate) * 1000.0f;
 }
 
 void Delay::allocateBuffer() {

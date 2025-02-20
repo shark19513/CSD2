@@ -25,6 +25,8 @@ private:
 
     unsigned int millisecondsToSamples(float millis);
 
+    float samplesToMilliseconds(unsigned int samples);
+
     void setDistanceRW(unsigned int distanceRW);
     // increase write and readheads and wrap if necessary
     inline void incrWriteH() {
