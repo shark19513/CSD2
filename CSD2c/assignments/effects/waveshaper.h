@@ -24,11 +24,6 @@ public:
 private:
     Waveshaper() {};
 
-    inline void wrapIndex(unsigned int& index) {
-        //TODO: duplicate code, this also happens in the delay
-        if (index >= BUFFER_SIZE) index -= BUFFER_SIZE;
-    }
-
     float m_k; // this is k
     float m_buffer[BUFFER_SIZE];
 };

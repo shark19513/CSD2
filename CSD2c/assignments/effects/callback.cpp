@@ -8,6 +8,10 @@ void CustomCallback::prepare(int rate) {
     std::cout << "\nsamplerate: " << m_samplerate << "\n";
     tremolo.prepare(m_samplerate);
     delay.prepare(m_samplerate);
+    tremolo.setBypassState(true);
+    delay.setBypassState(true);
+    waveshaper.setBypassState(false);
+    bitCrusher.setBypassState(true);
 }
 
 void CustomCallback::process(AudioBuffer buffer) {

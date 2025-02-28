@@ -39,7 +39,7 @@ void WavetableGenerator::generateSCurve(float *buffer,
     // calculate s-curve with arctangent
     // calculate x in range [-1.0f, 1.0f]
     float x = Interpolation::mapInRange(static_cast<float>(i), 0,
-                                bufferSize, -1.0f, 1.0f);
+                                static_cast<float>(bufferSize), -1.0f, 1.0f);
     buffer[i] = normalizeFactor * atan(k * x);
   }
 }

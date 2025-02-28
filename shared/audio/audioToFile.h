@@ -22,15 +22,13 @@ private:
 
 class AudioToFile {
 public:
-  // TODO
-  // add functionality to set numFrames and channels
+  // TODO: add functionality to set numFrames and channels
   AudioToFile (const std::string& fileName,
                int numInputchannels = 1,
                int numOutputChannels = 1,
-               int numFrames = 256);
+               int numFrames = 22049);
   ~AudioToFile();
-  // TODO
-  // add functionality to write a given range to file
+  // TODO: add functionality to write a given range to file
   void write (AudioCallback& callback);
 
 private:

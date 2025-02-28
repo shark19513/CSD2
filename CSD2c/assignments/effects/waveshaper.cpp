@@ -11,8 +11,8 @@ void Waveshaper::prepare(float sampleRate) {}
 void Waveshaper::applyEffect(const float &input, float &output) {
     float sample = input;
 
-    if (sample > 1.0f) sample = 1.0f;
-    if (sample < -1.0f) sample = -1.0f;
+    if (sample > 0.99f) sample = 0.99f;
+    if (sample < -0.99f) sample = -0.99f;
 
     float indexFloat = Interpolation::mapInRange(sample,
         -1.0f, 1.0f, 0.0f,
@@ -21,11 +21,7 @@ void Waveshaper::applyEffect(const float &input, float &output) {
     unsigned int index = static_cast<int>(indexFloat);
 
     // store the part behind the decimal
-    float fractionalPart = indexFloat - index;
-
-    // get next index and wrap if needed
-    unsigned int nextIndex = index + 1;
-    wrapIndex(nextIndex);
+    float fractionalPart = indexFloat - static_cast<float>(index);
 
     output = Interpolation::linMap(fractionalPart, m_buffer[index],
                                 m_buffer[index + 1]);

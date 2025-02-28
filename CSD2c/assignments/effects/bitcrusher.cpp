@@ -20,6 +20,6 @@ void BitCrusher::applyEffect(const float &input, float &output) {
 void BitCrusher::setBitDepth(unsigned int bitDepth) {
     //TODO: add validation
     this->m_bitDepth = bitDepth;
-    m_stepSize = 1.0f / (1 << m_bitDepth);
+    m_stepSize = 1.0f / static_cast<float>(1 << m_bitDepth);
     std::cout << "- Bit depth set to " << m_bitDepth << " -" << std::endl;
 }

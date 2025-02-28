@@ -15,10 +15,10 @@ public:
   void process(AudioBuffer buffer) override;
 
 private:
-  unsigned int m_samplerate;
+  float m_samplerate;
   Tremolo tremolo {6, 1};
-  Delay delay {1000, m_samplerate * 2};
-  BitCrusher bitCrusher{8};
+  Delay delay {1000, static_cast<unsigned int>(m_samplerate * 2)};
+  BitCrusher bitCrusher{2};
   Waveshaper waveshaper{10};
 };
 
