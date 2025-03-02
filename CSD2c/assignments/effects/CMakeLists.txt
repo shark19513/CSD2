@@ -9,7 +9,9 @@ target_sources(effects PRIVATE main.cpp
         tremolo.cpp
         waveshaper.cpp
         wavetableGenerator.cpp
-        bitcrusher.cpp)
+        bitcrusher.cpp
+        chorus.cpp
+        )
 
 target_compile_definitions(effects PRIVATE
         JUCE_WEB_BROWSER=0

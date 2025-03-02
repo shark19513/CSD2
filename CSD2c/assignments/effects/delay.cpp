@@ -7,7 +7,17 @@
 #include <iomanip>
 
 Delay::Delay(float delayTimeMillis, unsigned int maxDelaySamples)
-    : m_bufferSize(maxDelaySamples), m_readH(0), m_writeH(0), m_feedback(0.25) {
+    : m_bufferSize(maxDelaySamples), m_readH(0), m_writeH(0), m_feedback(0) {
+    allocateBuffer();
+    setDelayTime(delayTimeMillis);
+}
+
+Delay::Delay(float sampleRate, float delayTimeMillis, float maxDelayMillis)
+    : m_readH(0), m_writeH(0), m_feedback(0) {
+    // constructor only for chorus
+    //NOTE: sample rate is passed as argument to perform ms to samples calculation
+    prepare(sampleRate);
+    m_bufferSize = millisecondsToSamples(maxDelayMillis);
     allocateBuffer();
     setDelayTime(delayTimeMillis);
 }
@@ -61,7 +71,7 @@ unsigned int Delay::millisecondsToSamples(float millis) {
 }
 
 float Delay::samplesToMilliseconds(unsigned int samples) {
-    return (samples / m_sampleRate) * 1000.0f;
+    return samples / m_sampleRate * 1000.0f;
 }
 
 void Delay::allocateBuffer() {

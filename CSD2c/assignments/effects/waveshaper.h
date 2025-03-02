@@ -22,7 +22,7 @@ public:
     void fillBuffer();
 
 private:
-    Waveshaper() {};
+    Waveshaper() {}
 
     float m_k; // this is k
     float m_buffer[BUFFER_SIZE];

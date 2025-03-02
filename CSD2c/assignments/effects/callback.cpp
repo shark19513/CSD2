@@ -6,12 +6,17 @@ CustomCallback::CustomCallback (float sampleRate)
 void CustomCallback::prepare(int rate) {
     m_samplerate = static_cast<float>(rate);
     std::cout << "\nsamplerate: " << m_samplerate << "\n";
+
+    saw.prepare(m_samplerate);
+
     tremolo.prepare(m_samplerate);
     delay.prepare(m_samplerate);
+
     tremolo.setBypassState(true);
     delay.setBypassState(true);
     waveshaper.setBypassState(false);
     bitCrusher.setBypassState(true);
+    chorus.setBypassState(true);
 }
 
 void CustomCallback::process(AudioBuffer buffer) {
@@ -20,9 +25,11 @@ void CustomCallback::process(AudioBuffer buffer) {
 
   for (int channel = 0u; channel < numInputChannels; channel++) {
     for (int i = 0u; i < numFrames; i++) {
-      tremolo.processFrame(inputChannels[channel][i], sample1);
-      waveshaper.processFrame(sample1, sample2);
-      bitCrusher.processFrame(sample2, sample1);
+      sample1 = saw.genNextSample();
+      tremolo.processFrame(sample1, sample2);
+      waveshaper.processFrame(sample2, sample1);
+      bitCrusher.processFrame(sample1, sample2);
+      chorus.processFrame(sample2, sample1);
       delay.processFrame(sample1, outputChannels[channel][i]);
     }
   }

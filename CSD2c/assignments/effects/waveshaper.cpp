@@ -18,7 +18,7 @@ void Waveshaper::applyEffect(const float &input, float &output) {
         -1.0f, 1.0f, 0.0f,
         static_cast<float>(BUFFER_SIZE - 1));
 
-    unsigned int index = static_cast<int>(indexFloat);
+    unsigned int index = static_cast<unsigned int>(indexFloat);
 
     // store the part behind the decimal
     float fractionalPart = indexFloat - static_cast<float>(index);

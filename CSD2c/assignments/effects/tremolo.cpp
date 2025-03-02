@@ -1,7 +1,9 @@
 #include "tremolo.h"
 
 Tremolo::Tremolo(float frequency, float modDepth)
-    : m_sine(frequency), m_modDepth(modDepth) {}
+    : m_sine(frequency) {
+  setModDepth(modDepth); //NOTE: call virtual function in constructor?
+}
 
 Tremolo::~Tremolo() {}
 
@@ -25,4 +27,9 @@ void Tremolo::applyEffect(const float& input, float& output) {
 void Tremolo::setModFreq(float freq) {
   //TODO: add validation
   m_sine.setFrequency(freq);
+}
+
+void Tremolo::setModDepth(float modDepth) {
+  //TODO: add validation between 0.0f - 1.0f
+  this->m_modDepth = modDepth;
 }
