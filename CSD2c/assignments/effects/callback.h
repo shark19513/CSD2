@@ -7,6 +7,7 @@
 #include "bitcrusher.h"
 #include "waveshaper.h"
 #include "chorus.h"
+#include "filters.h"
 #include "saw.h"
 
 
@@ -24,6 +25,7 @@ private:
   BitCrusher bitCrusher{2};
   Waveshaper waveshaper{10};
   Chorus chorus{m_samplerate, 10, 6};
+  IIRFilter filter;
 };
 
 #endif //CALLBACK_H

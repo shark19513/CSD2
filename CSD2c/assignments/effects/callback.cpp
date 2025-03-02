@@ -16,7 +16,9 @@ void CustomCallback::prepare(int rate) {
     delay.setBypassState(true);
     waveshaper.setBypassState(false);
     bitCrusher.setBypassState(true);
-    chorus.setBypassState(true);
+    chorus.setBypassState(false);
+    chorus.setWetLevel(0.5);
+    filter.setCoefficient(0.9f);
 }
 
 void CustomCallback::process(AudioBuffer buffer) {
@@ -26,11 +28,14 @@ void CustomCallback::process(AudioBuffer buffer) {
   for (int channel = 0u; channel < numInputChannels; channel++) {
     for (int i = 0u; i < numFrames; i++) {
       sample1 = saw.genNextSample();
+      // sample1 = inputChannels[channel][i];
       tremolo.processFrame(sample1, sample2);
       waveshaper.processFrame(sample2, sample1);
       bitCrusher.processFrame(sample1, sample2);
       chorus.processFrame(sample2, sample1);
-      delay.processFrame(sample1, outputChannels[channel][i]);
+      delay.processFrame(sample1, sample2);
+      //NOTE: should filters also pass a reference?
+      outputChannels[channel][i] = filter.process(sample2);
     }
   }
 }

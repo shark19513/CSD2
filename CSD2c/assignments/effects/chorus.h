@@ -4,6 +4,7 @@
 #include "delay.h"
 #include <triangle.h>
 
+//TODO: fix this. it sounds weird prob bc i don't interpolate
 class Chorus : public Delay {
 public:
     Chorus(float sampleRate, float modDepth, float modRate);
