@@ -8,13 +8,13 @@ void CustomCallback::prepare(int rate) {
     std::cout << "\nsamplerate: " << m_samplerate << "\n";
 
     saw.prepare(m_samplerate);
-
     tremolo.prepare(m_samplerate);
     delay.prepare(m_samplerate);
+    chorus.prepare(m_samplerate);
 
     tremolo.setBypassState(true);
     delay.setBypassState(true);
-    waveshaper.setBypassState(false);
+    waveshaper.setBypassState(true);
     bitCrusher.setBypassState(true);
     chorus.setBypassState(false);
     chorus.setWetLevel(0.5);
@@ -35,7 +35,7 @@ void CustomCallback::process(AudioBuffer buffer) {
       chorus.processFrame(sample2, sample1);
       delay.processFrame(sample1, sample2);
       //NOTE: should filters also pass a reference?
-      outputChannels[channel][i] = filter.process(sample2);
+      outputChannels[channel][i] = sample2;
     }
   }
 }

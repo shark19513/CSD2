@@ -7,7 +7,7 @@
 //TODO: fix this. it sounds weird prob bc i don't interpolate
 class Chorus : public Delay {
 public:
-    Chorus(float sampleRate, float modDepth, float modRate);
+    Chorus(float modDepth, float modRate);
     virtual ~Chorus() override;
 
     void prepare(float sampleRate) override;

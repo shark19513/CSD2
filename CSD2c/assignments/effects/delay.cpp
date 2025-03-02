@@ -6,20 +6,12 @@
 
 #include <iomanip>
 
-Delay::Delay(float delayTimeMillis, unsigned int maxDelaySamples)
-    : m_bufferSize(maxDelaySamples), m_readH(0), m_writeH(0), m_feedback(0) {
-    allocateBuffer();
-    setDelayTime(delayTimeMillis);
-}
-
-Delay::Delay(float sampleRate, float delayTimeMillis, float maxDelayMillis)
-    : m_readH(0), m_writeH(0), m_feedback(0) {
-    // constructor only for chorus
-    //NOTE: sample rate is passed as argument to perform ms to samples calculation
-    prepare(sampleRate);
-    m_bufferSize = millisecondsToSamples(maxDelayMillis);
-    allocateBuffer();
-    setDelayTime(delayTimeMillis);
+Delay::Delay(float delayTimeMillis, float maxDelayTimeMillis)
+    : m_sampleRate(0), m_delayTimeMillis(delayTimeMillis),
+      m_maxDelayTimeMillis(maxDelayTimeMillis),
+      m_delayTimeSamples(0), m_feedback(0), m_buffer(nullptr), m_bufferSize(0),
+      m_readH(0), m_writeH(0), m_distanceRW(0) {
+    // prepare() should always be called before use
 }
 
 Delay::~Delay() {
@@ -28,6 +20,10 @@ Delay::~Delay() {
 
 void Delay::prepare(float sampleRate) {
     this->m_sampleRate = sampleRate;
+
+    m_bufferSize = millisecondsToSamples(m_maxDelayTimeMillis);
+    allocateBuffer();
+    setDelayTime(m_delayTimeMillis);
 }
 
 void Delay::applyEffect(const float& input, float& output) {
@@ -88,6 +84,7 @@ void Delay::releaseBuffer() {
 }
 
 void Delay::setDistanceRW(unsigned int distanceRW) {
+    //TODO: gotta do something with interpolation here
     distanceRW = distanceRW;
     m_readH = m_writeH - distanceRW + m_bufferSize;
     wrapH(m_readH);

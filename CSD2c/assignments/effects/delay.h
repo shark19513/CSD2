@@ -10,8 +10,7 @@
 
 class Delay : public Effect {
 public:
-    Delay(float delayTimeMillis, unsigned int maxDelaySamples);
-    Delay(float sampleRate, float delayTimeMillis, float maxDelayMillis);
+    Delay(float delayTimeMillis, float maxDelayMillis);
     virtual ~Delay() override;
 
     void prepare(float sampleRate) override;
@@ -48,6 +47,7 @@ protected:
 
     float m_sampleRate;
     float m_delayTimeMillis;
+    float m_maxDelayTimeMillis;
     unsigned int m_delayTimeSamples;
     float m_feedback;
 

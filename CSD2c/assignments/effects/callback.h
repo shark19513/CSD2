@@ -21,10 +21,10 @@ private:
   float m_samplerate;
   Saw saw{220};
   Tremolo tremolo {6, 1};
-  Delay delay {1000, static_cast<unsigned int>(m_samplerate * 2)};
+  Delay delay {1000, 5000};
   BitCrusher bitCrusher{2};
   Waveshaper waveshaper{10};
-  Chorus chorus{m_samplerate, 10, 6};
+  Chorus chorus{10, 6};
   IIRFilter filter;
 };
 

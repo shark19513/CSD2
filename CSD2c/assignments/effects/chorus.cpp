@@ -1,7 +1,7 @@
 #include "chorus.h"
 
-Chorus::Chorus(float sampleRate, float modDepth, float modRate)
-    : Delay(sampleRate, 20.0f, 40.0f), m_triangle(modRate) {
+Chorus::Chorus(float modDepth, float modRate)
+    : Delay(20.0f, 40.0f), m_triangle(modRate) {
   setModDepth(modDepth);
 }
 
@@ -10,6 +10,10 @@ Chorus::~Chorus() {}
 void Chorus::prepare(float sampleRate) {
     this->m_sampleRate = sampleRate;
     m_triangle.prepare(sampleRate);
+
+    m_bufferSize = millisecondsToSamples(m_maxDelayTimeMillis);
+    allocateBuffer();
+    setDelayTime(m_delayTimeMillis);
 }
 
 void Chorus::applyEffect(const float& input, float& output) {
