@@ -24,7 +24,7 @@ private:
   Delay delay {1000, 5000};
   BitCrusher bitCrusher{2};
   Waveshaper waveshaper{10};
-  Chorus chorus{10, 6};
+  Chorus chorus{0.5, 4};
   IIRFilter filter;
 };
 

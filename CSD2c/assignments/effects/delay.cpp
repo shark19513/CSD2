@@ -67,7 +67,7 @@ unsigned int Delay::millisecondsToSamples(float millis) {
 }
 
 float Delay::samplesToMilliseconds(unsigned int samples) {
-    return samples / m_sampleRate * 1000.0f;
+    return static_cast<float>(samples) / m_sampleRate * 1000.0f;
 }
 
 void Delay::allocateBuffer() {
@@ -84,7 +84,7 @@ void Delay::releaseBuffer() {
 }
 
 void Delay::setDistanceRW(unsigned int distanceRW) {
-    //TODO: gotta do something with interpolation here
+    //TODO: gotta do something with interpolation here?
     distanceRW = distanceRW;
     m_readH = m_writeH - distanceRW + m_bufferSize;
     wrapH(m_readH);

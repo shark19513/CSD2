@@ -35,6 +35,8 @@ void CustomCallback::process(AudioBuffer buffer) {
       chorus.processFrame(sample2, sample1);
       delay.processFrame(sample1, sample2);
       //NOTE: should filters also pass a reference?
+
+      // outputChannels[channel][i] = filter.process(sample2);
       outputChannels[channel][i] = sample2;
     }
   }

@@ -6,6 +6,7 @@
 #define DELAY_H
 #include <iostream>
 #include "effect.h"
+#include "interpolation.h"
 
 
 class Delay : public Effect {
