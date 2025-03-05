@@ -5,12 +5,14 @@ juce_add_console_app(effects PRODUCT_NAME "effects")
 target_sources(effects PRIVATE main.cpp
         callback.cpp
         effect.cpp
+        StereoEffect.cpp
         delay.cpp
         tremolo.cpp
         waveshaper.cpp
         wavetableGenerator.cpp
         bitcrusher.cpp
         chorus.cpp
+        StereoChorus.cpp
         )
 
 target_compile_definitions(effects PRIVATE

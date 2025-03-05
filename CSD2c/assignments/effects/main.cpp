@@ -8,6 +8,7 @@
 #include <cmath>
 #include <audioToFile.h>
 #include "callback.h"
+#include "deltasequence.h"
 
 #define WRITE_TO_FILE 0
 
@@ -22,6 +23,7 @@ int main() {
         const std::string sourcePath = SOURCE_DIR;
         AudioToFile audioToFile(sourcePath + "/output.csv");
         audioToFile.write(audioSource);
+        DeltaSequence::run(audioSource.filter);
 
     #else
         bool running = true;

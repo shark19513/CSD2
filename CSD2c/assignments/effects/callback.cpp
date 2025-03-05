@@ -11,13 +11,15 @@ void CustomCallback::prepare(int rate) {
     tremolo.prepare(m_samplerate);
     delay.prepare(m_samplerate);
     chorus.prepare(m_samplerate);
+    stereoChorus.prepare(m_samplerate);
 
     tremolo.setBypassState(true);
     delay.setBypassState(true);
     waveshaper.setBypassState(true);
     bitCrusher.setBypassState(true);
-    chorus.setBypassState(false);
+    chorus.setBypassState(true);
     chorus.setWetLevel(0.5);
+    stereoChorus.setWetLevel(0.5);
     filter.setCoefficient(0.9f);
 }
 

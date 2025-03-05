@@ -7,6 +7,7 @@
 #include "bitcrusher.h"
 #include "waveshaper.h"
 #include "chorus.h"
+#include "StereoChorus.h"
 #include "filters.h"
 #include "saw.h"
 
@@ -17,6 +18,7 @@ public:
   void prepare(int rate) override;
   void process(AudioBuffer buffer) override;
 
+  IIRFilter filter;
 private:
   float m_samplerate;
   Saw saw{220};
@@ -25,7 +27,7 @@ private:
   BitCrusher bitCrusher{2};
   Waveshaper waveshaper{10};
   Chorus chorus{0.5, 4};
-  IIRFilter filter;
+  StereoChorus stereoChorus{0.5, 4};
 };
 
 #endif //CALLBACK_H
