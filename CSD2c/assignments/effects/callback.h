@@ -27,7 +27,7 @@ private:
   BitCrusher bitCrusher{2};
   Waveshaper waveshaper{10};
   Chorus chorus{0.5, 4};
-  StereoChorus stereoChorus{0.5, 4};
+  StereoChorus stereoChorus{0.8, 3};
 };
 
 #endif //CALLBACK_H

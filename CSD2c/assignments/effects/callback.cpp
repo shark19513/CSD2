@@ -25,21 +25,16 @@ void CustomCallback::prepare(int rate) {
 
 void CustomCallback::process(AudioBuffer buffer) {
   auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
-  float sample1, sample2;
+  float sample1_channel1, sample2_channel1, sample1_channel2, sample2_channel2;
 
-  for (int channel = 0u; channel < numInputChannels; channel++) {
-    for (int i = 0u; i < numFrames; i++) {
-      sample1 = saw.genNextSample();
-      // sample1 = inputChannels[channel][i];
-      tremolo.processFrame(sample1, sample2);
-      waveshaper.processFrame(sample2, sample1);
-      bitCrusher.processFrame(sample1, sample2);
-      chorus.processFrame(sample2, sample1);
-      delay.processFrame(sample1, sample2);
-      //NOTE: should filters also pass a reference?
 
-      // outputChannels[channel][i] = filter.process(sample2);
-      outputChannels[channel][i] = sample2;
-    }
+  for (int i = 0u; i < numFrames; i++) {
+    const auto sawSample = saw.genNextSample();
+    sample1_channel1 = sawSample;
+    sample1_channel2 = sawSample;
+    stereoChorus.processFrame(sample1_channel1, sample1_channel2,
+                              sample2_channel1, sample2_channel2);
+    outputChannels[0][i] = sample2_channel1;
+    outputChannels[1][i] = sample2_channel2;
   }
 }
