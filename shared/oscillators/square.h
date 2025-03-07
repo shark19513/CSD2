@@ -8,7 +8,8 @@ class Square : public Oscillator
 {
 public:
     Square(float frequency);
-    Square(float sampleRate, float frequency);
+    Square(float frequency, float phase);
+    Square(float sampleRate, float frequency, float phase);
     ~Square() override;
 
 protected:

@@ -1,7 +1,11 @@
 #include "chorus.h"
 
 Chorus::Chorus(float modDepth, float modRate)
-    : Delay(20.0f, 40.0f), m_triangle(modRate) {
+    : Chorus(modDepth, modRate, 0.0f) {}
+
+Chorus::Chorus(float modDepth, float modRate, float modSignalPhase)
+    : Delay(20.0f, 40.0f),
+      m_triangle(modRate, modSignalPhase) {
   setModDepth(modDepth);
 }
 
@@ -32,7 +36,6 @@ void Chorus::applyEffect(const float& input, float& output) {
 }
 
 void Chorus::setModDepth(float modDepth) {
-  //TODO: add validation between 1.0f and 15.0f
-  // then scaling from 1.0f - 15.0f to 0.0f - 1.0f
+  //TODO: add validation
   this->m_modDepth = modDepth;
 }

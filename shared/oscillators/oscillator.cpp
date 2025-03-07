@@ -1,11 +1,14 @@
 #include "oscillator.h"
 
 Oscillator::Oscillator(float frequency)
-    : Oscillator(44100, frequency) {}
+    : Oscillator(44100.0f, frequency, 0.0f) {}
 
-Oscillator::Oscillator(float sampleRate, float frequency)
-    : m_frequency(frequency), m_amplitude(1),m_phase(0), m_sample(0),
-    m_samplerate(sampleRate), m_phaseIncrement(0.0f), m_previousFrequency(-1.0f) {
+Oscillator::Oscillator(float frequency, float phase)
+    : Oscillator(44100.0f, frequency, phase) {}
+
+Oscillator::Oscillator(float sampleRate, float frequency, float phase)
+    : m_samplerate(sampleRate), m_frequency(frequency),m_amplitude(1), m_phase(phase),
+    m_phaseIncrement(0.0f), m_previousFrequency(-1.0f), m_sample(0) {
     // initialize m_phaseIncrement when Oscillator first constructed
     updatePhaseIncrement();
 }

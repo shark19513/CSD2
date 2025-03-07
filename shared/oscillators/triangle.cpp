@@ -4,8 +4,12 @@ Triangle::Triangle(float frequency)
     : Oscillator(frequency) {
 }
 
-Triangle::Triangle(float sampleRate, float frequency)
-    : Oscillator(sampleRate, frequency) {
+Triangle::Triangle(float frequency, float phase)
+    : Oscillator(frequency, phase) {
+}
+
+Triangle::Triangle(float sampleRate, float frequency, float phase)
+    : Oscillator(sampleRate, frequency, phase) {
 }
 
 Triangle::~Triangle() {}

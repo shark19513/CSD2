@@ -6,7 +6,8 @@ class Oscillator
 {
 public:
     Oscillator(float frequency);
-    Oscillator(float sampleRate, float frequency);
+    Oscillator(float frequency, float phase);
+    Oscillator(float sampleRate, float frequency, float phase);
     virtual ~Oscillator();
 
     void prepare(float samplerate);
@@ -25,13 +26,14 @@ protected:
     // calculate _frequency/_samplerate
     void updatePhaseIncrement();
 
+    float m_samplerate;
     float m_frequency;
     float m_amplitude;
     float m_phase;
     float m_phaseIncrement;
     float m_previousFrequency;
     float m_sample;
-    float m_samplerate;
+
 };
 
 #endif

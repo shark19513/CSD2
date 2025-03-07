@@ -10,16 +10,14 @@ void CustomCallback::prepare(int rate) {
     saw.prepare(m_samplerate);
     tremolo.prepare(m_samplerate);
     delay.prepare(m_samplerate);
-    chorus.prepare(m_samplerate);
     stereoChorus.prepare(m_samplerate);
 
     tremolo.setBypassState(true);
     delay.setBypassState(true);
     waveshaper.setBypassState(true);
     bitCrusher.setBypassState(true);
-    chorus.setBypassState(true);
-    chorus.setWetLevel(0.5);
     stereoChorus.setWetLevel(0.5);
+    stereoChorus.setBypassState(false);
     filter.setCoefficient(0.9f);
 }
 

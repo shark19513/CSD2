@@ -8,7 +8,8 @@ class Saw : public Oscillator
 {
 public:
     Saw(float frequency);
-    Saw(float sampleRate, float frequency);
+    Saw(float frequency, float phase);
+    Saw(float sampleRate, float frequency, float phase);
     ~Saw() override;
 
 protected:

@@ -8,6 +8,7 @@
 class Chorus : public Delay {
 public:
     Chorus(float modDepth, float modRate);
+    Chorus(float modDepth, float modRate, float modSignalPhase);
     virtual ~Chorus() override;
 
     void prepare(float sampleRate) override;

@@ -4,8 +4,12 @@ Saw::Saw(float frequency)
     : Oscillator(frequency) {
 }
 
-Saw::Saw(float sampleRate, float frequency)
-    : Oscillator(sampleRate, frequency) {
+Saw::Saw(float frequency, float phase)
+    : Oscillator(frequency, phase) {
+}
+
+Saw::Saw(float sampleRate, float frequency, float phase)
+    : Oscillator(sampleRate, frequency, phase) {
 }
 
 Saw::~Saw() {}

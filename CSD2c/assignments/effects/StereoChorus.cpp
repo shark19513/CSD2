@@ -6,11 +6,10 @@
 
 StereoChorus::StereoChorus(float modDepth, float modRate) {
     std::cout << "-- StereoChorus constructor --" << std::endl;
-    // init 2 chori and multiply the modDepth of the second by -1
-    // this inverts the amplitude of the modulating triangle
-    //TODO: make setPhase method in oscillator to shift the phase of channel 2 instead of this
+    // init 2 chori
+    // phase of the modulating signal is shifted for channel 2 for stereo effect
     m_channel1 = new Chorus(modDepth, modRate);
-    m_channel2 = new Chorus(modDepth * -1, modRate);
+    m_channel2 = new Chorus(modDepth, modRate, 0.25);
 }
 
 StereoChorus::~StereoChorus() {

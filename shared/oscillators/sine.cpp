@@ -5,8 +5,12 @@ Sine::Sine(float frequency)
     : Oscillator(frequency) {
 }
 
-Sine::Sine(float sampleRate, float frequency)
-    : Oscillator(sampleRate, frequency) {
+Sine::Sine(float frequency, float phase)
+    : Oscillator(frequency, phase) {
+}
+
+Sine::Sine(float sampleRate, float frequency, float phase)
+    : Oscillator(sampleRate, frequency, phase) {
 }
 
 Sine::~Sine() {}
