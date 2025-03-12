@@ -69,8 +69,8 @@ class OnePole : public Filter {
     public:
     float process(float input) override {
         // Y[n] = bX[n] + aY[n-1]
-        // You make this one:
-
+        feedback = b * input + a * feedback;
+        return feedback;
     }
 
     void setCoefficient(float coefficient) {

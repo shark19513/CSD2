@@ -16,7 +16,7 @@ void CustomCallback::prepare(int rate) {
     delay.setBypassState(true);
     waveshaper.setBypassState(true);
     bitCrusher.setBypassState(true);
-    stereoChorus.setWetLevel(0.5);
+    stereoChorus.setWetLevel(1.5);
     stereoChorus.setBypassState(false);
     filter.setCoefficient(0.9f);
 }
@@ -32,7 +32,7 @@ void CustomCallback::process(AudioBuffer buffer) {
     sample1_channel2 = sawSample;
     stereoChorus.processFrame(sample1_channel1, sample1_channel2,
                               sample2_channel1, sample2_channel2);
-    outputChannels[0][i] = sample2_channel1;
-    outputChannels[1][i] = sample2_channel2;
+    outputChannels[0][i] = filter.process(sample2_channel1);
+    // outputChannels[1][i] = sample2_channel2;
   }
 }

@@ -17,7 +17,7 @@ public:
   void prepare(int rate) override;
   void process(AudioBuffer buffer) override;
 
-  IIRFilter filter;
+  FIRFilter filter;
 private:
   float m_samplerate;
   Saw saw{220};
