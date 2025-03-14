@@ -5,7 +5,7 @@
 
 class Filter {
 public:
-    virtual float process(float input) = 0;
+    virtual void processFrame(const float& input, float& output) = 0;
 };
 
 
@@ -16,10 +16,10 @@ public:
 //
 class IIRFilter : public Filter {
     public:
-    float process(float input) override {
+    void processFrame(const float& input, float& output) override {
         // Y[n] = X[n] + aY[n-1]
         feedback = input + (a * feedback);
-        return feedback;
+        output = feedback;
     }
 
     void setCoefficient(float coefficient) {
@@ -41,12 +41,10 @@ private:
 //
 class FIRFilter : public Filter {
     public:
-    float process(float input) override {
+    void processFrame(const float& input, float& output) override {
         // Y[n] = X[n] - bX[n-1]
-        auto output = input - (b * x1);
-
+        output = input - (b * x1);
         x1 = input; // Recaching Delay
-        return output;
     }
 
     void setCoefficient(float coefficient) {
@@ -67,10 +65,10 @@ private:
 //
 class OnePole : public Filter {
     public:
-    float process(float input) override {
+    void processFrame(const float& input, float& output) override {
         // Y[n] = bX[n] + aY[n-1]
         feedback = b * input + a * feedback;
-        return feedback;
+        output = feedback;
     }
 
     void setCoefficient(float coefficient) {
@@ -90,24 +88,27 @@ private:
 //
 class SimpleLadder :  public Filter {
     public:
-    float process(float input) override {
+    void processFrame(const float& input, float& output) override {
+        float sample1, sample2;
 
+        onePole_A.processFrame(input, sample1);
+        onePole_B.processFrame(sample1, sample2);
+        onePole_C.processFrame(sample2, sample1);
+        onePole_D.processFrame(sample2, output);
     }
 
     void setCoefficient(float coefficient) {
-        a = coefficient;
-        b = 1.0f - a;
+        onePole_A.setCoefficient(coefficient);
+        onePole_B.setCoefficient(coefficient);
+        onePole_C.setCoefficient(coefficient);
+        onePole_D.setCoefficient(coefficient);
     }
 
 private:
-    float A { 0.0 };
-    float B { 0.0 };
-    float C { 0.0 };
-    float D { 0.0 };
-
-
-    float b { 0.0 };
-    float a { 0.0 };
+    OnePole onePole_A;
+    OnePole onePole_B;
+    OnePole onePole_C;
+    OnePole onePole_D;
 };
 
 
@@ -118,7 +119,7 @@ private:
 //
 class FourSample :  public Filter {
     public:
-    float process(float input) override {
+    void processFrame(const float& input, float& output) override {
         // Y[n] = X[n] + aY[n-4]
 
     }
@@ -146,7 +147,7 @@ private:
 //
 class HalfBiquad :  public Filter {
     public:
-    float process(float input) override {
+    void processFrame(const float& input, float& output) override {
       // y[n] = bX[n] - a1Y[n-1] - a2Y[n-2]
 
     }

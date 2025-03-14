@@ -25,8 +25,13 @@ void Effect::processFrame(const float& input, float& output) {
 }
 
 void Effect::setWetLevel(float wetLevel) {
-    // TODO: add validation
-    this->m_wetLevel = wetLevel;
+    if (wetLevel >= 0.0f && wetLevel <= 1.0f) {
+        this->m_wetLevel = wetLevel;
+    } else {
+        std::cout << "- Effect::setWetLevel -\n"
+        << "! invalid input !\n"
+        << "- please enter a value between 0.0 and 1.0 -\n";
+    }
 }
 
 void Effect::setBypassState(bool bypassed) {

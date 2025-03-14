@@ -36,6 +36,12 @@ void Chorus::applyEffect(const float& input, float& output) {
 }
 
 void Chorus::setModDepth(float modDepth) {
-  //TODO: add validation
+    // NOTE: magically the mod depth now seems to work properly, check to make sure
+if (modDepth >= 0.0f && modDepth <= 15.0f) {
   this->m_modDepth = modDepth;
+} else {
+    std::cout << "- Chorus::setModDepth -\n"
+    << "! invalid input !\n"
+    << "- please enter a value between 0.0 and 15.0 -\n";
+}
 }

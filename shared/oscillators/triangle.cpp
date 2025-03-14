@@ -15,5 +15,6 @@ Triangle::Triangle(float sampleRate, float frequency, float phase)
 Triangle::~Triangle() {}
 
 void Triangle::calculateNextSample() {
+    //NOTE: the triangle doesn't start at 0
     m_sample = (4.0f * fabs(m_phase - 0.5f) - 1.0f) * m_amplitude;
 }

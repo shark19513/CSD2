@@ -3,6 +3,7 @@
 #include <iostream>
 #include "delay.h"
 #include <triangle.h>
+#include <sine.h>
 
 
 class Chorus : public Delay {

@@ -9,6 +9,7 @@
 #include "StereoChorus.h"
 #include "filters.h"
 #include "saw.h"
+#include "triangle.h"
 
 
 class CustomCallback : public AudioCallback {
@@ -17,7 +18,7 @@ public:
   void prepare(int rate) override;
   void process(AudioBuffer buffer) override;
 
-  FIRFilter filter;
+  SimpleLadder filter;
 private:
   float m_samplerate;
   Saw saw{220};
@@ -25,7 +26,9 @@ private:
   Delay delay {1000, 5000};
   BitCrusher bitCrusher{2};
   Waveshaper waveshaper{10};
-  StereoChorus stereoChorus{1, 2};
+  StereoChorus stereoChorus{3, 2};
+
+  Triangle triangle{10};
 };
 
 #endif //CALLBACK_H

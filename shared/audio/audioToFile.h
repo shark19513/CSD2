@@ -26,7 +26,7 @@ public:
   AudioToFile (const std::string& fileName,
                int numInputchannels = 1,
                int numOutputChannels = 1,
-               int numFrames = 256);
+               int numFrames = 48000);
   ~AudioToFile();
   // TODO: add functionality to write a given range to file
   void write (AudioCallback& callback);

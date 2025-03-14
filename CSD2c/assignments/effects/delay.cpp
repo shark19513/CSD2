@@ -39,7 +39,7 @@ void Delay::setFeedback(float feedback) {
         std::cout << "- feedback set to " << m_feedback << " -" << std::endl;
     } else {
         std::cout << "! invalid input !\n"
-        << "- please enter a value between 0.0 - 1.0 -\n";
+        << "- please enter a value between 0.0 and 1.0 -\n";
     }
 }
 
@@ -84,7 +84,6 @@ void Delay::releaseBuffer() {
 }
 
 void Delay::setDistanceRW(unsigned int distanceRW) {
-    //TODO: gotta do something with interpolation here?
     distanceRW = distanceRW;
     m_readH = m_writeH - distanceRW + m_bufferSize;
     wrapH(m_readH);

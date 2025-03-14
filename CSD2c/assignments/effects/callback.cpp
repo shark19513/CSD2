@@ -8,6 +8,7 @@ void CustomCallback::prepare(int rate) {
     std::cout << "\nsamplerate: " << m_samplerate << "\n";
 
     saw.prepare(m_samplerate);
+    triangle.prepare(m_samplerate);
     tremolo.prepare(m_samplerate);
     delay.prepare(m_samplerate);
     stereoChorus.prepare(m_samplerate);
@@ -16,9 +17,9 @@ void CustomCallback::prepare(int rate) {
     delay.setBypassState(true);
     waveshaper.setBypassState(true);
     bitCrusher.setBypassState(true);
-    stereoChorus.setWetLevel(1.5);
+    stereoChorus.setWetLevel(0.5);
     stereoChorus.setBypassState(false);
-    filter.setCoefficient(0.9f);
+    filter.setCoefficient(0.7f);
 }
 
 void CustomCallback::process(AudioBuffer buffer) {
@@ -27,12 +28,17 @@ void CustomCallback::process(AudioBuffer buffer) {
 
 
   for (int i = 0u; i < numFrames; i++) {
-    const auto sawSample = saw.genNextSample();
-    sample1_channel1 = sawSample;
-    sample1_channel2 = sawSample;
+    const auto oscSample = saw.genNextSample();
+
+    // outputChannels[0][i] = oscSample;
+
+    sample1_channel1 = oscSample;
+    sample1_channel2 = oscSample;
     stereoChorus.processFrame(sample1_channel1, sample1_channel2,
                               sample2_channel1, sample2_channel2);
-    outputChannels[0][i] = filter.process(sample2_channel1);
-    // outputChannels[1][i] = sample2_channel2;
+    filter.processFrame(sample2_channel1, sample1_channel1);
+    filter.processFrame(sample2_channel2, sample1_channel2);
+    outputChannels[0][i] = sample1_channel1;
+    outputChannels[1][i] = sample1_channel2;
   }
 }
