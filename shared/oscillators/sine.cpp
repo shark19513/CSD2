@@ -17,5 +17,5 @@ Sine::~Sine() {}
 
 void Sine::calculateNextSample()
 {
-    m_sample = sin(M_PI * 2* m_phase * m_amplitude);
+    m_sample = sin(M_PI * 2 * m_phase * m_amplitude);
 }

@@ -1,2 +1,3 @@
 add_subdirectory(assignments)
 add_subdirectory(sessions)
+add_subdirectory(eindopdracht_2c)
