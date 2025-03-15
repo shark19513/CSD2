@@ -13,6 +13,12 @@ StereoEffect::~StereoEffect() {
     std::cout << "-- StereoEffect destructor --" << std::endl;
 }
 
+
+void StereoEffect::prepare(float sampleRate) {
+    m_channel1->prepare(sampleRate);
+    m_channel2->prepare(sampleRate);
+}
+
 void StereoEffect::processFrame(const float& input1, const float& input2,
                                     float& output1, float& output2) {
     m_channel1->processFrame(input1, output1);

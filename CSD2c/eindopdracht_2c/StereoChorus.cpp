@@ -19,8 +19,3 @@ StereoChorus::~StereoChorus() {
     m_channel1 = nullptr;
     m_channel2 = nullptr;
 }
-
-void StereoChorus::prepare(float sampleRate) {
-  m_channel1->prepare(sampleRate);
-  m_channel2->prepare(sampleRate);
-}

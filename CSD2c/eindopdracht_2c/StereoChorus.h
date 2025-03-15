@@ -13,8 +13,6 @@ class StereoChorus : public StereoEffect {
 public:
     StereoChorus(float modDepth, float modRate);
     ~StereoChorus() override;
-
-    void prepare(float sampleRate) override;
 };
 
 

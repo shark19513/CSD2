@@ -6,7 +6,8 @@ Chorus::Chorus(float modDepth, float modRate)
 Chorus::Chorus(float modDepth, float modRate, float modSignalPhase)
     : Delay(20.0f, 40.0f),
       m_triangle(modRate, modSignalPhase) {
-  setModDepth(modDepth);
+    setModDepth(modDepth);
+    setWetLevel(0.5);
 }
 
 Chorus::~Chorus() {}

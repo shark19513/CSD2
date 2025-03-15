@@ -13,7 +13,7 @@ public:
     StereoEffect();
     virtual ~StereoEffect();
 
-    virtual void prepare(float sampleRate) = 0;
+    virtual void prepare(float sampleRate);
     void processFrame(const float& input1, const float& input2,
                         float& output1, float& output2);
     void setWetLevel(float wetLevel);

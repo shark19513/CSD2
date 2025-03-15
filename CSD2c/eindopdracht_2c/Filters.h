@@ -1,5 +1,6 @@
 //
 // Created by Dean on 27/02/2024.
+// Editted by Semuel Leijten
 //
 #pragma once
 
@@ -7,8 +8,6 @@ class Filter {
 public:
     virtual void processFrame(const float& input, float& output) = 0;
 };
-
-
 //                   IIRFilter
 //   X[n] ---->(+)--->[ 1 sample ] ---> Y[n]
 //              |                   |
@@ -23,8 +22,13 @@ class IIRFilter : public Filter {
     }
 
     void setCoefficient(float coefficient) {
-        // Do not exceed 1, for the safety of all our ears
-        a = coefficient;
+        if (coefficient >= 0.0f && coefficient <= 1.0f) {
+            a = coefficient;
+        } else {
+            std::cout << "- IIRFilter::setCoefficient -\n"
+            << "! invalid input !\n"
+            << "- please enter a value between 0.0 and 1.0 -\n";
+        }
     }
 
 private:
@@ -48,7 +52,13 @@ class FIRFilter : public Filter {
     }
 
     void setCoefficient(float coefficient) {
-        b = coefficient;
+        if (coefficient >= 0.0f && coefficient <= 1.0f) {
+            b = coefficient;
+        } else {
+            std::cout << "- FIRFilter::setCoefficient -\n"
+            << "! invalid input !\n"
+            << "- please enter a value between 0.0 and 1.0 -\n";
+        }
     }
 
 private:
@@ -72,8 +82,14 @@ class OnePole : public Filter {
     }
 
     void setCoefficient(float coefficient) {
-        a = coefficient;
-        b = 1.0f - a;
+        if (coefficient >= 0.0f && coefficient <= 1.0f) {
+            a = coefficient;
+            b = 1.0f - a;
+        } else {
+            std::cout << "- OnePole::setCoefficient -\n"
+            << "! invalid input !\n"
+            << "- please enter a value between 0.0 and 1.0 -\n";
+        }
     }
 
 private:
@@ -98,10 +114,16 @@ class SimpleLadder :  public Filter {
     }
 
     void setCoefficient(float coefficient) {
-        onePole_A.setCoefficient(coefficient);
-        onePole_B.setCoefficient(coefficient);
-        onePole_C.setCoefficient(coefficient);
-        onePole_D.setCoefficient(coefficient);
+        if (coefficient >= 0.0f && coefficient <= 1.0f) {
+            onePole_A.setCoefficient(coefficient);
+            onePole_B.setCoefficient(coefficient);
+            onePole_C.setCoefficient(coefficient);
+            onePole_D.setCoefficient(coefficient);
+        } else {
+            std::cout << "- SimpleLadder::setCoefficient -\n"
+            << "! invalid input !\n"
+            << "- please enter a value between 0.0 and 1.0 -\n";
+        }
     }
 
 private:
@@ -109,73 +131,4 @@ private:
     OnePole onePole_B;
     OnePole onePole_C;
     OnePole onePole_D;
-};
-
-
-//                   4 Sample
-//   X[n] --(b)->(+)--->[ 4 sample ] ---> Y[n]
-//              |                   |
-//             (a)<-----------------
-//
-class FourSample :  public Filter {
-    public:
-    void processFrame(const float& input, float& output) override {
-        // Y[n] = X[n] + aY[n-4]
-
-    }
-
-    void setCoefficient(float coefficient) {
-        a = coefficient;
-        b = 1.0f - a;
-    }
-
-
-private:
-    float feedback { 0.0 };
-    float b { 0.0 };
-    float a { 0.0 };
-};
-
-
-//                   Halve Biquad
-//   X[n] --(b)->(+)--------------------> Y[n]
-//                |                  |
-//               (a1)<----------[ 1 sample ]
-//                |                  |
-//               (a2)<----------[ 1 sample ]
-//
-//
-class HalfBiquad :  public Filter {
-    public:
-    void processFrame(const float& input, float& output) override {
-      // y[n] = bX[n] - a1Y[n-1] - a2Y[n-2]
-
-    }
-
-    void setBCoefficient(float coefficient){
-        b = coefficient;
-    }
-
-    void setA1Coefficient(float coefficient) {
-        a1 = coefficient;
-    }
-
-    void setA2Coefficient(float coefficient) {
-        a2 = coefficient;
-    }
-
-
-private:
-    float b;
-    float a1;
-    float a2;
-};
-
-
-class Biquad :  public Filter {
-public:
-    // Zoek een Biquad, en maak  'm :- )
-    // Probeer het internet, of Will Pirkle, zijn verschillende benaderingen
-    // Succes.
-
 };

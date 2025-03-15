@@ -5,7 +5,7 @@
 #include "delay.h"
 #include "waveshaper.h"
 #include "StereoChorus.h"
-#include "filters.h"
+#include "Filters.h"
 #include "saw.h"
 #include "triangle.h"
 
@@ -20,11 +20,9 @@ public:
 private:
   float m_samplerate;
   Saw saw{220};
-  Delay delay {1000, 5000};
-  Waveshaper waveshaper{10};
-  StereoChorus stereoChorus{3, 2};
-
-  Triangle triangle{10};
+  Delay delay {500, 5000};
+  Waveshaper waveshaper{20};
+  StereoChorus stereoChorus{4, 2};
 };
 
 #endif //CALLBACK_H

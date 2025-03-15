@@ -11,6 +11,7 @@ target_sources(eindopdracht_2c PRIVATE main.cpp
         wavetableGenerator.cpp
         chorus.cpp
         StereoChorus.cpp
+        Filters.h
         )
 
 target_compile_definitions(eindopdracht_2c PRIVATE
