@@ -34,3 +34,13 @@ void StereoEffect::setBypassState(bool state) {
     m_channel1->setBypassState(state);
     m_channel2->setBypassState(state);
 }
+
+void StereoEffect::setModDepth(float modDepth) {
+    m_channel1->setModDepth(modDepth);
+    m_channel2->setModDepth(modDepth);
+}
+
+void StereoEffect::setModRate(float modRate) {
+    m_channel1->setModRate(modRate);
+    m_channel2->setModRate(modRate);
+}

@@ -8,7 +8,6 @@
 #include "StereoEffect.h"
 #include "chorus.h"
 
-
 class StereoChorus : public StereoEffect {
 public:
     StereoChorus(float modDepth, float modRate);

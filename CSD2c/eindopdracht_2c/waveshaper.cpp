@@ -28,6 +28,7 @@ void Waveshaper::applyEffect(const float &input, float &output) {
 }
 
 void Waveshaper::setK(float k) {
+    // TODO: add validation
     this->m_k = k;
     fillBuffer();
 }

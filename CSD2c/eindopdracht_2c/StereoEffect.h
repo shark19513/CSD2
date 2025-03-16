@@ -8,6 +8,8 @@
 
 #include "effect.h"
 
+// class only passes parameters to associated effect classes
+// validation happens inside associated classes
 class StereoEffect {
 public:
     StereoEffect();
@@ -18,6 +20,9 @@ public:
                         float& output1, float& output2);
     void setWetLevel(float wetLevel);
     void setBypassState(bool state);
+
+    void setModDepth(float modDepth);
+    void setModRate(float modRate);
 
 protected:
     Effect* m_channel1;

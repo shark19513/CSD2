@@ -28,6 +28,7 @@ void CustomCallback::process(AudioBuffer buffer) {
 
   for (int i = 0u; i < numFrames; i++) {
     float inputSample = inputChannels[0][i];
+    // float inputSample = saw.genNextSample();
 
     sample1_channel1 = inputSample;
     sample1_channel2 = inputSample;
@@ -35,15 +36,16 @@ void CustomCallback::process(AudioBuffer buffer) {
     waveshaper.processFrame(sample1_channel1, sample2_channel1);
     waveshaper.processFrame(sample1_channel2, sample2_channel2);
 
-    delay.processFrame(sample2_channel1, sample1_channel1);
-    delay.processFrame(sample2_channel2, sample1_channel2);
+    stereoChorus.processFrame(sample2_channel1, sample2_channel2,
+                              sample1_channel1, sample1_channel2);
 
-    stereoChorus.processFrame(sample1_channel1, sample1_channel2,
-                              sample2_channel1, sample2_channel2);
+    delay.processFrame(sample1_channel1, sample2_channel1);
+    delay.processFrame(sample1_channel2, sample2_channel2);
+
     filter.processFrame(sample2_channel1, sample1_channel1);
     filter.processFrame(sample2_channel2, sample1_channel2);
+
     outputChannels[0][i] = sample1_channel1;
     outputChannels[1][i] = sample1_channel2;
   }
 }
-

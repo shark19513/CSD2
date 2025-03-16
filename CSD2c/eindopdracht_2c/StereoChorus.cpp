@@ -7,9 +7,9 @@
 StereoChorus::StereoChorus(float modDepth, float modRate) {
     std::cout << "-- StereoChorus constructor --" << std::endl;
     // init 2 chori
-    // phase of the modulating signal is shifted for channel 2 for stereo effect
+    // phase of the modulating signal is slightly shifted on channel 2 for stereo effect
     m_channel1 = new Chorus(modDepth, modRate);
-    m_channel2 = new Chorus(modDepth, modRate, 0.25);
+    m_channel2 = new Chorus(modDepth, modRate, 0.3);
 }
 
 StereoChorus::~StereoChorus() {

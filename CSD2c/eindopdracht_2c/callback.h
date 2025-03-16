@@ -7,7 +7,6 @@
 #include "StereoChorus.h"
 #include "Filters.h"
 #include "saw.h"
-#include "triangle.h"
 
 
 class CustomCallback : public AudioCallback {
@@ -21,8 +20,8 @@ private:
   float m_samplerate;
   Saw saw{220};
   Delay delay {500, 5000};
-  Waveshaper waveshaper{20};
-  StereoChorus stereoChorus{4, 2};
+  Waveshaper waveshaper{10};
+  StereoChorus stereoChorus{7.0f, 0.4f};
 };
 
 #endif //CALLBACK_H

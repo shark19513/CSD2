@@ -2,7 +2,6 @@
 #define CHORUS_H
 #include <iostream>
 #include "delay.h"
-#include <triangle.h>
 #include <sine.h>
 
 
@@ -14,10 +13,11 @@ public:
 
     void prepare(float sampleRate) override;
     void applyEffect(const float& input, float& output) override;
-    void setModDepth(float modDepth);
+    void setModDepth(float modDepth) override;
+    void setModRate(float modRate) override;
 
 private:
-    Triangle m_triangle;
+    Sine m_sine;
     float m_modDepth;
 };
 

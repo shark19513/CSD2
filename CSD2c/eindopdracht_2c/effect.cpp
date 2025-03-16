@@ -38,3 +38,14 @@ void Effect::setBypassState(bool bypassed) {
     this->m_bypassed = bypassed;
 }
 
+
+// messages if method are not implemented in derived class
+void Effect::setModDepth(float modDepth) {
+    std::cout << "! no mod depth available !\n";
+}
+
+void Effect::setModRate(float modRate) {
+    std::cout << "! no mod rate available !\n";
+}
+
+
