@@ -17,7 +17,7 @@ void CustomCallback::prepare(int rate) {
   stereoChorus.prepare(m_samplerate);
   stereoChorus.setBypassState(false);
 
-  waveshaper.setBypassState(false);
+  waveShaper.setBypassState(false);
 
   filter.setCoefficient(0.7f);
 }
@@ -27,14 +27,14 @@ void CustomCallback::process(AudioBuffer buffer) {
   float sample1_channel1, sample2_channel1, sample1_channel2, sample2_channel2;
 
   for (int i = 0u; i < numFrames; i++) {
-    float inputSample = inputChannels[0][i];
-    // float inputSample = saw.genNextSample();
+    // float inputSample = inputChannels[0][i];
+    float inputSample = saw.genNextSample();
 
     sample1_channel1 = inputSample;
     sample1_channel2 = inputSample;
 
-    waveshaper.processFrame(sample1_channel1, sample2_channel1);
-    waveshaper.processFrame(sample1_channel2, sample2_channel2);
+    waveShaper.processFrame(sample1_channel1, sample2_channel1);
+    waveShaper.processFrame(sample1_channel2, sample2_channel2);
 
     stereoChorus.processFrame(sample2_channel1, sample2_channel2,
                               sample1_channel1, sample1_channel2);
@@ -45,7 +45,10 @@ void CustomCallback::process(AudioBuffer buffer) {
     filter.processFrame(sample2_channel1, sample1_channel1);
     filter.processFrame(sample2_channel2, sample1_channel2);
 
-    outputChannels[0][i] = sample1_channel1;
-    outputChannels[1][i] = sample1_channel2;
+    bitCrusher.processFrame(sample1_channel1, sample2_channel1);
+    bitCrusher.processFrame(sample1_channel2, sample2_channel2);
+
+    outputChannels[0][i] = sample2_channel1;
+    outputChannels[1][i] = sample2_channel2;
   }
 }

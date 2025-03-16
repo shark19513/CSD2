@@ -10,6 +10,7 @@ target_sources(eindopdracht_2c PRIVATE main.cpp
         waveshaper.cpp
         wavetableGenerator.cpp
         chorus.cpp
+        BitCrusher.cpp
         StereoChorus.cpp
         Filters.h
         )
