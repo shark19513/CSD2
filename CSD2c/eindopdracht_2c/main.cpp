@@ -9,18 +9,9 @@
 #include <audioToFile.h>
 #include "callback.h"
 
-#include <juce_osc/juce_osc.h>
-#include <juce_gui_basics/juce_gui_basics.h>
 
 #define WRITE_TO_FILE 0
 
-class MyFirstOSCThing : public juce::Component,
-                        private juce::OSCReceiver, // [1]
-                        private juce::OSCReceiver::ListenerWithOSCAddress<juce::OSCReceiver::MessageLoopCallback>
-{
-
-// your code here
-};
 
 int main() {
     ScopedMessageThreadEnabler scopedMessageThreadEnabler;

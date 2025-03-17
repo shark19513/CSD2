@@ -52,6 +52,14 @@ void Chorus::setModRate(float modRate) {
     } else {
         std::cout << "- Chorus::setModRate -\n"
         << "! invalid input !\n"
-        << "- please enter a value between 0.0 and 15.0 -\n";
+        << "- please enter a value between 0.0 and 10.0 -\n";
     }
+}
+
+float Chorus::getModDepth() {
+    return m_modDepth;
+}
+
+float Chorus::getModRate() {
+    return m_sine.getFrequency();
 }

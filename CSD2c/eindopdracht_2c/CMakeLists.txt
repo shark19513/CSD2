@@ -5,13 +5,11 @@ juce_add_console_app(eindopdracht_2c PRODUCT_NAME "eindopdracht_2c")
 target_sources(eindopdracht_2c PRIVATE main.cpp
         callback.cpp
         effect.cpp
-        StereoEffect.cpp
         delay.cpp
         waveshaper.cpp
         wavetableGenerator.cpp
         chorus.cpp
         BitCrusher.cpp
-        StereoChorus.cpp
         Filters.h
         )
 

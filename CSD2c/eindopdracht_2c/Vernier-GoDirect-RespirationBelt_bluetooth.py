@@ -35,7 +35,7 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument("--ip", default="127.0.0.1",
       help="The ip of the OSC server")
-  parser.add_argument("--port", type=int, default=5008,
+  parser.add_argument("--port", type=int, default=9008,
       help="The port the OSC server is listening on")
   args = parser.parse_args()
 
@@ -55,7 +55,7 @@ while not collection_complete:
         if measurements == None:
             break
         print(measurements)
-        client.send_message("/breath", measurements)
+        client.send_message("/juce/breath", measurements)
 
 # gdx.stop()
 # gdx.close()

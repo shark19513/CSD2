@@ -15,7 +15,6 @@ void WavetableGenerator::generateWaveform(float* buffer,
         break;
     }
     case SQUARE: {
-      // TODO: alter calculation to create not aliasing square
       osc = new Square(static_cast<float>(bufferSize), freq);
       break;
     }

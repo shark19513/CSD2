@@ -1,14 +1,10 @@
-//
-// Created by Semuel Leijten on 10/02/2025.
-//
-
 #ifndef DELAY_H
 #define DELAY_H
 #include <iostream>
 #include "effect.h"
 #include "interpolation.h"
 
-
+// BASED ON EXAMPLE FROM CLASS
 class Delay : public Effect {
 public:
     Delay(float delayTimeMillis, float maxDelayMillis);
@@ -17,8 +13,11 @@ public:
     void prepare(float sampleRate) override;
 
     void applyEffect(const float& input, float& output) override;
+
     void setFeedback(float feedback);
     void setDelayTime(float delayTimeMillis);
+    float getFeedback();
+    float getDelayTime();
 
 protected:
     Delay(){}

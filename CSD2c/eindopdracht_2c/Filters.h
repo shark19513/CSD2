@@ -102,23 +102,23 @@ private:
 //                   4_Pole / Simple Cascade
 //   X[n]--->[OnePole][OnePole][OnePole][OnePole]--->Y[n]
 //
+#define NUM_ONEPOLES 4
 class SimpleLadder :  public Filter {
     public:
     void processFrame(const float& input, float& output) override {
         float sample1, sample2;
 
-        onePole_A.processFrame(input, sample1);
-        onePole_B.processFrame(sample1, sample2);
-        onePole_C.processFrame(sample2, sample1);
-        onePole_D.processFrame(sample2, output);
+        onePoles[0].processFrame(input, sample1);
+        onePoles[1].processFrame(sample1, sample2);
+        onePoles[2].processFrame(sample2, sample1);
+        onePoles[3].processFrame(sample2, output);
     }
 
     void setCoefficient(float coefficient) {
         if (coefficient >= 0.0f && coefficient <= 1.0f) {
-            onePole_A.setCoefficient(coefficient);
-            onePole_B.setCoefficient(coefficient);
-            onePole_C.setCoefficient(coefficient);
-            onePole_D.setCoefficient(coefficient);
+            for (int i = 0; i < NUM_ONEPOLES; i++) {
+                onePoles[i].setCoefficient(coefficient);
+            }
         } else {
             std::cout << "- SimpleLadder::setCoefficient -\n"
             << "! invalid input !\n"
@@ -127,8 +127,5 @@ class SimpleLadder :  public Filter {
     }
 
 private:
-    OnePole onePole_A;
-    OnePole onePole_B;
-    OnePole onePole_C;
-    OnePole onePole_D;
+    OnePole onePoles[NUM_ONEPOLES];
 };

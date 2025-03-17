@@ -28,9 +28,18 @@ void Waveshaper::applyEffect(const float &input, float &output) {
 }
 
 void Waveshaper::setK(float k) {
-    // TODO: add validation
-    this->m_k = k;
-    fillBuffer();
+    if (k >= 0.0f && k <= 1000.0f) {
+        this->m_k = k;
+        fillBuffer();
+    } else {
+        std::cout << "- Waveshaper::setK -\n"
+        << "! invalid input !\n"
+        << "- please enter a value between 0.0 and 1000.0 -\n";
+    }
+}
+
+float Waveshaper::getK() {
+    return m_k;
 }
 
 void Waveshaper::fillBuffer() {

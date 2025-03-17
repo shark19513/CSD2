@@ -17,10 +17,8 @@ public:
 
     void setWetLevel(float wetLevel);
     void setBypassState(bool state);
-
-    // virtual methods are created here to be used in StereoEffect
-    virtual void setModDepth(float modDepth);
-    virtual void setModRate(float modRate);
+    float getWetLevel();
+    bool getBypassState();
 
 protected:
     virtual void applyEffect(const float& input, float& output) = 0;

@@ -1,7 +1,8 @@
 #include "callback.h"
 
 CustomCallback::CustomCallback (float sampleRate)
-  : AudioCallback (sampleRate), m_samplerate (sampleRate) {}
+  : AudioCallback(sampleRate), m_samplerate(sampleRate) {
+}
 
 void CustomCallback::prepare(int rate) {
   m_samplerate = static_cast<float>(rate);
@@ -9,48 +10,47 @@ void CustomCallback::prepare(int rate) {
 
   saw.prepare(m_samplerate);
 
-  delay.prepare(m_samplerate);
-  delay.setBypassState(false);
-  delay.setWetLevel(0.3f);
-  delay.setFeedback(0.25f);
+  delayL.prepare(m_samplerate);
+  delayL.setWetLevel(0.3f);
+  delayL.setFeedback(0.25f);
+  delayR.prepare(m_samplerate);
+  delayR.setWetLevel(0.3f);
+  delayR.setFeedback(0.25f);
 
-  stereoChorus.prepare(m_samplerate);
-  stereoChorus.setBypassState(false);
+  chorusL.prepare(m_samplerate);
+  chorusR.prepare(m_samplerate);
 
-  waveShaper.setBypassState(false);
-
-  filter.setCoefficient(0.7f);
-
-  bitCrusher.setBypassState(false);
+  filterL.setCoefficient(0.7f);
+  filterR.setCoefficient(0.7f);
 }
 
 void CustomCallback::process(AudioBuffer buffer) {
   auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
-  float sample1_channel1, sample2_channel1, sample1_channel2, sample2_channel2;
+  float sample1_channel_L, sample2_channel_L, sample1_channel_R, sample2_channel_R;
 
   for (int i = 0u; i < numFrames; i++) {
     // float inputSample = inputChannels[0][i];
     float inputSample = saw.genNextSample();
 
-    sample1_channel1 = inputSample;
-    sample1_channel2 = inputSample;
+    sample1_channel_L = inputSample;
+    sample1_channel_R = inputSample;
 
-    waveShaper.processFrame(sample1_channel1, sample2_channel1);
-    waveShaper.processFrame(sample1_channel2, sample2_channel2);
+    waveshaper.processFrame(sample1_channel_L, sample2_channel_L);
+    waveshaper.processFrame(sample1_channel_R, sample2_channel_R);
 
-    stereoChorus.processFrame(sample2_channel1, sample2_channel2,
-                              sample1_channel1, sample1_channel2);
+    chorusL.processFrame(sample2_channel_L, sample1_channel_L);
+    chorusR.processFrame(sample2_channel_R, sample1_channel_R);
 
-    delay.processFrame(sample1_channel1, sample2_channel1);
-    delay.processFrame(sample1_channel2, sample2_channel2);
+    delayL.processFrame(sample1_channel_L, sample2_channel_L);
+    delayR.processFrame(sample1_channel_R, sample2_channel_R);
 
-    filter.processFrame(sample2_channel1, sample1_channel1);
-    filter.processFrame(sample2_channel2, sample1_channel2);
+    filterL.processFrame(sample2_channel_L, sample1_channel_L);
+    filterR.processFrame(sample2_channel_R, sample1_channel_R);
 
-    bitCrusher.processFrame(sample1_channel1, sample2_channel1);
-    bitCrusher.processFrame(sample1_channel2, sample2_channel2);
+    bitCrusher.processFrame(sample1_channel_L, sample2_channel_L);
+    bitCrusher.processFrame(sample1_channel_R, sample2_channel_R);
 
-    outputChannels[0][i] = sample2_channel1;
-    outputChannels[1][i] = sample2_channel2;
+    outputChannels[0][i] = sample2_channel_L;
+    outputChannels[1][i] = sample2_channel_R;
   }
 }

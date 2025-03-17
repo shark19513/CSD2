@@ -4,7 +4,8 @@
 #include "delay.h"
 #include <sine.h>
 
-
+// based on examples from Designing Audio Effects in C++ by Will Pirkle
+// chapter 15
 class Chorus : public Delay {
 public:
     Chorus(float modDepth, float modRate);
@@ -13,11 +14,16 @@ public:
 
     void prepare(float sampleRate) override;
     void applyEffect(const float& input, float& output) override;
-    void setModDepth(float modDepth) override;
-    void setModRate(float modRate) override;
+
+    void setModDepth(float modDepth);
+    void setModRate(float modRate);
+
+    float getModDepth();
+    float getModRate();
 
 private:
     Sine m_sine;
+    // mod rate is frequency of m_sine
     float m_modDepth;
 };
 

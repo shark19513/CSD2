@@ -2,7 +2,7 @@
 // Created by Semuel Leijten on 19/02/2025.
 //
 
-#include "bitcrusher.h"
+#include "BitCrusher.h"
 
 
 BitCrusher::BitCrusher(unsigned int bitDepth) {
@@ -18,8 +18,16 @@ void BitCrusher::applyEffect(const float &input, float &output) {
 }
 
 void BitCrusher::setBitDepth(unsigned int bitDepth) {
-    //TODO: add validation
-    this->m_bitDepth = bitDepth;
-    m_stepSize = 1.0f / static_cast<float>(1 << m_bitDepth);
-    std::cout << "- Bit depth set to " << m_bitDepth << " -" << std::endl;
+    if (bitDepth >= 1 && bitDepth <= 32) {
+        this->m_bitDepth = bitDepth;
+        m_stepSize = 1.0f / static_cast<float>(1 << m_bitDepth);
+    } else {
+        std::cout << "- BitCrusher::setBitDepth -\n"
+        << "! invalid input !\n"
+        << "- please enter a value between 1 and 32 -\n";
+    }
+}
+
+unsigned int BitCrusher::getBitDepth() {
+    return m_bitDepth;
 }

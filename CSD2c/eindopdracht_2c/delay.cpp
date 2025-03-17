@@ -1,7 +1,3 @@
-//
-// Created by Semuel Leijten on 10/02/2025.
-//
-
 #include "delay.h"
 
 #include <iomanip>
@@ -36,7 +32,6 @@ void Delay::applyEffect(const float& input, float& output) {
 void Delay::setFeedback(float feedback) {
     if (feedback >= 0.0f && feedback <= 1.0f) {
         this->m_feedback = feedback;
-        std::cout << "- feedback set to " << m_feedback << " -" << std::endl;
     } else {
         std::cout << "! invalid input !\n"
         << "- please enter a value between 0.0 and 1.0 -\n";
@@ -52,13 +47,19 @@ void Delay::setDelayTime(float delayTimeMillis) {
         this->m_delayTimeMillis = delayTimeMillis;
         m_delayTimeSamples = millisecondsToSamples(m_delayTimeMillis);
         setDistanceRW(m_delayTimeSamples);
-
-        std::cout << "- delay time set to " << m_delayTimeMillis << " milliseconds -\n";
     } else {
         std::cout << "! invalid input !\n"
         << "- please enter a value between 0.0 and "
         << samplesToMilliseconds(m_bufferSize - 1) << " -\n";
     }
+}
+
+float Delay::getFeedback() {
+    return m_feedback;
+}
+
+float Delay::getDelayTime() {
+    return m_delayTimeMillis;
 }
 
 unsigned int Delay::millisecondsToSamples(float millis) {

@@ -8,7 +8,7 @@
 #include <saw.h>
 #include <square.h>
 
-
+// COPIED FROM EXAMPLE FROM CLASS
 class WavetableGenerator {
 public:
   enum waveFormType {

@@ -15,7 +15,9 @@ public:
 
     void prepare(float sampleRate) override;
     void applyEffect(const float& input, float& output) override;
+
     void setBitDepth(unsigned int bitDepth);
+    unsigned int getBitDepth();
 
 private:
     unsigned int m_bitDepth;
