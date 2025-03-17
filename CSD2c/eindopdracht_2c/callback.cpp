@@ -20,6 +20,8 @@ void CustomCallback::prepare(int rate) {
   waveShaper.setBypassState(false);
 
   filter.setCoefficient(0.7f);
+
+  bitCrusher.setBypassState(false);
 }
 
 void CustomCallback::process(AudioBuffer buffer) {

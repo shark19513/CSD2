@@ -24,6 +24,14 @@ target_link_libraries(eindopdracht_2c PRIVATE
         oscillators
         audio
 
+        juce::juce_core
+        juce::juce_data_structures
+        juce::juce_events
+        juce::juce_graphics
+        juce::juce_gui_basics
+        juce::juce_osc
+
+
         PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_warning_flags
