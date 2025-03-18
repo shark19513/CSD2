@@ -24,7 +24,7 @@ public:
 private:
     Sine m_sine;
     // mod rate is frequency of m_sine
-    float m_modDepth;
+    std::atomic<float> m_modDepth;
 };
 
 #endif

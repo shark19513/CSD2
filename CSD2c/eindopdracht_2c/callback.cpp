@@ -31,13 +31,22 @@ void CustomCallback::prepare(int rate) {
 }
 
 void CustomCallback::setEffectParameters() {
-  //store oscMessage and constrain values to 0 - 25
-  m_oscMessage = juce::jlimit(0.0f, 30.0f, m_oscServer.getOscMessage());
+  // osc message is received from m_oscServer
+  // interpolation takes place to smoothen out the changing of the effects
+  // necessary because the respiration belt has a slight time interval between messages send
+  float targetOscMessage = m_oscServer.getOscMessage();
 
-  m_waveshaper.setK(Interpolation::mapInRange(m_oscMessage, 0, 30, 10, 200));
-  m_filterL.setCoefficient(Interpolation::mapInRange(m_oscMessage, 0, 30, 0.7, 0.2));
-  m_filterR.setCoefficient(Interpolation::mapInRange(m_oscMessage, 0, 30, 0.7, 0.2));
+  float alpha = 0.05f;  // sets the smoothness of the interpolation
+  m_oscMessage = juce::jlimit(0.0f, 40.0f,
+    Interpolation::linMap(alpha, m_oscMessage, targetOscMessage));
+
+  m_waveshaper.setK(Interpolation::mapInRange(m_oscMessage, 0, 40, 300, 10));
+  m_filterL.setCoefficient(Interpolation::mapInRange(m_oscMessage, 0, 40, 1, 0.4));
+  m_filterR.setCoefficient(Interpolation::mapInRange(m_oscMessage, 0, 40, 1, 0.4));
+  m_chorusL.setModDepth(Interpolation::mapInRange(m_oscMessage, 0, 40, 5, 10));
+  m_chorusR.setModDepth(Interpolation::mapInRange(m_oscMessage, 0, 40, 5, 10));
 }
+
 
 void CustomCallback::process(AudioBuffer buffer) {
   auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;

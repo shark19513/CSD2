@@ -14,6 +14,8 @@
 
 
 int main() {
+    std::cout << "loading..." << std::endl;
+    std::cout << "Welcome to the Smoker's Lung" << std::endl;
     ScopedMessageThreadEnabler scopedMessageThreadEnabler;
     CustomCallback audioSource{48000};
 
@@ -28,6 +30,7 @@ int main() {
     #else
         bool running = true;
         while (running) {
+            std::cout << "Press q + Enter to quit..." << std::endl;
             switch (std::cin.get()) {
                 case 'q':
                     running = false;
