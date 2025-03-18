@@ -55,7 +55,7 @@ while not collection_complete:
         if measurements == None:
             break
         print(measurements)
-        client.send_message("/juce/breath", measurements)
+        client.send_message("/breath", measurements)
 
 # gdx.stop()
 # gdx.close()

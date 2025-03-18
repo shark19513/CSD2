@@ -26,7 +26,7 @@ public:
 private:
     Waveshaper() {}
 
-    float m_k; // k sets the slope of the waveshaper
+    std::atomic<float> m_k; // k sets the slope of the waveshaper
     float m_buffer[BUFFER_SIZE];
 };
 

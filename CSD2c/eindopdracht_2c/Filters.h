@@ -94,8 +94,8 @@ class OnePole : public Filter {
 
 private:
     float feedback { 0.0 };
-    float a { 0.0 };
-    float b { 0.0 };
+    std::atomic<float> a { 0.0 };
+    std::atomic<float> b { 0.0 };
 };
 
 
