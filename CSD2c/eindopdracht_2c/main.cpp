@@ -7,13 +7,14 @@
  *  are controlled with OSC data from a respiration belt.
  *
  *  To use:
- *  1.  Turn on respiration belt.
+ *  1.  Turn on respiration belt
  *  2.  Run the program Vernier-GoDirect-RespirationBelt_bluetooth.py
  *  3a. Enter the device number in the terminal
  *   b. If the program says "open device 0 = False"
+ *      - Terminate program
  *      - Shortly press on/off button on respiration belt to reconnect bluetooth
  *      - Run program again
- *  4.  Run this program.
+ *  4.  Run this program
 */
 
 #include <iostream>

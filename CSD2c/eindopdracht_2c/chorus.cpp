@@ -5,7 +5,7 @@ Chorus::Chorus(float modDepth, float modRate)
 
 Chorus::Chorus(float modDepth, float modRate, float modSignalPhase)
     : Delay(20.0f, 40.0f),
-      m_sine(modRate, modSignalPhase) {
+      m_LFO(modRate, modSignalPhase) {
     setModDepth(modDepth);
     setWetLevel(0.5);
 }
@@ -14,7 +14,7 @@ Chorus::~Chorus() {}
 
 void Chorus::prepare(float sampleRate) {
     this->m_sampleRate = sampleRate;
-    m_sine.prepare(sampleRate);
+    m_LFO.prepare(sampleRate);
 
     m_bufferSize = millisecondsToSamples(m_maxDelayTimeMillis);
     allocateBuffer();
@@ -23,7 +23,7 @@ void Chorus::prepare(float sampleRate) {
 
 void Chorus::applyEffect(const float& input, float& output) {
   // modsignal is bipolar so no phase shift
-  float modSignal = m_sine.genNextSample();
+  float modSignal = m_LFO.genNextSample();
   // multiply mod signal with mod depth and convert to samples
   unsigned int modDelaySamples = millisecondsToSamples(m_delayTimeMillis
                                               + (modSignal * m_modDepth));
@@ -48,7 +48,7 @@ if (modDepth >= 0.1f && modDepth <= 15.0f) {
 
 void Chorus::setModRate(float modRate) {
     if (modRate >= 0.1f && modRate <= 10.0f) {
-        m_sine.setFrequency(modRate);
+        m_LFO.setFrequency(modRate);
     } else {
         std::cout << "- Chorus::setModRate -\n"
         << "! invalid input !\n"
@@ -61,5 +61,5 @@ float Chorus::getModDepth() {
 }
 
 float Chorus::getModRate() {
-    return m_sine.getFrequency();
+    return m_LFO.getFrequency();
 }
