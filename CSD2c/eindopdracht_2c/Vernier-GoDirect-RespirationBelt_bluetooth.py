@@ -1,4 +1,10 @@
 '''
+----------------------------------------------------------------------
+Code to receive data from Vernier Go Direct Respiration Belt
+From Vernier Documentation
+OSC functionality added by Than van Nispen
+----------------------------------------------------------------------
+
 When using gdx.open_ble(), note that there are a few options:
 
 gdx.open_ble() - When there are no arguments, the function finds all available Go Direct

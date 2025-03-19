@@ -16,7 +16,7 @@ Delay::~Delay() {
 
 void Delay::prepare(float sampleRate) {
     this->m_sampleRate = sampleRate;
-
+    // init the buffer size to the max delay time and init the delay time
     m_bufferSize = millisecondsToSamples(m_maxDelayTimeMillis);
     allocateBuffer();
     setDelayTime(m_delayTimeMillis);
@@ -40,7 +40,6 @@ void Delay::setFeedback(float feedback) {
 
 void Delay::setDelayTime(float delayTimeMillis) {
     // check if delayTimeMillis falls in range[0 - m_bufferSize]
-    // NOTE: maybe a bit unreadable
     if (delayTimeMillis >= 0.0f &&
         millisecondsToSamples(delayTimeMillis) < m_bufferSize) {
 
@@ -85,7 +84,7 @@ void Delay::releaseBuffer() {
 }
 
 void Delay::setDistanceRW(unsigned int distanceRW) {
-    distanceRW = distanceRW;
+    distanceRW = distanceRW; //Ciska said this was necessary
     m_readH = m_writeH - distanceRW + m_bufferSize;
     wrapH(m_readH);
 }

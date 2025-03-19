@@ -24,7 +24,7 @@ void Chorus::prepare(float sampleRate) {
 void Chorus::applyEffect(const float& input, float& output) {
   // modsignal is bipolar so no phase shift
   float modSignal = m_sine.genNextSample();
-  // scale modulation and convert to samples
+  // multiply mod signal with mod depth and convert to samples
   unsigned int modDelaySamples = millisecondsToSamples(m_delayTimeMillis
                                               + (modSignal * m_modDepth));
   setDistanceRW(modDelaySamples);

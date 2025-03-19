@@ -22,8 +22,8 @@ public:
     float getModRate();
 
 private:
-    Sine m_sine;
     // mod rate is frequency of m_sine
+    Sine m_sine; // modulating signal
     std::atomic<float> m_modDepth;
 };
 

@@ -20,9 +20,10 @@ public:
 
 private:
   float m_samplerate;
-  std::string m_serverPort = "9008";
+  // m_stepSize sets smoothness of interpolation inside setEffectParameters()
+  float m_stepSize;
   float m_oscMessage;
-
+  std::string m_serverPort;
   CustomOscServer m_oscServer;
 
   Saw m_saw{220};
@@ -31,10 +32,8 @@ private:
   // chorusR modSignal has phase offset for stereo effect
   Chorus m_chorusL{7.0f, 0.4f};
   Chorus m_chorusR{7.0f, 0.4f, 0.3f};
-
   Delay m_delayL {100, 5000};
   Delay m_delayR {100, 5000};
-
   SimpleLadder m_filterL;
   SimpleLadder m_filterR;
 

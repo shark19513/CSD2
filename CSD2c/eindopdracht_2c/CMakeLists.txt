@@ -7,7 +7,6 @@ find_path(LIBLO_INCLUDE_DIR lo/lo.h)
 juce_add_console_app(eindopdracht_2c PRODUCT_NAME "eindopdracht_2c")
 target_sources(eindopdracht_2c PRIVATE main.cpp
         callback.cpp
-        ValueSmoothener.cpp
         osc.cpp
         CustomOscServer.cpp
         effect.cpp
@@ -16,7 +15,6 @@ target_sources(eindopdracht_2c PRIVATE main.cpp
         wavetableGenerator.cpp
         chorus.cpp
         BitCrusher.cpp
-        Filters.h
 )
 
 target_compile_definitions(eindopdracht_2c PRIVATE
