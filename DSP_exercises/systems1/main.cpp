@@ -1,7 +1,6 @@
 #include <iostream>
 #include <audiocomponent.h>
 #include <sine.h>
-#include <square.h>
 #include <audioToFile.h>
 
 
@@ -36,7 +35,6 @@ struct CustomCallback : AudioCallback {
     }
 private:
     Sine sine;
-    Square square;
 
     float system1(float inputSample) {
         static float prevSample = 0.0f;
