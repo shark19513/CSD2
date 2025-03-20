@@ -24,7 +24,7 @@ public:
     float getModRate();
 
 private:
-    // mod rate is frequency of Sine, so passed directly to m_LFO and not declared here
+    // mod rate is passed directly to frequency m_LFO so not declared here
     Sine m_LFO;
     std::atomic<float> m_modDepth;
 };
