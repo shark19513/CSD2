@@ -14,6 +14,7 @@ void Effect::processFrame(const float& input, float& output) {
     if (m_bypassed) {
         output = input;
     } else {
+        // method of dry/wet blending below is partially written by an AI model
         // store dry and wet separately
         float drySignal = input;
         float wetSignal = 0.0f;

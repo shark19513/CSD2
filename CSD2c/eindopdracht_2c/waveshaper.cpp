@@ -17,10 +17,10 @@ void Waveshaper::applyEffect(const float &input, float &output) {
     float indexFloat = Interpolation::mapInRange(sample,
         -1.0f, 1.0f, 0.0f,
         static_cast<float>(BUFFER_SIZE - 1));
-
+    // lines below are written with help of AI model
+    // cast to int to get rid of fractional part
     unsigned int index = static_cast<unsigned int>(indexFloat);
-
-    // store the part behind the decimal
+    // store the fractional part
     float fractionalPart = indexFloat - static_cast<float>(index);
 
     output = Interpolation::linMap(fractionalPart, m_buffer[index],
