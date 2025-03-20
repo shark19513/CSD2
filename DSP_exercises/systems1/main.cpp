@@ -16,7 +16,6 @@ struct CustomCallback : AudioCallback {
 
     void prepare(int sampleRate = SAMPLE_RATE) override {
         sine.prepare(static_cast<float>(sampleRate));
-        square.prepare(static_cast<float>(sampleRate));
     }
 
     void process(AudioBuffer buffer) override {
