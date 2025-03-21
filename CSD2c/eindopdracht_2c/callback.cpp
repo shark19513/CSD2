@@ -5,8 +5,8 @@ CustomCallback::CustomCallback (float sampleRate)
     m_samplerate(sampleRate),
     m_bypass(false),
     m_stepSize(0.05f),
-    m_oscUpperLimit(40),
     m_oscLowerLimit(1),
+    m_oscUpperLimit(40),
     m_oscMessage(0),
     m_serverPort("9008") {
 }
