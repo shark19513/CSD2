@@ -24,6 +24,8 @@ private:
   bool m_bypass;
   // m_stepSize sets smoothness of interpolation inside setEffectParameters()
   float m_stepSize;
+  float m_oscLowerLimit;
+  float m_oscUpperLimit;
   float m_oscMessage;
   std::string m_serverPort;
   CustomOscServer m_oscServer;
