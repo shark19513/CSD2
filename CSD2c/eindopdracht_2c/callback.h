@@ -17,15 +17,18 @@ public:
   void process(AudioBuffer buffer) override;
 
   void setEffectParameters();
+  void switchBypassState();
 
 private:
   float m_samplerate;
+  bool m_bypass;
   // m_stepSize sets smoothness of interpolation inside setEffectParameters()
   float m_stepSize;
   float m_oscMessage;
   std::string m_serverPort;
   CustomOscServer m_oscServer;
 
+  // test signal
   Saw m_saw{220};
 
   // effects with internal memory, thus 1 for each channel

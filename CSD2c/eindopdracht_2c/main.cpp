@@ -29,7 +29,6 @@
 
 
 int main() {
-    std::cout << "loading..." << std::endl;
     std::cout << "Welcome to The Smoker's Lung" << std::endl;
     ScopedMessageThreadEnabler scopedMessageThreadEnabler;
     CustomCallback audioSource{48000};
@@ -43,13 +42,18 @@ int main() {
         audioToFile.write(audioSource);
 
     #else
+        std::cout << "\nPress b + Enter to bypass/unbypass..." << std::endl;
+        std::cout << "Press q + Enter to quit..." << std::endl;
         bool running = true;
         while (running) {
-            std::cout << "\nPress q + Enter to quit..." << std::endl;
             switch (std::cin.get()) {
+                case 'b':
+                    audioSource.switchBypassState();
+                    break;
                 case 'q':
                     std::cout << "Goodbye..." << std::endl;
                     running = false;
+                    break;
             }
         }
     #endif

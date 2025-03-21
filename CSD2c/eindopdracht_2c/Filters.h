@@ -6,7 +6,31 @@
 
 class Filter {
 public:
-    virtual void processFrame(const float& input, float& output) = 0;
+    Filter() : m_bypassed(false) {}
+    virtual ~Filter() {}
+
+    void processFrame(const float& input, float& output) {
+        if (m_bypassed) {
+            output = input;
+        } else {
+            applyFilter(input, output);
+        }
+    }
+
+    virtual void applyFilter(const float& input, float& output) = 0;
+    virtual void setCoefficient(float coefficient) = 0;
+
+    void setBypassState(bool bypass) {
+        this->m_bypassed = bypass;
+    }
+
+    bool getBypassState() {
+        return m_bypassed;
+    }
+
+private:
+    bool m_bypassed;
+
 };
 //                   IIRFilter
 //   X[n] ---->(+)--->[ 1 sample ] ---> Y[n]
@@ -15,13 +39,15 @@ public:
 //
 class IIRFilter : public Filter {
     public:
-    void processFrame(const float& input, float& output) override {
+    IIRFilter() {}
+    ~IIRFilter() override {}
+    void applyFilter(const float& input, float& output) override {
         // Y[n] = X[n] + aY[n-1]
         feedback = input + (a * feedback);
         output = feedback;
     }
 
-    void setCoefficient(float coefficient) {
+    void setCoefficient(float coefficient) override {
         if (coefficient >= 0.0f && coefficient <= 1.0f) {
             a = coefficient;
         } else {
@@ -45,13 +71,16 @@ private:
 //
 class FIRFilter : public Filter {
     public:
-    void processFrame(const float& input, float& output) override {
+    FIRFilter() {}
+    ~FIRFilter() override {}
+
+    void applyFilter(const float& input, float& output) override {
         // Y[n] = X[n] - bX[n-1]
         output = input - (b * x1);
         x1 = input; // Recaching Delay
     }
 
-    void setCoefficient(float coefficient) {
+    void setCoefficient(float coefficient) override {
         if (coefficient >= 0.0f && coefficient <= 1.0f) {
             b = coefficient;
         } else {
@@ -75,13 +104,16 @@ private:
 //
 class OnePole : public Filter {
     public:
-    void processFrame(const float& input, float& output) override {
+    OnePole() {}
+    ~OnePole() override {}
+
+    void applyFilter(const float& input, float& output) override {
         // Y[n] = bX[n] + aY[n-1]
         feedback = b * input + a * feedback;
         output = feedback;
     }
 
-    void setCoefficient(float coefficient) {
+    void setCoefficient(float coefficient) override {
         if (coefficient >= 0.0f && coefficient <= 1.0f) {
             a = coefficient;
             b = 1.0f - a;
@@ -105,18 +137,21 @@ private:
 #define NUM_ONEPOLES 4
 class SimpleLadder :  public Filter {
     public:
-    void processFrame(const float& input, float& output) override {
+    SimpleLadder() {}
+    ~SimpleLadder() override {}
+
+    void applyFilter(const float& input, float& output) override {
         float sample1, sample2;
 
-        onePoles[0].processFrame(input, sample1);
-        onePoles[1].processFrame(sample1, sample2);
-        onePoles[2].processFrame(sample2, sample1);
-        onePoles[3].processFrame(sample2, output);
+        onePoles[0].applyFilter(input, sample1);
+        onePoles[1].applyFilter(sample1, sample2);
+        onePoles[2].applyFilter(sample2, sample1);
+        onePoles[3].applyFilter(sample2, output);
     }
 
-    void setCoefficient(float coefficient) {
+    void setCoefficient(float coefficient) override {
         if (coefficient >= 0.0f && coefficient <= 1.0f) {
-            for (int i = 0; i < NUM_ONEPOLES; i++) {
+            for (unsigned int i = 0; i < NUM_ONEPOLES; i++) {
                 onePoles[i].setCoefficient(coefficient);
             }
         } else {

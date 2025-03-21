@@ -13,7 +13,7 @@ public:
     virtual ~Effect();
 
     virtual void prepare(float sampleRate) = 0;
-    void processFrame(const float &input, float &output);
+    void processFrame(const float& input, float& output);
 
     void setWetLevel(float wetLevel);
     void setBypassState(bool state);

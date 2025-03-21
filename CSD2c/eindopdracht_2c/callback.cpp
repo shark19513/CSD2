@@ -3,6 +3,7 @@
 CustomCallback::CustomCallback (float sampleRate)
   : AudioCallback(sampleRate),
     m_samplerate(sampleRate),
+    m_bypass(false),
     m_stepSize(0.05f),
     m_oscMessage(0),
     m_serverPort("9008") {
@@ -19,6 +20,8 @@ void CustomCallback::prepare(int rate) {
 
   m_saw.prepare(m_samplerate);
 
+  m_waveshaper.setBypassState(false);
+
   m_delayL.prepare(m_samplerate);
   m_delayL.setWetLevel(0.3f);
   m_delayL.setFeedback(0.25f);
@@ -32,6 +35,8 @@ void CustomCallback::prepare(int rate) {
 
   m_filterL.setCoefficient(1);
   m_filterR.setCoefficient(1);
+  m_filterL.setBypassState(false);
+  m_filterR.setBypassState(false);
 }
 
 void CustomCallback::setEffectParameters() {
@@ -41,16 +46,33 @@ void CustomCallback::setEffectParameters() {
   // values are constrained between 0.0 - 40.0
   // interpolation takes place to smoothen out the changing of the effects
   // necessary because the respiration belt has a slight time interval between messages send
-  m_oscMessage = juce::jlimit(0.0f, 40.0f,
+  m_oscMessage = juce::jlimit(1.0f, 40.0f,
     Interpolation::linMap(m_stepSize, m_oscMessage, targetOscMessage));
 
   // use m_oscMessage to set effect parameters
-  m_waveshaper.setK(Interpolation::mapInRange(m_oscMessage, 0, 40, 400, 10));
-  m_filterL.setCoefficient(Interpolation::mapInRange(m_oscMessage, 0, 40, 1, 0.4f));
-  m_filterR.setCoefficient(Interpolation::mapInRange(m_oscMessage, 0, 40, 1, 0.4f));
-  m_chorusL.setModDepth(Interpolation::mapInRange(m_oscMessage, 0, 40, 5, 10));
-  m_chorusR.setModDepth(Interpolation::mapInRange(m_oscMessage, 0, 40, 5, 10));
+  m_waveshaper.setK(Interpolation::mapInRange(m_oscMessage, 1, 40, 400, 10));
+  m_filterL.setCoefficient(Interpolation::mapInRange(m_oscMessage, 1, 40, 0.99f, 0.4f));
+  m_filterR.setCoefficient(Interpolation::mapInRange(m_oscMessage, 1, 40, 0.99f, 0.4f));
+  m_chorusL.setModDepth(Interpolation::mapInRange(m_oscMessage, 1, 40, 5, 10));
+  m_chorusR.setModDepth(Interpolation::mapInRange(m_oscMessage, 1, 40, 5, 10));
 }
+
+void CustomCallback::switchBypassState() {
+  if (m_bypass) {
+    m_bypass = false;
+  } else {
+    m_bypass = true;
+  }
+  m_waveshaper.setBypassState(m_bypass);
+  m_chorusL.setBypassState(m_bypass);
+  m_chorusR.setBypassState(m_bypass);
+  m_delayL.setBypassState(m_bypass);
+  m_delayR.setBypassState(m_bypass);
+  m_filterL.setBypassState(m_bypass);
+  m_filterR.setBypassState(m_bypass);
+  m_bitCrusher.setBypassState(m_bypass);
+}
+
 
 void CustomCallback::process(AudioBuffer buffer) {
   auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
