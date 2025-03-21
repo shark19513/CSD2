@@ -73,7 +73,6 @@ void CustomCallback::switchBypassState() {
   m_bitCrusher.setBypassState(m_bypass);
 }
 
-
 void CustomCallback::process(AudioBuffer buffer) {
   auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
   float sample1_channelL, sample2_channelL, sample1_channelR, sample2_channelR;
@@ -82,8 +81,8 @@ void CustomCallback::process(AudioBuffer buffer) {
 
   for (int i = 0u; i < numFrames; i++) {
 
-    // float inputSample = inputChannels[0][i];
-    float inputSample = m_saw.genNextSample();
+    // float inputSample = m_saw.genNextSample(); // test signal
+    float inputSample = inputChannels[0][i];
 
     sample1_channelL = inputSample;
     sample1_channelR = inputSample;
