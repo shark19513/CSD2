@@ -53,7 +53,7 @@ void CustomCallback::setEffectParameters() {
 
   // use m_oscMessage to set effect parameters
   m_waveshaper.setK(Interpolation::mapInRange(m_oscMessage, m_oscLowerLimit, m_oscUpperLimit,
-                                              400, 10));
+                                              400, 40));
   m_filterL.setCoefficient(Interpolation::mapInRange(m_oscMessage, m_oscLowerLimit, m_oscUpperLimit,
                                               0.99f, 0.4f));
   m_filterR.setCoefficient(Interpolation::mapInRange(m_oscMessage, m_oscLowerLimit, m_oscUpperLimit,

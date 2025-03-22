@@ -17,7 +17,6 @@ public:
         }
     }
 
-    virtual void applyFilter(const float& input, float& output) = 0;
     virtual void setCoefficient(float coefficient) = 0;
 
     void setBypassState(bool bypass) {
@@ -28,7 +27,9 @@ public:
         return m_bypassed;
     }
 
-private:
+protected:
+
+    virtual void applyFilter(const float& input, float& output) = 0;
     bool m_bypassed;
 
 };
