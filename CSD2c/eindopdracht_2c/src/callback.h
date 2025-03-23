@@ -33,9 +33,8 @@ private:
   Saw m_saw{220}; // test signal
 
   // effects with internal memory, thus 1 for each channel
-  // chorusR modSignal has phase offset for stereo effect
   Chorus m_chorusL{7.0f, 0.4f};
-  Chorus m_chorusR{7.0f, 0.4f, 0.3f};
+  Chorus m_chorusR{7.0f, 0.4f, 0.3f}; // phase offset for stereo effect
   Delay m_delayL {150, 5000};
   Delay m_delayR {150, 5000};
   SimpleLadder m_filterL;
