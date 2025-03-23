@@ -45,7 +45,7 @@ void CustomCallback::setEffectParameters() {
   // osc message is received from m_oscServer
   float targetOscMessage = m_oscServer.getOscMessage();
 
-  // values are constrained between 0.0 - 40.0
+  // values are constrained between 1.0 - 40.0
   // interpolation takes place to smoothen out the changing of the effects
   // necessary because the respiration belt has a slight time interval between messages send
   m_oscMessage = juce::jlimit(m_oscLowerLimit, m_oscUpperLimit,
