@@ -5,6 +5,8 @@
    Program that does processing on an audio signal with various effects some of which
    are controlled with OSC data from a respiration belt.
 
+_mono in --> stereo out_
+
    **To use:**
    1.  Turn on Vernier Go Direct Respiration Belt
    2.  Run the program Vernier-GoDirect-RespirationBelt_bluetooth.py
