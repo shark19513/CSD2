@@ -17,6 +17,6 @@ _mono in --> stereo out_
        - Terminate program
        - Shortly press on/off button on respiration belt to reconnect bluetooth
        - Run program again
-   4.  Run this program
+   4.  Run program
 
 **NOTE:** The optimal values for the fields m_oscLowerLimit and m_oscUpperLimit inside callback may vary per person.
