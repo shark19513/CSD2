@@ -1,0 +1,7 @@
+- Designing Audio Effect Plugins in C++ by Will Pirkle
+
+https://stackoverflow.com/questions/461203/when-to-use-virtual-destructors
+https://stackoverflow.com/questions/962132/why-is-a-call-to-a-virtual-member-function-in-the-constructor-a-non-virtual-call
+https://stackoverflow.com/questions/2673687/ambiguous-constructor-call
+https://www.geeksforgeeks.org/how-to-dynamically-allocate-an-array-in-cpp/
+https://stackoverflow.com/questions/1609163/what-is-the-difference-between-static-cast-and-c-style-casting
