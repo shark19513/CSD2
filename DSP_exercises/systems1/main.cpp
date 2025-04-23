@@ -8,7 +8,7 @@
 #define WRITE_TO_FILE 1
 
 struct CustomCallback : AudioCallback {
-    explicit CustomCallback(double Fs) : AudioCallback(Fs), sine(0), square(0) {
+    explicit CustomCallback(double Fs) : AudioCallback(Fs), sine(0) {
     }
 
     ~CustomCallback() override {
@@ -24,7 +24,7 @@ struct CustomCallback : AudioCallback {
 
         for (auto sample = 0u; sample < numFrames; ++sample) {
             float oscSample = sine.genNextSample();
-            float processedOutput = system7(oscSample);
+            float processedOutput = system6(oscSample);
             for(auto channel = 0u; channel < numOutputChannels; ++channel) {
                 outputChannels[channel][sample] = processedOutput;
                 frequency ++;
@@ -37,28 +37,35 @@ private:
 
     float system1(float inputSample) {
         static float prevSample = 0.0f;
-        float outputSample = 0.5f * inputSample + 0.5f * prevSample;
+        static float prevprevSample = 0.0f;
+        float outputSample = 0.25f * prevSample + 0.25f * prevprevSample;
+        prevprevSample = prevSample;
         prevSample = inputSample;
         return outputSample;
     }
 
     float system2(float inputSample) {
         static float prevSample = 0.0f;
-        float outputSample = 0.5 * inputSample - 0.5 * prevSample;
+        static float prevprevSample = 0.0f;
+        float outputSample = 0.5f * inputSample + 0.5f * prevprevSample;
+        prevprevSample = prevSample;
         prevSample = inputSample;
         return outputSample;
     }
 
     float system3(float inputSample) {
-        static float prevSample = 0.0f;
-        float outputSample = -0.5 * inputSample + 0.5 * prevSample;
-        prevSample = inputSample;
-        return outputSample;
+        static float feedback = 0.0f;
+        feedback = 0.5f * feedback + 0.5f * inputSample;
+        return feedback;
     }
 
     float system4(float inputSample) {
         static float prevSample = 0.0f;
-        float outputSample = -0.5 * inputSample - 0.5 * prevSample;
+        static float prevprevSample = 0.0f;
+        static float prevprevprevSample = 0.0f;
+        float outputSample = 0.25f * inputSample - 0.25f * prevprevprevSample;
+        prevprevprevSample = prevprevSample;
+        prevprevSample = prevSample;
         prevSample = inputSample;
         return outputSample;
     }
@@ -66,7 +73,9 @@ private:
     float system5(float inputSample) {
         static float prevSample = 0.0f;
         static float prevprevSample = 0.0f;
-        float outputSample = 0.25 * inputSample + 0.5 * prevSample + 0.25 * prevprevSample;
+        static float prevprevprevSample = 0.0f;
+        float outputSample = 0.75f * inputSample + 0.25f * prevprevprevSample;
+        prevprevprevSample = prevprevSample;
         prevprevSample = prevSample;
         prevSample = inputSample;
         return outputSample;
@@ -74,11 +83,10 @@ private:
 
     float system6(float inputSample) {
         static float prevSample = 0.0f;
-        static float prevprevSample = 0.0f;
-        float outputSample = 0.25 * inputSample - 0.5 * prevSample + 0.25 * prevprevSample;
-        prevprevSample = prevSample;
+        static float feedback = 0.0f;
+        feedback = 0.5f * prevSample - 0.5f * feedback;
         prevSample = inputSample;
-        return outputSample;
+        return feedback;
     }
 
     float system7(float inputSample) {

@@ -45,10 +45,12 @@ public:
 
 private:
     //==============================================================================
-    std::atomic<float> *modDepth;
-    std::atomic<float> *modRate;
+    std::atomic<float> *m_modDepth;
+    std::atomic<float> *m_modRate;
 
-    std::vector<Chorus> chori;
+    // std::vector<Chorus> chori;
+    std::array<Chorus, 2> m_chori;
+
     juce::AudioProcessorValueTreeState Params;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)
 };
