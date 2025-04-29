@@ -2,17 +2,17 @@
 
 CustomCallback::CustomCallback (float sampleRate)
   : AudioCallback(sampleRate),
-    m_samplerate(sampleRate),
+    m_sampleRate(sampleRate),
     m_bypass(false)
 {
 }
 
 void CustomCallback::prepare(int rate)
 {
-  m_samplerate = static_cast<float>(rate);
-  std::cout << "\nsamplerate: " << m_samplerate << "\n";
+  m_sampleRate = static_cast<float>(rate);
+  std::cout << "\nsamplerate: " << m_sampleRate << "\n";
 
-  m_saw.prepare(m_samplerate);
+  m_saw.prepare(m_sampleRate);
 }
 
 void CustomCallback::setEffectParameters()

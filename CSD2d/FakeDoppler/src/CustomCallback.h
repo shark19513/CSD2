@@ -14,7 +14,7 @@ public:
   void switchBypassState();
 
 private:
-  float m_samplerate;
+  float m_sampleRate;
   bool m_bypass;
 
   Saw m_saw{220}; // test signal

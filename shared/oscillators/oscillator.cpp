@@ -33,9 +33,10 @@ float Oscillator::genNextSample() {
     if (m_phase > 1.0f) {
         m_phase -= 1.0f;
     }
+    // amplitude is calculated in calculateNextSample()
     calculateNextSample();
 
-    return m_sample *= m_amplitude;
+    return m_sample;
 }
 
 
