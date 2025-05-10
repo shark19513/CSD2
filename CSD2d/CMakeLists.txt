@@ -1,1 +1,1 @@
-add_subdirectory(FakeDoppler)
+add_subdirectory(Dopplinator)

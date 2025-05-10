@@ -1,0 +1,32 @@
+//
+// Created by Semuel Leijten on 10/02/2025.
+//
+
+#ifndef EFFECT_H
+#define EFFECT_H
+#include <iostream>
+
+
+class Effect {
+public:
+    Effect();
+    virtual ~Effect();
+
+    virtual void prepare(float sampleRate) = 0;
+    void processFrame(const float& input, float& output);
+
+    void setWetLevel(float wetLevel);
+    void setBypassState(bool state);
+    float getWetLevel();
+    bool getBypassState();
+
+protected:
+    virtual void applyEffect(const float& input, float& output) = 0;
+
+    bool m_bypassed;
+    float m_wetLevel;
+};
+
+
+
+#endif //EFFECT_H

@@ -1,18 +1,21 @@
 cmake_minimum_required(VERSION 3.30)
-project(FakeDoppler VERSION 0.0.1)
+project(Dopplinator VERSION 0.0.1)
 
-juce_add_console_app(FakeDoppler PRODUCT_NAME "FakeDoppler")
-target_sources(FakeDoppler PRIVATE
+juce_add_console_app(Dopplinator PRODUCT_NAME "Dopplinator")
+target_sources(Dopplinator PRIVATE
         main.cpp
         CustomCallback.cpp
+        Effect.cpp
+        Doppler.cpp
+        Delay.cpp
 )
 
-target_compile_definitions(FakeDoppler PRIVATE
+target_compile_definitions(Dopplinator PRIVATE
         JUCE_WEB_BROWSER=0
         JUCE_USE_CURL=0
         SOURCE_DIR="..")
 
-target_link_libraries(FakeDoppler PRIVATE
+target_link_libraries(Dopplinator PRIVATE
         oscillators
         audio
 
@@ -25,4 +28,4 @@ target_link_libraries(FakeDoppler PRIVATE
         juce::juce_recommended_warning_flags
 )
 
-target_compile_features(FakeDoppler PRIVATE cxx_std_20)
+target_compile_features(Dopplinator PRIVATE cxx_std_20)
