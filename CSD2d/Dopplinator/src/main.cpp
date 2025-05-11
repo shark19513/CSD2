@@ -4,7 +4,7 @@
 #include <audioToFile.h>
 #include "CustomCallback.h"
 
-#define WRITE_TO_FILE 1
+#define WRITE_TO_FILE 0
 
 int main() {
     ScopedMessageThreadEnabler scopedMessageThreadEnabler;

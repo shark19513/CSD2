@@ -84,7 +84,7 @@ void Delay::releaseBuffer() {
 }
 
 void Delay::setDistanceRW(unsigned int distanceRW) {
-    distanceRW = distanceRW; //Ciska said this was necessary
+    m_distanceRW = distanceRW;
     m_readH = m_writeH - distanceRW + m_bufferSize;
     wrapH(m_readH);
 }

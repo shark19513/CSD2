@@ -23,17 +23,19 @@ void Delay::prepare(float sampleRate) {
 }
 
 void Delay::applyEffect(const float& input, float& output) {
-    /* store the read head as an integer called index to get rid of the fractional part
+    /* store the read head as an integer called index and get rid of the fractional part
      * then declare the next index as index + 1
      * these are the indexes of the two samples in the buffer that we will interpolate between */
-    unsigned int index = static_cast<unsigned int>(m_readH);
-    float nextIndex = index + 1;
+    float index = trunc(m_readH); // get rid of decimal
+    float nextIndex = index + 1.0f;
     wrapH(nextIndex); // wrap if necessary
 
     /* now store the fractional part seperately, this is the value to interpolate to */
     float value = m_readH - index;
 
-    output = Interpolation::linMap(value, index, nextIndex);
+    /* interpolate between current index and the next one*/
+    output = Interpolation::linMap(value, m_buffer[static_cast<unsigned int>(index)],
+                                         m_buffer[static_cast<unsigned int>(nextIndex)]);
 
     incrReadH(); // tick
     // write input to write head index together with the feedback from the output
@@ -45,23 +47,28 @@ void Delay::setFeedback(float feedback) {
     if (feedback >= 0.0f && feedback <= 1.0f) {
         this->m_feedback = feedback;
     } else {
-        std::cout << "! invalid input !\n"
-        << "- please enter a value between 0.0 and 1.0 -\n";
+        std::cout << "-- Delay::setFeedback --\n"
+                  << "! invalid input !\n"
+                  << "- please enter a value between 0.0 and 1.0 -\n";
     }
 }
 
 void Delay::setDelayTime(float delayTimeMillis) {
-    // check if delayTimeMillis falls in range[0 - m_bufferSize]
-    if (delayTimeMillis >= 0.0f &&
-        millisecondsToSamples(delayTimeMillis) < m_bufferSize) {
+    /* delay time must be 1 sample minimum to prevent interpolation from 0 to 0 */
 
+    float newDelayTimeSamples = millisecondsToSamples(delayTimeMillis);
+    // check if delayTimeMillis falls in range[1 - m_bufferSize]
+    if (newDelayTimeSamples >= 1.0f && newDelayTimeSamples < m_bufferSize) {
         this->m_delayTimeMillis = delayTimeMillis;
-        m_delayTimeSamples = millisecondsToSamples(m_delayTimeMillis);
+        m_delayTimeSamples = newDelayTimeSamples;
+        std::cout << m_delayTimeMillis << "\n";
+        std::cout << m_delayTimeSamples << "\n";
         setDistanceRW(m_delayTimeSamples);
     } else {
-        std::cout << "! invalid input !\n"
-        << "- please enter a value between 0.0 and "
-        << samplesToMilliseconds(m_bufferSize - 1) << " -\n";
+        std::cout << "-- Delay::setDelayTime -- \n"
+                  << "! invalid input !\n"
+                  << "- please enter a value between " << samplesToMilliseconds(1)
+                  << " and " << samplesToMilliseconds(m_bufferSize - 1) << " -\n";
     }
 }
 

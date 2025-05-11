@@ -1,6 +1,7 @@
 #ifndef DELAY_H
 #define DELAY_H
 #include <iostream>
+#include <cmath>
 #include "Effect.h"
 #include "interpolation.h"
 
@@ -38,7 +39,7 @@ protected:
         m_readH++;
         wrapH(m_readH);
     }
-
+    // TODO: make template for wrapH so it can also take an int
     inline void wrapH(float& head) {
         if (head >= m_bufferSize) head -= m_bufferSize;
     }
@@ -47,7 +48,7 @@ protected:
     void releaseBuffer();
     // fields below are floats to make interpolation possible
     float m_sampleRate;
-    float m_delayTimeMillis;
+    std::atomic<float> m_delayTimeMillis;
     float m_maxDelayTimeMillis;
     float m_delayTimeSamples;
     float m_feedback;
