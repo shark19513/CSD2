@@ -34,13 +34,11 @@ protected:
         m_writeH++;
         wrapH(m_writeH);
     }
-
     inline void incrReadH() {
         m_readH++;
         wrapH(m_readH);
     }
-    // TODO: make template for wrapH so it can also take an int
-    inline void wrapH(float& head) {
+    inline void wrapH(unsigned int& head) {
         if (head >= m_bufferSize) head -= m_bufferSize;
     }
 
@@ -55,9 +53,9 @@ protected:
 
     float* m_buffer;
     unsigned int m_bufferSize;
-    float m_readH;
-    float m_writeH;
-    float m_distanceRW;
+    unsigned int m_readH;
+    float m_readHFraction;
+    unsigned int m_writeH;
 };
 
 

@@ -36,6 +36,21 @@ void CustomCallback::setEffectParameters()
   }
 }
 
+/*NOTE: method below makes effect smoother than above but still causes clicking
+ * this is not the right solution though */
+
+// void CustomCallback::setEffectParameters()
+// {
+//   m_sliderValue = m_oscServer.getOscMessage();
+//
+//   float interpolatedValue = Interpolation::linMap(0.05f, m_prevSliderValue, m_sliderValue);
+//
+//   m_delayL.setDelayTime(interpolatedValue);
+//   m_delayR.setDelayTime(interpolatedValue);
+//
+//   m_prevSliderValue = interpolatedValue;
+// }
+
 void CustomCallback::switchBypassState()
 {
   m_bypass = !m_bypass;

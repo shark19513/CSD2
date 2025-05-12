@@ -6,7 +6,7 @@ Delay::Delay(float delayTimeMillis, float maxDelayTimeMillis)
     : m_sampleRate(0), m_delayTimeMillis(delayTimeMillis),
       m_maxDelayTimeMillis(maxDelayTimeMillis),
       m_delayTimeSamples(0), m_feedback(0), m_buffer(nullptr), m_bufferSize(0),
-      m_readH(0), m_writeH(0), m_distanceRW(0) {
+      m_readH(0), m_readHFraction(0), m_writeH(0) {
     // prepare() should always be called before use
 }
 
@@ -23,24 +23,19 @@ void Delay::prepare(float sampleRate) {
 }
 
 void Delay::applyEffect(const float& input, float& output) {
-    /* store the read head as an integer called index and get rid of the fractional part
-     * then declare the next index as index + 1
-     * these are the indexes of the two samples in the buffer that we will interpolate between */
-    float index = trunc(m_readH); // get rid of decimal
-    float nextIndex = index + 1.0f;
+    /* nextIndex indicates the index of the element in the buffer that is 1 position (1 sample)
+       ahead of the current one (indicated by m_readH)
+     * this is the high number that we will interpolate to, m_readH indicates the low number */
+    unsigned int nextIndex = m_readH + 1;
     wrapH(nextIndex); // wrap if necessary
 
-    /* now store the fractional part seperately, this is the value to interpolate to */
-    float value = m_readH - index;
+    /* interpolate between the current buffer element and the next one with m_readHFraction as value */
+    output = Interpolation::linMap(m_readHFraction, m_buffer[m_readH], m_buffer[nextIndex]);
 
-    /* interpolate between current index and the next one*/
-    output = Interpolation::linMap(value, m_buffer[static_cast<unsigned int>(index)],
-                                         m_buffer[static_cast<unsigned int>(nextIndex)]);
-
-    incrReadH(); // tick
-    // write input to write head index together with the feedback from the output
-    m_buffer[static_cast<unsigned int>(m_writeH)] = input + output * m_feedback;
-    incrWriteH(); // tick
+    incrReadH(); // tick read head
+    // write input to write head position together with the feedback from the output
+    m_buffer[m_writeH] = input + output * m_feedback;
+    incrWriteH(); // tick write head
 }
 
 void Delay::setFeedback(float feedback) {
@@ -57,12 +52,11 @@ void Delay::setDelayTime(float delayTimeMillis) {
     /* delay time must be 1 sample minimum to prevent interpolation from 0 to 0 */
 
     float newDelayTimeSamples = millisecondsToSamples(delayTimeMillis);
+
     // check if delayTimeMillis falls in range[1 - m_bufferSize]
     if (newDelayTimeSamples >= 1.0f && newDelayTimeSamples < m_bufferSize) {
         this->m_delayTimeMillis = delayTimeMillis;
         m_delayTimeSamples = newDelayTimeSamples;
-        std::cout << m_delayTimeMillis << "\n";
-        std::cout << m_delayTimeSamples << "\n";
         setDistanceRW(m_delayTimeSamples);
     } else {
         std::cout << "-- Delay::setDelayTime -- \n"
@@ -103,7 +97,21 @@ void Delay::releaseBuffer() {
 }
 
 void Delay::setDistanceRW(float distanceRW) {
-    m_distanceRW = distanceRW;
-    m_readH = m_writeH - distanceRW + m_bufferSize;
+    /* readPos is a float to make subsample interpolation possible */
+    float readPos = m_writeH - distanceRW + m_bufferSize;
+    m_readH = static_cast<unsigned int>(readPos); //get rid of fractional part for read head
+    m_readHFraction = readPos - m_readH; // store fraction separately
     wrapH(m_readH);
 }
+
+//TODO: interpolate to new read head position?
+
+/* m_readH
+ * m_targetReadH -- setDelay updates this
+ * m_readHFraction -- setDelay also updates this since its smol
+ *
+ * set stepSize in setDelayTime
+ *
+ * bool that checks if target is reached
+ * otherwise move read head a
+ */
