@@ -1,12 +1,16 @@
 #include "Delay.h"
 
-#include <iomanip>
+#define MAX_STEP_SIZE 3 // maximum step size
+#define NUM_SMOOTHING_STEPS 11025 // delta gets divided by this number inside setDelayTimeSamples
 
-Delay::Delay(float delayTimeMillis, float maxDelayTimeMillis)
-    : m_sampleRate(0), m_delayTimeMillis(delayTimeMillis),
-      m_maxDelayTimeMillis(maxDelayTimeMillis),
-      m_delayTimeSamples(0), m_feedback(0), m_buffer(nullptr), m_bufferSize(0),
-      m_readH(0), m_readHFraction(0), m_writeH(0) {
+Delay::Delay(float delayTimeMillis, float maxDelayTimeMillis) :
+    m_sampleRate(0), m_delayTimeMillis(delayTimeMillis),
+    m_maxDelayTimeMillis(maxDelayTimeMillis),
+    m_delayTimeSamples(0), m_feedback(0),
+    m_buffer(nullptr), m_bufferSize(0),
+    m_writeH(0), m_targetDelayTimeSamples(0),
+    m_theTimesTheyAreAChanging(false), m_smoothingStepSize(0)
+{
     // prepare() should always be called before use
 }
 
@@ -22,17 +26,35 @@ void Delay::prepare(float sampleRate) {
     setDelayTime(m_delayTimeMillis);
 }
 
-void Delay::applyEffect(const float& input, float& output) {
-    /* nextIndex indicates the index of the element in the buffer that is 1 position (1 sample)
-       ahead of the current one (indicated by m_readH)
-     * this is the high number that we will interpolate to, m_readH indicates the low number */
-    unsigned int nextIndex = m_readH + 1;
-    wrapH(nextIndex); // wrap if necessary
+void Delay::applyEffect(const float& input, float& output)
+{
+    if(m_theTimesTheyAreAChanging) {
+        // calculate the current difference
+        float delta = m_targetDelayTimeSamples - m_delayTimeSamples;
+        // check if we reached the target
+        // or are close enough to make the jump straight away
+        /* NOTE: i think this avoids overshooting but not sure if necessary
+            also realistically delta will prob never be 0 but i guess it's possible? */
+        if (delta >= MAX_STEP_SIZE && delta <= -MAX_STEP_SIZE || delta == 0) {
+            m_delayTimeSamples = m_targetDelayTimeSamples;
+            m_theTimesTheyAreAChanging = false;
+        } else {
+        // else add the step size
+            m_delayTimeSamples += m_smoothingStepSize;
+        }
+    }
 
-    /* interpolate between the current buffer element and the next one with m_readHFraction as value */
-    output = Interpolation::linMap(m_readHFraction, m_buffer[m_readH], m_buffer[nextIndex]);
+    // calculate read head based on position of write head
+    float readPos = m_writeH - m_delayTimeSamples + m_bufferSize;
+    unsigned int readH = static_cast<int>(readPos); //get rid of fractional part for read head
+    unsigned int nextReadHPos = readH + 1; // indicates next element in buffer
+    float readHFraction = readPos - readH; // store fractional part seperately
+    wrapH(readH);
+    wrapH(nextReadHPos);
 
-    incrReadH(); // tick read head
+    /* interpolate between the current buffer element and the next one with readHFraction as value */
+    output = Interpolation::linMap(readHFraction, m_buffer[readH], m_buffer[nextReadHPos]);
+
     // write input to write head position together with the feedback from the output
     m_buffer[m_writeH] = input + output * m_feedback;
     incrWriteH(); // tick write head
@@ -49,20 +71,15 @@ void Delay::setFeedback(float feedback) {
 }
 
 void Delay::setDelayTime(float delayTimeMillis) {
-    /* delay time must be 1 sample minimum to prevent interpolation from 0 to 0 */
-
-    float newDelayTimeSamples = millisecondsToSamples(delayTimeMillis);
-
-    // check if delayTimeMillis falls in range[1 - m_bufferSize]
-    if (newDelayTimeSamples >= 1.0f && newDelayTimeSamples < m_bufferSize) {
-        this->m_delayTimeMillis = delayTimeMillis;
-        m_delayTimeSamples = newDelayTimeSamples;
-        setDistanceRW(m_delayTimeSamples);
+    /* delay time must be 0.1ms minimum to prevent interpolation from 0 to 0 */
+    if (delayTimeMillis > 0.1f && delayTimeMillis < m_maxDelayTimeMillis ) {
+        m_delayTimeMillis = delayTimeMillis;
+        setDelayTimeSamples(millisecondsToSamples(m_delayTimeMillis));
     } else {
         std::cout << "-- Delay::setDelayTime -- \n"
                   << "! invalid input !\n"
-                  << "- please enter a value between " << samplesToMilliseconds(1)
-                  << " and " << samplesToMilliseconds(m_bufferSize - 1) << " -\n";
+                  << "- please enter a value between " << "0.1"
+                  << " and " << m_maxDelayTimeMillis-1 << " -\n";
     }
 }
 
@@ -96,22 +113,25 @@ void Delay::releaseBuffer() {
     m_buffer = nullptr;
 }
 
-void Delay::setDistanceRW(float distanceRW) {
-    /* readPos is a float to make subsample interpolation possible */
-    float readPos = m_writeH - distanceRW + m_bufferSize;
-    m_readH = static_cast<unsigned int>(readPos); //get rid of fractional part for read head
-    m_readHFraction = readPos - m_readH; // store fraction separately
-    wrapH(m_readH);
+// set the number of samples to delay with interpolation smoothing
+void Delay::setDelayTimeSamples(unsigned int delayTimeSamples) {
+    //TODO: comparing floats is unsafe. what do?
+    if (delayTimeSamples != m_delayTimeSamples) {
+        // calculate smooth interpolation
+        m_theTimesTheyAreAChanging = true; // gets set to false in applyEffect
+        m_targetDelayTimeSamples = delayTimeSamples; // set target
+        // calculate delta and divide by a number of steps
+        m_smoothingStepSize = (m_targetDelayTimeSamples - m_delayTimeSamples)
+                                    / NUM_SMOOTHING_STEPS;
+        // check if step size exceeds MAX_STEP_SIZE
+        if (m_smoothingStepSize > 0 && m_smoothingStepSize > MAX_STEP_SIZE) {
+        // if the new time is greater than it was before and exceeds the max step size
+            m_smoothingStepSize = MAX_STEP_SIZE;
+        } else if (m_smoothingStepSize < 0 && m_smoothingStepSize < -MAX_STEP_SIZE) {
+        // if the new time is smaller than it was before and exceeds the negative max step size
+            m_smoothingStepSize = -MAX_STEP_SIZE;
+        }
+    }
 }
 
-//TODO: interpolate to new read head position?
-
-/* m_readH
- * m_targetReadH -- setDelay updates this
- * m_readHFraction -- setDelay also updates this since its smol
- *
- * set stepSize in setDelayTime
- *
- * bool that checks if target is reached
- * otherwise move read head a
- */
+//TODO: interpolate to new read head position

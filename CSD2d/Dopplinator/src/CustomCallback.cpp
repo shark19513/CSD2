@@ -29,27 +29,13 @@ void CustomCallback::setEffectParameters()
 {
   m_sliderValue = m_oscServer.getOscMessage();
   // only call setDelayTime if the parameter has been changed
+  // NOTE: apparently comparing floats like this is unsafe
   if (m_sliderValue != m_prevSliderValue) {
     m_delayL.setDelayTime(m_sliderValue);
     m_delayR.setDelayTime(m_sliderValue);
     m_prevSliderValue = m_sliderValue;
   }
 }
-
-/*NOTE: method below makes effect smoother than above but still causes clicking
- * this is not the right solution though */
-
-// void CustomCallback::setEffectParameters()
-// {
-//   m_sliderValue = m_oscServer.getOscMessage();
-//
-//   float interpolatedValue = Interpolation::linMap(0.05f, m_prevSliderValue, m_sliderValue);
-//
-//   m_delayL.setDelayTime(interpolatedValue);
-//   m_delayR.setDelayTime(interpolatedValue);
-//
-//   m_prevSliderValue = interpolatedValue;
-// }
 
 void CustomCallback::switchBypassState()
 {

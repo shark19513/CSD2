@@ -5,7 +5,9 @@
 #include "Effect.h"
 #include "interpolation.h"
 
-/* FRACTIONAL INTERPOLATING DELAY */
+/* INTERPOLATING DELAY
+ * interpolates between samples
+ * does not interpolated gradually to new read head position */
 class Delay : public Effect {
 public:
     Delay(float delayTimeMillis, float maxDelayMillis);
@@ -18,19 +20,25 @@ public:
     void setFeedback(float feedback);
     void setDelayTime(float delayTimeMillis);
     float getFeedback();
-    float getDelayTime(); // returns TARGET delay time in ms
+    float getDelayTime();
 
 protected:
+    Delay(){}
+
     float millisecondsToSamples(float millis);
 
     float samplesToMilliseconds(unsigned int samples);
 
-    void setDelayTimeSamples(unsigned int delayTimeSamples);
+    void setDistanceRW(float distanceRW);
 
-    // increase write head and wrap if necessary
+    // increase write and read heads and wrap if necessary
     inline void incrWriteH() {
         m_writeH++;
         wrapH(m_writeH);
+    }
+    inline void incrReadH() {
+        m_readH++;
+        wrapH(m_readH);
     }
     inline void wrapH(unsigned int& head) {
         if (head >= m_bufferSize) head -= m_bufferSize;
@@ -38,20 +46,17 @@ protected:
 
     void allocateBuffer();
     void releaseBuffer();
-
+    // fields below are floats to make interpolation possible
     float m_sampleRate;
-    float m_delayTimeMillis; // stores delay time BEFORE interpolation
     float m_maxDelayTimeMillis;
-
-    float m_delayTimeSamples; // current delay time (gets updated while smoothing)
-    std::atomic<float> m_targetDelayTimeSamples; // to interpolate to
-    std::atomic<float> m_smoothingStepSize; // calculated step size
-    std::atomic<bool> m_theTimesTheyAreAChanging; // true if interpolation is currently happening
-
+    std::atomic<float> m_delayTimeMillis;
+    float m_delayTimeSamples;
     float m_feedback;
 
     float* m_buffer;
     unsigned int m_bufferSize;
+    unsigned int m_readH;
+    float m_readHFraction;
     unsigned int m_writeH;
 };
 
