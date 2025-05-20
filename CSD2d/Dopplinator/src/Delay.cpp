@@ -6,10 +6,10 @@
 Delay::Delay(float delayTimeMillis, float maxDelayTimeMillis) :
     m_sampleRate(0), m_delayTimeMillis(delayTimeMillis),
     m_maxDelayTimeMillis(maxDelayTimeMillis),
-    m_delayTimeSamples(0), m_feedback(0),
-    m_buffer(nullptr), m_bufferSize(0),
-    m_writeH(0), m_targetDelayTimeSamples(0),
-    m_theTimesTheyAreAChanging(false), m_smoothingStepSize(0)
+    m_delayTimeSamples(0), m_targetDelayTimeSamples(0),
+    m_smoothingStepSize(0), m_theTimesTheyAreAChanging(false),
+    m_feedback(0), m_buffer(nullptr),
+    m_bufferSize(0), m_writeH(0)
 {
     // prepare() should always be called before use
 }
@@ -28,44 +28,23 @@ void Delay::prepare(float sampleRate) {
 
 void Delay::applyEffect(const float& input, float& output)
 {
-    /* i thought the code below made sense but it just fucks everything up */
-    // if(m_theTimesTheyAreAChanging) {
-    //     // calculate the current difference
-    //     float delta = m_targetDelayTimeSamples - m_delayTimeSamples;
-    //     // check if we reached the target
-    //     // or are close enough to make the jump straight away
-    //     /* NOTE: i think this avoids overshooting but not sure if necessary
-    //         also realistically delta will prob never be 0 but i guess it's possible? */
-    //     if (delta >= MAX_STEP_SIZE && delta <= -MAX_STEP_SIZE || delta == 0) {
-    //         m_delayTimeSamples = m_targetDelayTimeSamples;
-    //         m_theTimesTheyAreAChanging = false;
-    //     } else {
-    //     // else add the step size
-    //         m_delayTimeSamples += m_smoothingStepSize;
-    //     }
-    // }
-
     if (m_theTimesTheyAreAChanging) {
         m_delayTimeSamples += m_smoothingStepSize;
         // calculate current difference
         float delta = m_targetDelayTimeSamples - m_delayTimeSamples;
         // check if we reached the target or are close enough to make a jump to it
-        /* NOTE: Ciska Said: "to ensure proper handling of m_smoothDeltaSamples below 1,
-                              we need to make this check a bit more neatly, by considering the
-                              m_smoothDeltaSamples value instead of 1.0f"
-         *  m_smoothDeltaSamples is called m_smoothingStepSize in my code
-         *  i am not sure what that means though */
-        if (delta > -1.0f && delta < 1.0f) {
+        /* NOTE: does this need an error margin? */
+        if (delta > -m_smoothingStepSize && delta < m_smoothingStepSize) {
             m_delayTimeSamples = m_targetDelayTimeSamples;
             m_theTimesTheyAreAChanging = false;
         }
     }
 
     // calculate read head based on position of write head
-    float readPos = m_writeH - m_delayTimeSamples + m_bufferSize;
-    unsigned int readH = static_cast<int>(readPos); //get rid of fractional part for read head
+    float readPos = static_cast<float>(m_writeH) - m_delayTimeSamples + static_cast<float>(m_bufferSize);
+    unsigned int readH = static_cast<unsigned int>(readPos); //get rid of fractional part for read head
     unsigned int nextReadHPos = readH + 1; // indicates next element in buffer
-    float readHFraction = readPos - readH; // store fractional part separately
+    float readHFraction = readPos - static_cast<float>(readH); // store fractional part separately
     wrapH(readH);
     wrapH(nextReadHPos);
 
@@ -131,19 +110,21 @@ void Delay::releaseBuffer() {
 }
 
 // set the number of samples to delay with interpolation smoothing
-void Delay::setDelayTimeSamples(unsigned int delayTimeSamples) {
-    //TODO: comparing floats is unsafe. what do?
-    if (delayTimeSamples != m_delayTimeSamples) {
+void Delay::setDelayTimeSamples(float delayTimeSamples) {
+    constexpr float epsilon = 0.0001f; // error margin
+    // do if the new delay time is different from the current (epsilon is error margin)
+    if (std::abs(delayTimeSamples - m_delayTimeSamples) > epsilon) {
         // calculate smooth interpolation
         m_theTimesTheyAreAChanging = true; // gets set to false in applyEffect
         m_targetDelayTimeSamples = delayTimeSamples; // set target
         // calculate delta and divide by a number of steps
         m_smoothingStepSize = (m_targetDelayTimeSamples - m_delayTimeSamples)
                                     / NUM_SMOOTHING_STEPS;
-        std::cout << "______________________________" << std::endl;
-        std::cout << "new delay time samples: " << delayTimeSamples << std::endl;
-        std::cout << "current m_delayTimeSamples: " << m_delayTimeSamples << std::endl;
-        std::cout << "m_smoothingStepSize: " << m_smoothingStepSize << std::endl;
+
+        // std::cout << "______________________________" << std::endl;
+        // std::cout << "new delay time samples: " << delayTimeSamples << std::endl;
+        // std::cout << "current m_delayTimeSamples: " << m_delayTimeSamples << std::endl;
+        // std::cout << "m_smoothingStepSize: " << m_smoothingStepSize << std::endl;
 
         // check if step size exceeds MAX_STEP_SIZE
         if (m_smoothingStepSize > 0 && m_smoothingStepSize > MAX_STEP_SIZE) {

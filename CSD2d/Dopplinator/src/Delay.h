@@ -25,7 +25,7 @@ protected:
 
     float samplesToMilliseconds(unsigned int samples);
 
-    void setDelayTimeSamples(unsigned int delayTimeSamples);
+    void setDelayTimeSamples(float delayTimeSamples);
 
     // increase write head and wrap if necessary
     inline void incrWriteH() {
@@ -54,7 +54,5 @@ protected:
     unsigned int m_bufferSize;
     unsigned int m_writeH;
 };
-
-
 
 #endif //DELAY_H

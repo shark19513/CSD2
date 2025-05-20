@@ -28,14 +28,16 @@ void CustomCallback::prepare(int rate)
 void CustomCallback::setEffectParameters()
 {
   m_sliderValue = m_oscServer.getOscMessage();
-  // only call setDelayTime if the parameter has been changed
-  // NOTE: apparently comparing floats like this is unsafe
-  if (m_sliderValue != m_prevSliderValue) {
+  // epsilon indicates the error margin
+  constexpr float epsilon = 0.0001f;
+  // only call if the difference is larger than epsilon
+  if (std::abs(m_sliderValue - m_prevSliderValue) > epsilon) {
     m_delayL.setDelayTime(m_sliderValue);
     m_delayR.setDelayTime(m_sliderValue);
     m_prevSliderValue = m_sliderValue;
   }
 }
+
 
 void CustomCallback::switchBypassState()
 {

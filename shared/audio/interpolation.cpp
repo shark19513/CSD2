@@ -12,7 +12,7 @@ float Interpolation::nnMap(float value, float low, float high) {
     std::cout << "Value exceeds 1, please use values in range [0, 1]" << std::endl;
     return high;
   }
-
+  //TODO: do something with this warning
   if (static_cast<int>(value + 0.5f) == 0) {
     return low;
   }
