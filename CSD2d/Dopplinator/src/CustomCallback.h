@@ -27,8 +27,8 @@ private:
 
   Saw m_saw{220}; // test signal
 
-  Doppler m_dopplerL{5.0f};
-  Doppler m_dopplerR{5.0f};
+  Doppler m_dopplerL{5.0f, true};
+  Doppler m_dopplerR{5.0f, false};
 };
 
 

@@ -4,12 +4,15 @@
 
 #include "Doppler.h"
 
-Doppler::Doppler(float passByDistance): m_delay(1.0f, 3000.0f),
+#define MAX_OBJECT_POSITION 100.0f
+
+Doppler::Doppler(float passByDistance, bool isLeftChannel):
+                    m_delay(1.0f, 3000.0f),
+                    m_speedOfSound(343.0f),
                     m_distanceMeters(0.0f),
                     m_passByDistanceMeters(passByDistance),
                     m_objectPositionMeters(0.0f),
-                    m_speedOfSound(343.0f)
-{
+                    m_isLeftChannel(isLeftChannel) {
     // prepare() should always be called before use
 }
 
@@ -38,6 +41,21 @@ void Doppler::calculateDelayTimeMillis() {
     m_delay.setDelayTimeMillis(delayTimeMillis);
 }
 
+void Doppler::calculateAmplitude(float position) {
+    /* scales the signed position from -MAX_OBJECT_POSITION to MAX_OBJECT_POSITION
+     * to create panning effect when paired with second instance */
+    //TODO: this might be a really inefficient way to do panning
+    float panning = 0.0f; //NOTE: ?????
+    if (m_isLeftChannel) {
+        setAmplitude(Interpolation::mapInRange(position,
+                                        -MAX_OBJECT_POSITION, MAX_OBJECT_POSITION,
+                                        1.0f, 0.0f));
+    } else {
+        setAmplitude(Interpolation::mapInRange(position,
+                                        -MAX_OBJECT_POSITION, MAX_OBJECT_POSITION,
+                                        0.0f, 1.0f));
+    }
+}
 
 void Doppler::setPassByDistance(float passByDistance) {
     /* passByDistance can range from 1 to 100 meters */
@@ -56,15 +74,17 @@ void Doppler::setObjectPosition(float objectPosition) {
     /* accepts any signed value ranging from -1000 - 1000
      * the greater the value the greater the distance
      * stores only its absolute value */
-     float position = std::abs(objectPosition);
-     if (position <= 1000.0f) {
-         m_objectPositionMeters = position; //store the absolute distance
+     float position = std::abs(objectPosition); //store the absolute value
+     if (position <= MAX_OBJECT_POSITION) {
+         m_objectPositionMeters = position;
          calculateDistance();
          calculateDelayTimeMillis();
+         calculateAmplitude(objectPosition); //this method does need the signed value though
      } else {
          std::cout << "--Doppler::setObjectPosition --\n"
                    << "! invalid input !\n"
-                   << "- please enter a value between -1000.0 and 1000.0 - \n";
+                   << "- please enter a value between -" << MAX_OBJECT_POSITION
+                   << " and " << MAX_OBJECT_POSITION << " -\n";
      }
 }
 

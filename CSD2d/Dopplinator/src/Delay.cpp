@@ -121,11 +121,6 @@ void Delay::setDelayTimeSamples(float delayTimeSamples) {
         m_smoothingStepSize = (m_targetDelayTimeSamples - m_delayTimeSamples)
                                     / NUM_SMOOTHING_STEPS;
 
-        // std::cout << "______________________________" << std::endl;
-        // std::cout << "new delay time samples: " << delayTimeSamples << std::endl;
-        // std::cout << "current m_delayTimeSamples: " << m_delayTimeSamples << std::endl;
-        // std::cout << "m_smoothingStepSize: " << m_smoothingStepSize << std::endl;
-
         // check if step size exceeds MAX_STEP_SIZE
         if (m_smoothingStepSize > 0 && m_smoothingStepSize > MAX_STEP_SIZE) {
         // if the new time is greater than it was before and exceeds the max step size

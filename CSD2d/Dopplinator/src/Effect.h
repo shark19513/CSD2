@@ -17,14 +17,18 @@ public:
 
     void setWetLevel(float wetLevel);
     void setBypassState(bool state);
+    void setAmplitude(float amplitude);
     float getWetLevel();
     bool getBypassState();
+    float getAmplitude();
+
 
 protected:
     virtual void applyEffect(const float& input, float& output) = 0;
 
     bool m_bypassed;
     float m_wetLevel;
+    float m_amplitude;
 };
 
 
