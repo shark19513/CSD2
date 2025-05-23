@@ -19,10 +19,10 @@ void CustomCallback::prepare(int rate)
   std::cout << "Listening on port " << m_serverPort << "\n";
 
   m_saw.prepare(m_sampleRate);
-  m_saw.setAmplitude(0.4f);
+  m_saw.setAmplitude(0.2f);
 
-  m_delayL.prepare(m_sampleRate);
-  m_delayR.prepare(m_sampleRate);
+  m_dopplerL.prepare(m_sampleRate);
+  m_dopplerR.prepare(m_sampleRate);
 }
 
 void CustomCallback::setEffectParameters()
@@ -32,8 +32,8 @@ void CustomCallback::setEffectParameters()
   constexpr float epsilon = 0.0001f;
   // only call if the difference is larger than epsilon
   if (std::abs(m_sliderValue - m_prevSliderValue) > epsilon) {
-    m_delayL.setDelayTime(m_sliderValue);
-    m_delayR.setDelayTime(m_sliderValue);
+    m_dopplerL.setObjectPosition(m_sliderValue);
+    m_dopplerR.setObjectPosition(m_sliderValue);
     m_prevSliderValue = m_sliderValue;
   }
 }
@@ -42,8 +42,8 @@ void CustomCallback::setEffectParameters()
 void CustomCallback::switchBypassState()
 {
   m_bypass = !m_bypass;
-  m_delayL.setBypassState(m_bypass);
-  m_delayR.setBypassState(m_bypass);
+  m_dopplerL.setBypassState(m_bypass);
+  m_dopplerR.setBypassState(m_bypass);
 }
 
 #define TEST_SIGNAL 1
@@ -66,8 +66,8 @@ void CustomCallback::process(AudioBuffer buffer)
     sample1_channelL = inputSample;
     sample1_channelR = inputSample;
 
-    m_delayL.processFrame(sample1_channelL, sample2_channelL);
-    m_delayR.processFrame(sample1_channelR, sample2_channelR);
+    m_dopplerL.processFrame(sample1_channelL, sample2_channelL);
+    m_dopplerR.processFrame(sample1_channelR, sample2_channelR);
 
     outputChannels[0][i] = sample2_channelL;
     outputChannels[1][i] = sample2_channelR;

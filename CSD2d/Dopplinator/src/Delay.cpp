@@ -23,7 +23,7 @@ void Delay::prepare(float sampleRate) {
     // init the buffer size to the max delay time and init the delay time
     m_bufferSize = static_cast<unsigned int>(millisecondsToSamples(m_maxDelayTimeMillis));
     allocateBuffer();
-    setDelayTime(m_delayTimeMillis);
+    setDelayTimeMillis(m_delayTimeMillis);
 }
 
 void Delay::applyEffect(const float& input, float& output)
@@ -33,8 +33,8 @@ void Delay::applyEffect(const float& input, float& output)
         // calculate current difference
         float delta = m_targetDelayTimeSamples - m_delayTimeSamples;
         // check if we reached the target or are close enough to make a jump to it
-        /* NOTE: does this need an error margin? */
-        if (delta > -m_smoothingStepSize && delta < m_smoothingStepSize) {
+        /* NOTE: i tried using m_smoothingStepSize here but that messed it up */
+        if (delta > -1.0f && delta < 1.0f) {
             m_delayTimeSamples = m_targetDelayTimeSamples;
             m_theTimesTheyAreAChanging = false;
         }
@@ -66,7 +66,7 @@ void Delay::setFeedback(float feedback) {
     }
 }
 
-void Delay::setDelayTime(float delayTimeMillis) {
+void Delay::setDelayTimeMillis(float delayTimeMillis) {
     /* delay time must be 0.1ms minimum to prevent interpolation from 0 to 0 */
     if (delayTimeMillis > 0.1f && delayTimeMillis < m_maxDelayTimeMillis ) {
         m_delayTimeMillis = delayTimeMillis;
@@ -83,7 +83,7 @@ float Delay::getFeedback() {
     return m_feedback;
 }
 
-float Delay::getDelayTime() {
+float Delay::getDelayTimeMillis() {
     return m_delayTimeMillis;
 }
 

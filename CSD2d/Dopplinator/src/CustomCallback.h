@@ -4,7 +4,7 @@
 #include <audiocomponent.h>
 #include "CustomOscServer.h"
 #include "saw.h"
-#include "Delay.h"
+#include "Doppler.h"
 
 class CustomCallback : public AudioCallback {
 public:
@@ -27,8 +27,8 @@ private:
 
   Saw m_saw{220}; // test signal
 
-  Delay m_delayL{1.0f, 1000.0f};
-  Delay m_delayR{1.0f, 1000.0f};
+  Doppler m_dopplerL{5.0f};
+  Doppler m_dopplerR{5.0f};
 };
 
 

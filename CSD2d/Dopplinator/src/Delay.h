@@ -16,9 +16,9 @@ public:
     void applyEffect(const float& input, float& output) override;
 
     void setFeedback(float feedback);
-    void setDelayTime(float delayTimeMillis);
+    void setDelayTimeMillis(float delayTimeMillis);
     float getFeedback();
-    float getDelayTime(); // returns TARGET delay time in ms
+    float getDelayTimeMillis(); // returns TARGET delay time in ms
 
 protected:
     float millisecondsToSamples(float millis);
