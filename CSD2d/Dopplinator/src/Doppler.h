@@ -12,11 +12,11 @@
 #include <iostream>
 
 /* STEREO DELAY BASED DOPPLER EFFECT
- * takes bool that scales panning to the uh
+ * takes bool that flips panning
  */
 class Doppler : public Effect {
 public:
-    Doppler(float passByDistance, bool isLeftChannel);
+    Doppler(float passByDistanceMeters, bool isLeftChannel);
     ~Doppler() override;
 
     void prepare(float sampleRate) override;
@@ -24,12 +24,13 @@ public:
 
 
     void setPassByDistance(float passByDistance);
-    void setObjectPosition(float objectPosition);
+    void setObjectPosition(float sliderPosition);
 
 private:
-    void calculateDistance();
+    float calculateDistance(float objectPositionMeters);
     void calculateDelayTimeMillis();
-    void calculateAmplitude(float position); // also in charge of panning
+    void calculatePanning(float sliderPosition);
+    void calculateAmplitude();
 
     Delay m_delay;
 
@@ -37,6 +38,7 @@ private:
 
     /* distance from sound source object in meters */
     float m_distanceMeters;
+    float m_maxDistanceMeters; //max value distance can be with current pass by distance
 
     /* distance from trajectory in meters */
     std::atomic<float> m_passByDistanceMeters;
@@ -45,7 +47,11 @@ private:
      * expressed as the absolute distance from the center */
     std::atomic<float> m_objectPositionMeters;
 
+    /* fields used for panning logic*/
     const bool m_isLeftChannel;
+    float m_toLeft;
+    float m_toRight;
+    float m_panning;
 };
 
 
