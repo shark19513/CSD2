@@ -48,6 +48,6 @@ private:
     std::atomic<float> *m_sliderPosition; //named 'nyoom' for user
     std::array<Doppler, 2> m_dopplers; //only 2 channels (stereo)
 
-    juce::AudioProcessorValueTreeState Params;
+    juce::AudioProcessorValueTreeState m_parameters;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)
 };

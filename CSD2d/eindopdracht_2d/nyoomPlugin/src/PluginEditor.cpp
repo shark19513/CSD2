@@ -2,13 +2,19 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p)
-    : AudioProcessorEditor (&p), processorRef (p)
+AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor (AudioPluginAudioProcessor& p,
+                                                        juce::AudioProcessorValueTreeState& vts)
+    : AudioProcessorEditor (&p), processorRef (p), m_valueTreeState (vts)
 {
-    juce::ignoreUnused (processorRef);
+    addAndMakeVisible(m_slider);
+    m_sliderAttachment.reset(new SliderAttachment (m_valueTreeState, "uSliderPosition", m_slider));
+
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    m_slider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 25);
+    m_slider.setColour(juce::Slider::thumbColourId, juce::Colours::red);
+    setSize (400, 100);
+    juce::ignoreUnused (processorRef);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
@@ -18,16 +24,16 @@ AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
 //==============================================================================
 void AudioPluginAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    g.fillAll (juce::Colours::black);
 
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.setColour (juce::Colours::red);
+    g.setFont (25.0f);
+    g.drawFittedText ("nyoom", getLocalBounds(), juce::Justification::centredTop, 1);
 }
 
 void AudioPluginAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
+    m_slider.setSize (400, 100);
 }

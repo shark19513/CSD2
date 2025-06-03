@@ -11,11 +11,11 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
           .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
       ), m_dopplers{{{5.0f, true}, {5.0f, false}}},
-      Params(*this, nullptr, "Parameters",
+      m_parameters(*this, nullptr, "Parameters",
              {std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{"uSliderPosition", 1},
                                     "nyoom", -100.0f, 100.0f, 0.0f)})
 {
-    m_sliderPosition = Params.getRawParameterValue("uSliderPosition");
+    m_sliderPosition = m_parameters.getRawParameterValue("uSliderPosition");
 }
 
 AudioPluginAudioProcessor::~AudioPluginAudioProcessor()
@@ -174,7 +174,7 @@ bool AudioPluginAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* AudioPluginAudioProcessor::createEditor()
 {
-    return new AudioPluginAudioProcessorEditor (*this);
+    return new AudioPluginAudioProcessorEditor (*this, m_parameters);
 }
 
 //==============================================================================
@@ -183,7 +183,7 @@ void AudioPluginAudioProcessor::getStateInformation (juce::MemoryBlock& destData
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
-    auto state = Params.copyState();
+    auto state = m_parameters.copyState();
     std::unique_ptr<juce::XmlElement> xml (state.createXml());
     copyXmlToBinary (*xml, destData);
 }
@@ -194,8 +194,8 @@ void AudioPluginAudioProcessor::setStateInformation (const void* data, int sizeI
     // whose contents will have been created by the getStateInformation() call.
     std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
     if (xmlState.get() != nullptr)
-        if (xmlState->hasTagName (Params.state.getType()))
-            Params.replaceState (juce::ValueTree::fromXml (*xmlState));
+        if (xmlState->hasTagName (m_parameters.state.getType()))
+            m_parameters.replaceState (juce::ValueTree::fromXml (*xmlState));
 }
 
 //==============================================================================
