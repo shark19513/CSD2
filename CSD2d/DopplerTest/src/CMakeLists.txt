@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.30)
-project(Dopplinator VERSION 0.0.1)
+project(DopplerTest VERSION 0.0.1)
 
 find_library(LIBLO_LIBRARY NAMES lo)
 find_path(LIBLO_INCLUDE_DIR lo/lo.h)
 
-juce_add_console_app(Dopplinator PRODUCT_NAME "Dopplinator")
-target_sources(Dopplinator PRIVATE
+juce_add_console_app(DopplerTest PRODUCT_NAME "DopplerTest")
+target_sources(DopplerTest PRIVATE
         main.cpp
         osc.cpp
         CustomOscServer.cpp
@@ -15,14 +15,14 @@ target_sources(Dopplinator PRIVATE
         Delay.cpp
 )
 
-target_compile_definitions(Dopplinator PRIVATE
+target_compile_definitions(DopplerTest PRIVATE
         JUCE_WEB_BROWSER=0
         JUCE_USE_CURL=0
         SOURCE_DIR="..")
 
-target_include_directories(Dopplinator PRIVATE ${LIBLO_INCLUDE_DIRS})
+target_include_directories(DopplerTest PRIVATE ${LIBLO_INCLUDE_DIRS})
 
-target_link_libraries(Dopplinator PRIVATE
+target_link_libraries(DopplerTest PRIVATE
         oscillators
         audio
 
@@ -37,4 +37,4 @@ target_link_libraries(Dopplinator PRIVATE
         juce::juce_recommended_warning_flags
 )
 
-target_compile_features(Dopplinator PRIVATE cxx_std_20)
+target_compile_features(DopplerTest PRIVATE cxx_std_20)

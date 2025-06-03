@@ -10,28 +10,12 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
 #endif
           .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
-      ), m_chori{Chorus(7, 0.4f), Chorus(7, 0.4f, 0.3f)},
-        Params(*this, nullptr, "Parameters", {
-                             std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{
-                                                                             "uModDepth", 1
-                                                                         }, "Mod Depth",
-                                                                         0.1f, 15.0f, 7.0f),
-                             std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{
-                                                                             "uModRate", 1
-                                                                         }, "Mod Rate",
-                                                                         0.1f, 10.f, 0.4f)
-                         })
+      ), m_dopplers{{{5.0f, true}, {5.0f, false}}},
+      Params(*this, nullptr, "Parameters",
+             {std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{"uSliderPosition", 1},
+                                    "nyoom", -100.0f, 100.0f, 0.0f)})
 {
-    // use parameter ID to return a pointer to the parameter data
-    m_modDepth = Params.getRawParameterValue("uModDepth");
-    m_modRate = Params.getRawParameterValue("uModRate");
-
-    int numInputChannels = getBusesLayout().getNumChannels(true, 0);
-
-    // for each input channel emplace one chorus
-    // for(auto i = 0; i < getBusesLayout().getNumChannels(true, 0); ++i){
-    //     chori.emplace_back(7, 0.4f, i * 1 / numInputChannels); //init chori with varying phase offset
-    // }
+    m_sliderPosition = Params.getRawParameterValue("uSliderPosition");
 }
 
 AudioPluginAudioProcessor::~AudioPluginAudioProcessor()
@@ -108,8 +92,8 @@ void AudioPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    for (auto& chorus : m_chori) {
-        chorus.prepare(static_cast<float>(sampleRate));
+    for (auto& doppler : m_dopplers) {
+        doppler.prepare(static_cast<float>(sampleRate));
     }
     juce::ignoreUnused (samplesPerBlock);
 }
@@ -149,25 +133,35 @@ void AudioPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
 {
     juce::ignoreUnused (midiMessages);
 
-    for (auto & chorus : m_chori) {
-        chorus.setModDepth(*m_modDepth);
-        chorus.setModRate(*m_modRate);
+    for (auto &doppler : m_dopplers) {
+        doppler.setObjectPosition(*m_sliderPosition);
     }
 
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+    // In case we have more outputs than inputs, this code clears any output
+    // channels that didn't contain input data, (because these aren't
+    // guaranteed to be empty - they may contain garbage).
+    // This is here to avoid people getting screaming feedback
+    // when they first compile a plugin, but obviously you don't need to keep
+    // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // the equivalent of your old audio callback :- )
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    // This is the place where you'd normally do the guts of your plugin's
+    // audio processing...
+    // Make sure to reset the state if your inner loop is processing
+    // the samples and the outer loop is handling the channels.
+    // Alternatively, you can process the samples with the channels
+    // interleaved by keeping the same state.
+    for (uint8_t channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* writePointer = buffer.getWritePointer (channel); // input
         auto* readPointer = buffer.getReadPointer (channel); // output
         for(auto sample = 0; sample < buffer.getNumSamples(); ++sample){
-            m_chori[channel].processFrame(readPointer[sample],writePointer[sample]);
+            m_dopplers[channel].processFrame(readPointer[sample],writePointer[sample]);
         }
     }
 }
@@ -191,17 +185,17 @@ void AudioPluginAudioProcessor::getStateInformation (juce::MemoryBlock& destData
     // as intermediaries to make it easy to save and load complex data.
     auto state = Params.copyState();
     std::unique_ptr<juce::XmlElement> xml (state.createXml());
-    copyXmlToBinary(*xml, destData);
+    copyXmlToBinary (*xml, destData);
 }
 
 void AudioPluginAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
-    std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary(data, sizeInBytes));
+    std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
     if (xmlState.get() != nullptr)
-        if (xmlState->hasTagName(Params.state.getType()))
-            Params.replaceState(juce::ValueTree::fromXml(*xmlState));
+        if (xmlState->hasTagName (Params.state.getType()))
+            Params.replaceState (juce::ValueTree::fromXml (*xmlState));
 }
 
 //==============================================================================

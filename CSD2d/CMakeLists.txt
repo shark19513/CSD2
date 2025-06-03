@@ -1,2 +1,3 @@
-add_subdirectory(Dopplinator)
+add_subdirectory(DopplerTest)
 add_subdirectory(Delays)
+add_subdirectory(eindopdracht_2d)

@@ -22,7 +22,6 @@ public:
     bool getBypassState();
     float getAmplitude();
 
-
 protected:
     virtual void applyEffect(const float& input, float& output) = 0;
 

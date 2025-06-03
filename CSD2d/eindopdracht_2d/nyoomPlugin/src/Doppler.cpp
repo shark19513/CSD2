@@ -4,17 +4,17 @@
 
 #include "Doppler.h"
 
-#define MAX_OBJECT_POSITION 50.0f
+#define MAX_OBJECT_POSITION 100.0f
 #define MIN_PASS_BY_DISTANCE 1.0f
 #define MAX_PASS_BY_DISTANCE 100.0f
 
 /* prepare() should always be called before use */
 Doppler::Doppler(float passByDistanceMeters, bool isLeftChannel) :
-                                                            m_delay(1.0f, 3000.0f),
-                                                            m_speedOfSound(343.0f),
-                                                            m_objectPositionMeters(0.0f),
-                                                            m_isLeftChannel(isLeftChannel),
-                                                            m_panning(0)
+                m_delay(1.0f, 3000.0f),
+                m_speedOfSound(343.0f),
+                m_objectPositionMeters(0.0f),
+                m_isLeftChannel(isLeftChannel),
+                m_panning(0)
 {
     /* method below initializes m_passByDistance, m_distanceMeters and m_maxDistanceMeters */
     setPassByDistance(passByDistanceMeters);
@@ -89,7 +89,8 @@ void Doppler::calculateDelayTimeMillis() {
 void Doppler::calculatePanning(float sliderPosition) {
     /* scales the signed slider position value from -MAX_OBJECT_POSITION to MAX_OBJECT_POSITION
      * to create panning effect when paired with second instance of class */
-    //TODO: panning is now linear, make logarithmic maybe
+    /* NOTE: panning is linear
+     *  constant power panning would be more realistic */
     m_panning = Interpolation::mapInRange(sliderPosition,
                                         -MAX_OBJECT_POSITION, MAX_OBJECT_POSITION,
                                             m_toLeft, m_toRight);
@@ -99,9 +100,10 @@ void Doppler::calculateAmplitude() {
     /* fade-in/out logic
      * calculate amplitude based on m_objectPositionMeters
      * (which is the absolute value of the slider position)
-     * multiply it with m_panning *2
-     * *2 is necessary because otherwise the amplitude only goes up to 0.5 */
-    //TODO: amplitude is mapped linearly, maybe make logarithmic
+     * multiply it with m_panning * 2
+     * necessary because otherwise the amplitude only goes up to 0.5 */
+    /* NOTE: amplitude fade-in/out is linear
+     *  calculating based on distance and loudness of source would be more realistic */
     float amplitude = Interpolation::mapInRange(m_objectPositionMeters,
                                                 0.0f, MAX_OBJECT_POSITION,
                                                 1.0f, 0.0f);

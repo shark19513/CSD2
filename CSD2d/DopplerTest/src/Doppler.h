@@ -11,9 +11,9 @@
 #include <cmath>
 #include <iostream>
 
-/* STEREO DELAY BASED DOPPLER EFFECT
- * takes bool that flips panning
- */
+/* DELAY BASED DOPPLER EFFECT
+ * meant to be combined with second instance for stereo panning
+ * takes bool that flips panning direction */
 class Doppler : public Effect {
 public:
     Doppler(float passByDistanceMeters, bool isLeftChannel);
@@ -21,7 +21,6 @@ public:
 
     void prepare(float sampleRate) override;
     void applyEffect(const float& input, float& output) override;
-
 
     void setPassByDistance(float passByDistance);
     void setObjectPosition(float sliderPosition);
