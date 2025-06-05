@@ -13,7 +13,7 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
       ), m_dopplers{{{5.0f, true}, {5.0f, false}}},
       m_parameters(*this, nullptr, "Parameters",
              {std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{"uSliderPosition", 1},
-                                    "nyoom", -100.0f, 100.0f, 0.0f)})
+                                    "nyoom", -50.0f, 50.0f, 0.0f)})
 {
     m_sliderPosition = m_parameters.getRawParameterValue("uSliderPosition");
 }

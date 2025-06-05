@@ -4,9 +4,9 @@
 
 #include "Doppler.h"
 
-#define MAX_OBJECT_POSITION 100.0f
+#define MAX_OBJECT_POSITION 50.0f
 #define MIN_PASS_BY_DISTANCE 1.0f
-#define MAX_PASS_BY_DISTANCE 100.0f
+#define MAX_PASS_BY_DISTANCE 50.0f
 
 /* prepare() should always be called before use */
 Doppler::Doppler(float passByDistanceMeters, bool isLeftChannel) :
