@@ -1,0 +1,9 @@
+DAFX: Digital Audio Effects - Udo Zölzer
+Designing Audio Effects in C++ - Will Pirkle
+Ciska's GitHub
+
+https://sciencenotes.org/doppler-effect-definition-formula-and-examples/
+https://en.wikipedia.org/wiki/Doppler_effect
+https://www.dsprelated.com/freebooks/pasp/Time_Varying_Delay_Effects.html
+https://nl.mathworks.com/help/audio/ug/delay-based-pitch-shifter.html
+https://blogs.zynaptiq.com/bernsee/time-pitch-overview/
